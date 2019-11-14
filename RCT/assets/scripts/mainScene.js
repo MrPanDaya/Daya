@@ -17,30 +17,32 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-        this._curBgId = 0;
-        this._lastBgId = 2;
-        this._bgSpeed = -1000;
-        this._bgHeight = this.bgArray[0].height;
-
-        for(var i = 0; i < this.bgArray.length; ++i){
-            this.bgArray[i].y = this._bgHeight*(i-1);
+    onLoad() {
+        this.curBgId = 0;
+        this.lastBgId = 2;
+        this.bgHeight = this.bgArray[0].height;
+        cc.carSpeed = 0;
+        for (var i = 0; i < this.bgArray.length; ++i) {
+            this.bgArray[i].y = this.bgHeight * (i - 1);
         }
     },
 
-    start () {
+    start() {
 
     },
 
-    update (dt) {
-        var dtYSpeed = dt*this._bgSpeed;
-        for(var i = 0; i < this.bgArray.length; ++i){
+    update(dt) {
+        if(!cc.carSpeed){
+            return;
+        }
+        var dtYSpeed = dt * cc.carSpeed * -1;
+        for (var i = 0; i < this.bgArray.length; ++i) {
             var posY = this.bgArray[i].y + dtYSpeed;
             this.bgArray[i].y += dtYSpeed;
-            if(posY <= -this._bgHeight){
-                var dltY = posY + this._bgHeight;
-                this.bgArray[i].y = this._bgHeight + dltY;
-            }else{
+            if (posY <= -this.bgHeight) {
+                var dltY = posY + this.bgHeight;
+                this.bgArray[i].y = this.bgHeight + dltY;
+            } else {
                 this.bgArray[i].y = posY;
             }
         }
