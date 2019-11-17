@@ -2,43 +2,36 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        audioList: {
+            type: cc.AudioClip,
+            default: []
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        this.xPosList = [-190, -70, 70, 190];
-        this.xPosIndex = 1;
-        this.achorF = 0.2;
-        this.achorB = 0.8;
-        this.dir = 0;
-        this.speedX = 300;
-        cc.carSpeed = 1000;
-        this.node.y = 0
-        this.node.x = this.xPosList[this.xPosIndex];
-        this.node.anchorY = this.achorB;
-        this.carPosY = this.node.y;
-        this.bRecover = false;
+        this.soundId = {
+            move: 0,
+            broken: 1,
+            brake: 2,
+            nitrogn: 3,
+            pass: 4,
+        }
+        cc.mainPlayer = this;
 
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        this.initCar();
+        this.initKeyEvent();
     },
 
     onDestroy() {
-        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        if(cc.sys.os === 'Windows'){
+            cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        }
     },
 
     start() {
-        if (window.wx && wx.onAccelerometerChange) {
-            wx.onAccelerometerChange(function (res) {
-                if (this.dir == 0) {
-                    if (res.x > 0.3) {
-                        this.turnRight();
-                    } else if (res.x < -0.3) {
-                        this.turnLeft();
-                    }
-                }
-            }.bind(this))
-        }
+        
     },
 
     update(dt) {
@@ -53,9 +46,46 @@ cc.Class({
 
         // 氮气检测
         this.nitrogentTimer -= dt;
-        if(this.nitrogentTimer <= 0){
+        if (this.nitrogentTimer <= 0) {
             this.nitrogentTimer = 0;
             this.onNitrogenOver();
+        }
+    },
+
+    onStartPlay(){
+        cc.carSpeed = 1000;
+        this.moveSound = cc.audioEngine.play(this.audioList[this.soundId.move], true, 0.5);
+    },
+
+    initCar() {
+        this.xPosList = [-190, -70, 70, 190];
+        this.xPosIndex = 1;
+        this.achorF = 0.2;
+        this.achorB = 0.8;
+        this.dir = 0;
+        this.speedX = 300;
+        this.node.y = 0
+        this.node.x = this.xPosList[this.xPosIndex];
+        this.node.anchorY = this.achorB;
+        this.carPosY = this.node.y;
+        this.bRecover = false;
+        this.isBroken = false;
+    },
+
+    initKeyEvent(){
+        if (window.wx && wx.onAccelerometerChange) {
+            wx.onAccelerometerChange(function (res) {
+                if (this.dir == 0) {
+                    if (res.x > 0.3) {
+                        this.turnRight();
+                    } else if (res.x < -0.3) {
+                        this.turnLeft();
+                    }
+                }
+            }.bind(this))
+        }
+        if(cc.sys.os === 'Windows'){
+            cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         }
     },
 
@@ -77,28 +107,47 @@ cc.Class({
                 this.onUsedNitrogen();
                 break;
             case cc.macro.KEY.down:
-                this.node.y -= 100;
-                this.carPosY = this.node.y;
+                this.onCarBroken();
+                // this.node.y -= 100;
+                // this.carPosY = this.node.y;
                 break;
         }
     },
 
+    onCarBroken() {
+        this.isBroken = true;
+        cc.carSpeed = 0;
+        if(this.moveSound != null){
+            cc.audioEngine.stop(this.moveSound);
+            this.moveSound = null;
+        }
+        if(cc.mainMenu){
+            cc.mainMenu.stop();
+        }
+    },
+
     // 氮气加速
-    onUsedNitrogen(){
-        cc.carSpeed *= 1.2;
+    onUsedNitrogen() {
+        if(this.isBroken){
+            return;
+        }
+        cc.carSpeed = 1200;
         this.achorF = 0.3;
         this.achorB = 0.9;
         this.nitrogentTimer = 5;
     },
 
-    onNitrogenOver(){
+    onNitrogenOver() {
+        if(this.isBroken){
+            return;
+        }
         cc.carSpeed = 1000;
         this.achorF = 0.2;
         this.achorB = 0.8;
     },
 
     turnLeft() {
-        if (this.xPosIndex <= 0) {
+        if (this.xPosIndex <= 0 || this.isBroken) {
             return;
         }
         this.node.stopAllActions();
@@ -112,7 +161,7 @@ cc.Class({
     },
 
     turnRight() {
-        if (this.xPosIndex >= 3) {
+        if (this.xPosIndex >= 3 || this.isBroken) {
             return;
         }
         this.node.stopAllActions();
@@ -126,7 +175,7 @@ cc.Class({
     },
 
     recover() {
-        if (this.bRecover) {
+        if (this.bRecover || this.isBroken) {
             return;
         }
         this.bRecover = true;

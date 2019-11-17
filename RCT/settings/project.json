@@ -8,7 +8,7 @@
     ]
   ],
   "excluded-modules": [],
-  "last-module-event-record-time": 0,
+  "last-module-event-record-time": 1573659313747,
   "design-resolution-width": 1280,
   "design-resolution-height": 720,
   "fit-width": true,
@@ -31,5 +31,5 @@
       "enable": false
     }
   },
-  "start-scene": "current"
+  "start-scene": "78c51931-5914-45ad-bbe0-9e369e37aede"
 }

@@ -47,4 +47,36 @@ cc.Class({
             }
         }
     },
+
+    onDestroy(){
+        if(cc.mainMenu){
+            cc.mainMenu.stop();
+        }
+    },
+
+    onBtnStartGame(){
+        cc.mainMenu = this.getComponent("cc.AudioSource");
+        if(cc.mainMenu){
+            cc.mainMenu.play();
+        }
+        this.btnStart = cc.find('Canvas/btnStart');
+        if(this.btnStart){
+            this.btnStart.active = false;
+        }
+        
+        if(cc.mainPlayer){
+            cc.mainPlayer.onStartPlay();
+        }
+        
+    },
+
+    onBtnPause(){
+        if(cc.mainPlayer){
+            cc.mainPlayer.onCarBroken();
+        }
+        if(this.btnStart){
+            this.btnStart.active = true;
+        }
+    },
+
 });
