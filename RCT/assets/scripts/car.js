@@ -69,41 +69,42 @@ cc.Class({
     addSpeedByNitrogen(dt){
         // 加速到最大速度
         var dlSpeed = 100*dt;
-        if(cc.carSpeed + dlSpeed >= 1200){
-            cc.carSpeed = 1200;
+        if(cc.carSpeed + dlSpeed >= this.maxSpeedN){
+            cc.carSpeed = this.maxSpeedN;
         }else{
             cc.carSpeed -= dlSpeed;
         }
         // Y方向前移一小段
-        var dlPosY = 100*dt;
-        if(this.carPosY + dlPosY >= this.nitrognPosY){
-            this.carPosY = this.nitrognPosY;
-        }else{
-            this.carPosY += dlPosY;
-        }
+        // var dlPosY = 100*dt;
+        // if(this.carPosY + dlPosY >= this.nitrognPosY){
+        //     this.carPosY = this.nitrognPosY;
+        // }else{
+        //     this.carPosY += dlPosY;
+        // }
     },
 
     // 氮气结束
     decSpeedByNoNitrogen(dt){
         // 速度减到正常速度
         var dlSpeed = 100*dt;
-        if(cc.carSpeed - dlSpeed <= 1000){
-            cc.carSpeed = 1000;
+        if(cc.carSpeed - dlSpeed <= this.maxSpeed){
+            cc.carSpeed = this.maxSpeed;
         }else{
             cc.carSpeed -= dlSpeed;
         }
         // Y方向后移回正常位置
-        var dlPosY = 100*dt;
-        if(this.carPosY - dlPosY <= this.lastCarPosY){
-            this.carPosY = this.lastCarPosY;
-        }else{
-            this.carPosY -= dlPosY;
-        }
+        // var dlPosY = 100*dt;
+        // if(this.carPosY - dlPosY <= this.lastCarPosY){
+        //     this.carPosY = this.lastCarPosY;
+        // }else{
+        //     this.carPosY -= dlPosY;
+        // }
     },
 
     onStartPlay(){
         this.startPlay = true;
-        cc.carSpeed = 1000;
+        this.isBroken = false;
+        cc.carSpeed = this.maxSpeed;
         this.moveSound = cc.audioEngine.play(this.audioList[this.soundId.move], true, 0.5);
     },
 
@@ -111,9 +112,12 @@ cc.Class({
         this.xPosList = [-260, -85, 85, 260];
         this.xPosIndex = 1;
         this.achorF = 0.2;
-        this.achorB = 0.8;
+        this.achorB = 0.7;
         this.dir = 0;
+        this.carAng = 15;
         this.speedX = 300;
+        this.maxSpeed = 1800;
+        this.maxSpeedN = 2000;
         this.node.y = 0
         this.node.x = this.xPosList[this.xPosIndex];
         this.node.anchorY = this.achorB;
@@ -178,7 +182,7 @@ cc.Class({
         if(this.isBroken){
             return;
         }
-        cc.carSpeed = 1200;
+        cc.carSpeed = this.maxSpeedN;
         this.achorF = 0.3;
         this.achorB = 0.9;
         this.nitrogentTimer = 5;
@@ -188,7 +192,7 @@ cc.Class({
         if(this.isBroken){
             return;
         }
-        cc.carSpeed = 1000;
+        cc.carSpeed = this.maxSpeed;
         this.achorF = 0.2;
         this.achorB = 0.8;
     },
@@ -204,7 +208,7 @@ cc.Class({
         var lastAnchorY = this.node.anchorY;
         this.node.anchorY = this.achorF;
         this.node.y = this.carPosY + (this.node.anchorY - lastAnchorY) * this.node.height;
-        this.node.runAction(cc.rotateTo(0.15, -20))
+        this.node.runAction(cc.rotateTo(0.15, -this.carAng))
     },
 
     turnRight() {
@@ -218,7 +222,7 @@ cc.Class({
         var lastAnchorY = this.node.anchorY;
         this.node.anchorY = this.achorF;
         this.node.y = this.carPosY + (this.node.anchorY - lastAnchorY) * this.node.height;
-        this.node.runAction(cc.rotateTo(0.15, 20))
+        this.node.runAction(cc.rotateTo(0.15, this.carAng))
     },
 
     recover() {
