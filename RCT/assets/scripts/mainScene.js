@@ -13,18 +13,25 @@ cc.Class({
 
     properties: {
         bgArray: [cc.Node],
+        roadResList: [cc.Prefab],
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        this.curBgId = 0;
-        this.lastBgId = 2;
-        this.bgHeight = this.bgArray[0].height;
+        this.roadNum = 7;
+        this.bgHeight = 260 * this.roadNum;
         cc.carSpeed = 0;
         for (var i = 0; i < this.bgArray.length; ++i) {
+            for(var j = 0; j < this.roadNum; ++j){
+                var road = cc.instantiate(this.roadResList[0]);
+                this.bgArray[i].addChild(road);
+                road.y = -780 + j*260;
+            }
             this.bgArray[i].y = this.bgHeight * (i - 1);
         }
+        this.curBgId = 0;
+        this.lastBgId = 1;
     },
 
     start() {

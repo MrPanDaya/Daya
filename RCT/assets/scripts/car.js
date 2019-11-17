@@ -19,7 +19,7 @@ cc.Class({
             pass: 4,
         }
         cc.mainPlayer = this;
-
+        this.startPlay = false;
         this.initCar();
         this.initKeyEvent();
     },
@@ -35,6 +35,9 @@ cc.Class({
     },
 
     update(dt) {
+        if(this.isBroken || !this.startPlay){
+            return;
+        }
         var dltX = dt * this.dir * this.speedX;
         var posX = this.node.x + dltX;
         var endPosX = this.xPosList[this.xPosIndex];
@@ -44,6 +47,16 @@ cc.Class({
         }
         this.node.x = posX;
 
+        this.onUpdateNitrogen(dt);
+    },
+
+    onUpdateNitrogen(dt){
+        if(this.nitrogentTimer > 0){
+            this.addSpeedByNitrogen(dt);
+        }else{
+            this.decSpeedByNoNitrogen(dt);
+        }
+
         // 氮气检测
         this.nitrogentTimer -= dt;
         if (this.nitrogentTimer <= 0) {
@@ -52,13 +65,50 @@ cc.Class({
         }
     },
 
+    // 氮气加速
+    addSpeedByNitrogen(dt){
+        // 加速到最大速度
+        var dlSpeed = 100*dt;
+        if(cc.carSpeed + dlSpeed >= 1200){
+            cc.carSpeed = 1200;
+        }else{
+            cc.carSpeed -= dlSpeed;
+        }
+        // Y方向前移一小段
+        var dlPosY = 100*dt;
+        if(this.carPosY + dlPosY >= this.nitrognPosY){
+            this.carPosY = this.nitrognPosY;
+        }else{
+            this.carPosY += dlPosY;
+        }
+    },
+
+    // 氮气结束
+    decSpeedByNoNitrogen(dt){
+        // 速度减到正常速度
+        var dlSpeed = 100*dt;
+        if(cc.carSpeed - dlSpeed <= 1000){
+            cc.carSpeed = 1000;
+        }else{
+            cc.carSpeed -= dlSpeed;
+        }
+        // Y方向后移回正常位置
+        var dlPosY = 100*dt;
+        if(this.carPosY - dlPosY <= this.lastCarPosY){
+            this.carPosY = this.lastCarPosY;
+        }else{
+            this.carPosY -= dlPosY;
+        }
+    },
+
     onStartPlay(){
+        this.startPlay = true;
         cc.carSpeed = 1000;
         this.moveSound = cc.audioEngine.play(this.audioList[this.soundId.move], true, 0.5);
     },
 
     initCar() {
-        this.xPosList = [-190, -70, 70, 190];
+        this.xPosList = [-260, -85, 85, 260];
         this.xPosIndex = 1;
         this.achorF = 0.2;
         this.achorB = 0.8;
@@ -67,7 +117,8 @@ cc.Class({
         this.node.y = 0
         this.node.x = this.xPosList[this.xPosIndex];
         this.node.anchorY = this.achorB;
-        this.carPosY = this.node.y;
+        this.lastCarPosY = this.carPosY = this.node.y;
+        this.nitrognPosY = this.carPosY + 100;
         this.bRecover = false;
         this.isBroken = false;
     },
@@ -102,14 +153,10 @@ cc.Class({
                 }
                 break;
             case cc.macro.KEY.up:
-                // this.node.y += 100;
-                // this.carPosY = this.node.y;
                 this.onUsedNitrogen();
                 break;
             case cc.macro.KEY.down:
                 this.onCarBroken();
-                // this.node.y -= 100;
-                // this.carPosY = this.node.y;
                 break;
         }
     },
