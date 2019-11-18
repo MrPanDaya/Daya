@@ -20,7 +20,7 @@ cc.Class({
         }
         cc.mainPlayer = this;
         this.startPlay = false;
-        this.initCar();
+        this.node.active = false;
         this.initKeyEvent();
     },
 
@@ -38,7 +38,7 @@ cc.Class({
         if(this.isBroken || !this.startPlay){
             return;
         }
-        var dltX = dt * this.dir * this.speedX;
+        var dltX = dt * this.dir * this.carCfg.maxSpeedX;
         var posX = this.node.x + dltX;
         var endPosX = this.xPosList[this.xPosIndex];
         if ((this.dir < 0 && posX <= endPosX) || (this.dir > 0 && posX >= endPosX)) {
@@ -69,62 +69,49 @@ cc.Class({
     addSpeedByNitrogen(dt){
         // 加速到最大速度
         var dlSpeed = 100*dt;
-        if(cc.carSpeed + dlSpeed >= this.maxSpeedN){
-            cc.carSpeed = this.maxSpeedN;
+        if(cc.carSpeed + dlSpeed >= this.carCfg.maxSpeedN){
+            cc.carSpeed = this.carCfg.maxSpeedN;
         }else{
             cc.carSpeed -= dlSpeed;
         }
-        // Y方向前移一小段
-        // var dlPosY = 100*dt;
-        // if(this.carPosY + dlPosY >= this.nitrognPosY){
-        //     this.carPosY = this.nitrognPosY;
-        // }else{
-        //     this.carPosY += dlPosY;
-        // }
     },
 
     // 氮气结束
     decSpeedByNoNitrogen(dt){
         // 速度减到正常速度
         var dlSpeed = 100*dt;
-        if(cc.carSpeed - dlSpeed <= this.maxSpeed){
-            cc.carSpeed = this.maxSpeed;
+        if(cc.carSpeed - dlSpeed <= this.carCfg.maxSpeed){
+            cc.carSpeed = this.carCfg.maxSpeed;
         }else{
             cc.carSpeed -= dlSpeed;
         }
-        // Y方向后移回正常位置
-        // var dlPosY = 100*dt;
-        // if(this.carPosY - dlPosY <= this.lastCarPosY){
-        //     this.carPosY = this.lastCarPosY;
-        // }else{
-        //     this.carPosY -= dlPosY;
-        // }
     },
 
     onStartPlay(){
         this.startPlay = true;
         this.isBroken = false;
-        cc.carSpeed = this.maxSpeed;
+        cc.carSpeed = this.carCfg.maxSpeed;
         this.moveSound = cc.audioEngine.play(this.audioList[this.soundId.move], true, 0.5);
     },
 
-    initCar() {
+    initCar(id) {
         this.xPosList = [-260, -85, 85, 260];
         this.xPosIndex = 1;
-        this.achorF = 0.2;
-        this.achorB = 0.7;
-        this.dir = 0;
-        this.carAng = 15;
-        this.speedX = 300;
-        this.maxSpeed = 1800;
-        this.maxSpeedN = 2000;
-        this.node.y = 0
-        this.node.x = this.xPosList[this.xPosIndex];
-        this.node.anchorY = this.achorB;
-        this.lastCarPosY = this.carPosY = this.node.y;
-        this.nitrognPosY = this.carPosY + 100;
         this.bRecover = false;
         this.isBroken = false;
+        this.dir = 0;
+        this.node.y = 0
+        this.node.x = this.xPosList[this.xPosIndex];
+        this.carPosY = this.node.y;
+
+        // 获取配置
+        this.carCfg = carConfig['car'+id];
+        this.node.anchorY = this.carCfg.achorB;
+        var self = this;
+        cc.loader.loadRes(this.carCfg.img, cc.SpriteFrame, function (err, spriteFrame) {
+            self.node.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+            self.node.active = true;
+        });
     },
 
     initKeyEvent(){
@@ -182,19 +169,15 @@ cc.Class({
         if(this.isBroken){
             return;
         }
-        cc.carSpeed = this.maxSpeedN;
-        this.achorF = 0.3;
-        this.achorB = 0.9;
-        this.nitrogentTimer = 5;
+        cc.carSpeed = this.carCfg.maxSpeedN;
+        this.nitrogentTimer = this.carCfg.nitrogentTimer;
     },
 
     onNitrogenOver() {
         if(this.isBroken){
             return;
         }
-        cc.carSpeed = this.maxSpeed;
-        this.achorF = 0.2;
-        this.achorB = 0.8;
+        cc.carSpeed = this.carCfg.maxSpeed;
     },
 
     turnLeft() {
@@ -206,9 +189,9 @@ cc.Class({
         this.xPosIndex -= 1;
         this.bRecover = false;
         var lastAnchorY = this.node.anchorY;
-        this.node.anchorY = this.achorF;
+        this.node.anchorY = this.carCfg.achorF;
         this.node.y = this.carPosY + (this.node.anchorY - lastAnchorY) * this.node.height;
-        this.node.runAction(cc.rotateTo(0.15, -this.carAng))
+        this.node.runAction(cc.rotateTo(this.carCfg.turnTime, -this.carCfg.carAng))
     },
 
     turnRight() {
@@ -220,9 +203,9 @@ cc.Class({
         this.xPosIndex += 1;
         this.bRecover = false;
         var lastAnchorY = this.node.anchorY;
-        this.node.anchorY = this.achorF;
+        this.node.anchorY = this.carCfg.achorF;
         this.node.y = this.carPosY + (this.node.anchorY - lastAnchorY) * this.node.height;
-        this.node.runAction(cc.rotateTo(0.15, this.carAng))
+        this.node.runAction(cc.rotateTo(this.carCfg.turnTime, this.carCfg.carAng))
     },
 
     recover() {
@@ -231,14 +214,14 @@ cc.Class({
         }
         this.bRecover = true;
         var lastAnchorY = this.node.anchorY;
-        this.node.anchorY = this.achorB;
+        this.node.anchorY = this.carCfg.achorB;
         if (this.dir == -1) {
             this.node.x -= this.node.width * 0.5;
         } else if (this.dir == 1) {
             this.node.x += this.node.width * 0.5;
         }
         this.node.y = this.carPosY;
-        var rota = cc.rotateTo(0.1, 0);
+        var rota = cc.rotateTo(this.carCfg.recoverTime, 0);
         var fun = cc.callFunc(function () {
             this.dir = 0;
         }.bind(this))

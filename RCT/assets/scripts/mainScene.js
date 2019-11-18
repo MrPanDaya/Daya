@@ -23,10 +23,10 @@ cc.Class({
         this.bgHeight = 260 * this.roadNum;
         cc.carSpeed = 0;
         for (var i = 0; i < this.bgArray.length; ++i) {
-            for(var j = 0; j < this.roadNum; ++j){
+            for (var j = 0; j < this.roadNum; ++j) {
                 var road = cc.instantiate(this.roadResList[0]);
                 this.bgArray[i].addChild(road);
-                road.y = -780 + j*260;
+                road.y = -780 + j * 260;
             }
             this.bgArray[i].y = this.bgHeight * (i - 1);
         }
@@ -35,17 +35,19 @@ cc.Class({
     },
 
     start() {
-
+        if (cc.mainPlayer) {
+            cc.mainPlayer.initCar(0);
+        }
     },
 
     update(dt) {
-        if(!cc.carSpeed){
+        if (!cc.carSpeed) {
             return;
         }
-        var dtYSpeed = dt * cc.carSpeed * -1;
+        var disY = dt * cc.carSpeed * -1;
         for (var i = 0; i < this.bgArray.length; ++i) {
-            var posY = this.bgArray[i].y + dtYSpeed;
-            this.bgArray[i].y += dtYSpeed;
+            var posY = this.bgArray[i].y + disY;
+            this.bgArray[i].y += disY;
             if (posY <= -this.bgHeight) {
                 var dltY = posY + this.bgHeight;
                 this.bgArray[i].y = this.bgHeight + dltY;
@@ -53,35 +55,46 @@ cc.Class({
                 this.bgArray[i].y = posY;
             }
         }
+        this.score -= disY / 10;
+        var totalDis = Math.floor(this.score);
+        this.scoreLabel.string = totalDis;
+        if (this.scoreNode.width >= 180) {
+            this.scoreBg.width = this.scoreNode.width + 20;
+        }
     },
 
-    onDestroy(){
-        if(cc.mainMenu){
+    onDestroy() {
+        if (cc.mainMenu) {
             cc.mainMenu.stop();
         }
     },
 
-    onBtnStartGame(){
+    onBtnStartGame() {
         cc.mainMenu = this.getComponent("cc.AudioSource");
-        if(cc.mainMenu){
+        if (cc.mainMenu) {
             cc.mainMenu.play();
         }
         this.btnStart = cc.find('Canvas/btnStart');
-        if(this.btnStart){
+        if (this.btnStart) {
             this.btnStart.active = false;
         }
-        
-        if(cc.mainPlayer){
+        this.score = 0;
+        this.scoreBg = cc.find('Canvas/scoreBg');
+        this.scoreNode = cc.find('Canvas/scoreBg/score');
+        this.scoreLabel = this.scoreNode.getComponent(cc.Label);
+        this.scoreLabel.string = this.score;
+
+        if (cc.mainPlayer) {
             cc.mainPlayer.onStartPlay();
         }
-        
+
     },
 
-    onBtnPause(){
-        if(cc.mainPlayer){
+    onBtnPause() {
+        if (cc.mainPlayer) {
             cc.mainPlayer.onCarBroken();
         }
-        if(this.btnStart){
+        if (this.btnStart) {
             this.btnStart.active = true;
         }
     },
