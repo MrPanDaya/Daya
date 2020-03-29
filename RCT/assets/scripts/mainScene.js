@@ -14,6 +14,7 @@ cc.Class({
     properties: {
         bgArray: [cc.Node],
         roadResList: [cc.Prefab],
+        aiCarPrefab: cc.Prefab,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -32,6 +33,23 @@ cc.Class({
         }
         this.curBgId = 0;
         this.lastBgId = 1;
+
+        this.maxCarSpeed = 3000;
+        this.pointMinRot = 105;
+        this.pointMaxRot = -105;
+        this.rancingPoint = cc.find('Canvas/racing_point');
+        this.rancingPoint.angle = this.pointMinRot;
+
+        this.carSpeedLab = cc.find('Canvas/car_speed').getComponent(cc.Label);
+
+        // 开启物理引擎
+        var phyMgr = cc.director.getPhysicsManager();
+        phyMgr.enabled = true;
+        phyMgr.gravity = cc.v2(0,0);
+        // 开启调试
+        phyMgr.debugDrawFlags = cc.PhysicsManager.DrawBits.e_jointBit | cc.PhysicsManager.DrawBits.e_shapeBit;
+
+        this.initAiCar();
     },
 
     start() {
@@ -41,9 +59,17 @@ cc.Class({
     },
 
     update(dt) {
-        if (!cc.carSpeed) {
+        if (cc.carSpeed === undefined) {
             return;
         }
+        this.carSpeedLab.string = Math.floor(cc.carSpeed/10)+"km/h";
+        var rota = this.pointMinRot + (this.pointMaxRot - this.pointMinRot) * cc.carSpeed / this.maxCarSpeed;
+        this.rancingPoint.angle = rota;
+
+        if(cc.carSpeed <= 0){
+            return;
+        }
+        
         var disY = dt * cc.carSpeed * -1;
         for (var i = 0; i < this.bgArray.length; ++i) {
             var posY = this.bgArray[i].y + disY;
@@ -61,6 +87,8 @@ cc.Class({
         if (this.scoreNode.width >= 180) {
             this.scoreBg.width = this.scoreNode.width + 20;
         }
+
+        this.updateAiCar(dt);
     },
 
     onDestroy() {
@@ -70,10 +98,13 @@ cc.Class({
     },
 
     onBtnStartGame() {
-        cc.mainMenu = this.getComponent("cc.AudioSource");
-        if (cc.mainMenu) {
-            cc.mainMenu.play();
+        if(bPlayMainMenu){
+            cc.mainMenu = this.getComponent("cc.AudioSource");
+            if (cc.mainMenu) {
+                cc.mainMenu.play();
+            }
         }
+
         this.btnStart = cc.find('Canvas/btnStart');
         if (this.btnStart) {
             this.btnStart.active = false;
@@ -98,5 +129,38 @@ cc.Class({
             this.btnStart.active = true;
         }
     },
+
+    initAiCar(){
+        this.randCarTimer = 0;
+        this.carNode = cc.find("Canvas/car_node");
+        this.aiCarPool = new cc.NodePool();
+        for(var i = 0; i < 5; ++i){
+            var aiCar = cc.instantiate(this.aiCarPrefab);
+            this.aiCarPool.put(aiCar);
+        }
+    },
+
+    updateAiCar(dt){
+        this.randCarTimer += dt;
+        if(this.randCarTimer < 1){
+            return;
+        }
+        this.randCarTimer = 0;
+        var aiCar = null;
+        if(this.aiCarPool.size() > 0){
+            aiCar = this.aiCarPool.get();
+        }else{
+            aiCar = cc.instantiate(this.aiCarPrefab);
+        }
+        aiCar.parent = this.carNode;
+        aiCar.getComponent("aiCar").initAiCar(this);
+    },
+
+    removeAiCar(aiCar){
+        if(!aiCar){
+            return;
+        }
+        this.aiCarPool.put(aiCar);
+    }
 
 });

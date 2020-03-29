@@ -43,7 +43,12 @@ cc.Class({
         var endPosX = this.xPosList[this.xPosIndex];
         if ((this.dir < 0 && posX <= endPosX) || (this.dir > 0 && posX >= endPosX)) {
             posX = endPosX;
-            this.recover();
+            this.xPosIndex += this.dir;
+            if(this.xPosIndex < 0){
+                this.xPosIndex = 0;
+            }else if(this.xPosIndex > 3){
+                this.xPosIndex = 3;
+            }
         }
         this.node.x = posX;
 
@@ -68,30 +73,41 @@ cc.Class({
     // 氮气加速
     addSpeedByNitrogen(dt){
         // 加速到最大速度
-        var dlSpeed = 100*dt;
+        var dlSpeed = this.carCfg.addSpeedN*dt;
         if(cc.carSpeed + dlSpeed >= this.carCfg.maxSpeedN){
             cc.carSpeed = this.carCfg.maxSpeedN;
         }else{
-            cc.carSpeed -= dlSpeed;
+            cc.carSpeed += dlSpeed;
         }
     },
 
     // 氮气结束
     decSpeedByNoNitrogen(dt){
-        // 速度减到正常速度
-        var dlSpeed = 100*dt;
-        if(cc.carSpeed - dlSpeed <= this.carCfg.maxSpeed){
-            cc.carSpeed = this.carCfg.maxSpeed;
+        if(cc.carSpeed < this.carCfg.maxSpeed){
+            var dlSpeed = this.carCfg.addSpeed*dt;
+            if(cc.carSpeed + dlSpeed >= this.carCfg.maxSpeed){
+                cc.carSpeed = this.carCfg.maxSpeed;
+            }else{
+                cc.carSpeed += dlSpeed;
+            }
         }else{
-            cc.carSpeed -= dlSpeed;
+            // 速度减到正常速度
+            var dlSpeed = 100*dt;
+            if(cc.carSpeed - dlSpeed <= this.carCfg.maxSpeed){
+                cc.carSpeed = this.carCfg.maxSpeed;
+            }else{
+                cc.carSpeed -= dlSpeed;
+            }
         }
     },
 
     onStartPlay(){
         this.startPlay = true;
         this.isBroken = false;
-        cc.carSpeed = this.carCfg.maxSpeed;
-        this.moveSound = cc.audioEngine.play(this.audioList[this.soundId.move], true, 0.5);
+        cc.carSpeed = 0;
+        if(bPlaySound){
+            this.moveSound = cc.audioEngine.play(this.audioList[this.soundId.move], true, 0.5);
+        }
     },
 
     initCar(id) {
@@ -105,7 +121,7 @@ cc.Class({
         this.carPosY = this.node.y;
 
         // 获取配置
-        this.carCfg = carConfig['car'+id];
+        this.carCfg = mainCarCfg['car'+id];
         this.node.anchorY = this.carCfg.achorB;
         var self = this;
         cc.loader.loadRes(this.carCfg.img, cc.SpriteFrame, function (err, spriteFrame) {
@@ -128,6 +144,7 @@ cc.Class({
         }
         if(cc.sys.os === 'Windows'){
             cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+            cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
         }
     },
 
@@ -152,6 +169,17 @@ cc.Class({
         }
     },
 
+    onKeyUp(event){
+        switch (event.keyCode) {
+            case cc.macro.KEY.left:
+                this.recover();
+                break;
+            case cc.macro.KEY.right:
+                this.recover();
+                break;
+        }
+    },
+
     onCarBroken() {
         this.isBroken = true;
         cc.carSpeed = 0;
@@ -169,7 +197,7 @@ cc.Class({
         if(this.isBroken){
             return;
         }
-        cc.carSpeed = this.carCfg.maxSpeedN;
+        //cc.carSpeed = this.carCfg.maxSpeedN;
         this.nitrogentTimer = this.carCfg.nitrogentTimer;
     },
 
@@ -177,7 +205,7 @@ cc.Class({
         if(this.isBroken){
             return;
         }
-        cc.carSpeed = this.carCfg.maxSpeed;
+        // cc.carSpeed = this.carCfg.maxSpeed;
     },
 
     turnLeft() {
@@ -226,6 +254,11 @@ cc.Class({
             this.dir = 0;
         }.bind(this))
         this.node.runAction(cc.sequence(rota, fun))
-    }
+    },
+
+    onBeginContact(contact, sefCollider, otherCollider){
+        this.onCarBroken();
+        console.log("onBeginContact");
+    },
 
 });
