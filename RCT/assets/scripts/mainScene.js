@@ -42,6 +42,8 @@ cc.Class({
         this.rancingPoint.angle = this.pointMinRot;
 
         this.carSpeedLab = cc.find('Canvas/main_ui_node/car_speed').getComponent(cc.Label);
+        this.btnStart = cc.find('Canvas/main_ui_node/btnStart');
+        this.menuNode = cc.find("Canvas/menu_ui_node");
 
         // 开启物理引擎
         var phyMgr = cc.director.getPhysicsManager();
@@ -56,6 +58,9 @@ cc.Class({
     start() {
         if (cc.mainPlayer) {
             cc.mainPlayer.initCar(0);
+        }
+        if(this.menuNode){
+            this.menuNode.active = false;
         }
     },
 
@@ -100,9 +105,37 @@ cc.Class({
         cc.audioMgr.playSound(cc.soundId.btn);
         cc.audioMgr.playMainMenu();
 
-        this.btnStart = cc.find('Canvas/main_ui_node/btnStart');
         if (this.btnStart) {
             this.btnStart.active = false;
+        }
+        if (this.menuNode) {
+            this.menuNode.active = false;
+        }
+
+        // 开启物理系统
+        cc.director.getPhysicsManager().enabled = true;
+
+        this.pause = false;
+        this.score = 0;
+        this.scoreBg = cc.find('Canvas/main_ui_node/scoreBg');
+        this.scoreNode = cc.find('Canvas/main_ui_node/scoreBg/score');
+        this.scoreLabel = this.scoreNode.getComponent(cc.Label);
+        this.scoreLabel.string = this.score;
+
+        if (cc.mainPlayer) {
+            cc.mainPlayer.onStartPlay();
+        }
+    },
+
+    onBtnContinue() {
+        cc.audioMgr.playSound(cc.soundId.btn);
+        if(!this.pause || !cc.mainPlayer || !cc.mainPlayer.startPlay){
+            return;
+        }
+        cc.audioMgr.playMainMenu();
+
+        if (this.menuNode) {
+            this.menuNode.active = false;
         }
 
         // 开启物理系统
@@ -115,17 +148,6 @@ cc.Class({
             }
             return;
         }
-        this.pause = false;
-        this.score = 0;
-        this.scoreBg = cc.find('Canvas/main_ui_node/scoreBg');
-        this.scoreNode = cc.find('Canvas/main_ui_node/scoreBg/score');
-        this.scoreLabel = this.scoreNode.getComponent(cc.Label);
-        this.scoreLabel.string = this.score;
-
-        if (cc.mainPlayer) {
-            cc.mainPlayer.onStartPlay();
-        }
-
     },
 
     onBtnPause() {
@@ -138,11 +160,22 @@ cc.Class({
             cc.mainPlayer.onCarPause(true);
         }
         cc.audioMgr.stopMainMenu();
-        if (this.btnStart) {
-            this.btnStart.active = true;
+        if (this.menuNode) {
+            this.menuNode.active = true;
         }
         // 暂停物理系统
         cc.director.getPhysicsManager().enabled = false;
+    },
+
+    onBtnExit(){
+        var self = this
+        cc.director.preloadScene("loginScene", function () {
+            cc.audioMgr.playSound(cc.soundId.btn);
+            if (self.menuNode) {
+                self.menuNode.active = false;
+            }
+            cc.director.loadScene("loginScene");
+        });
     },
 
     onGameStop(){
@@ -150,8 +183,8 @@ cc.Class({
             cc.mainPlayer.onCarBroken();
         }
         cc.audioMgr.stopMainMenu();
-        if (this.btnStart) {
-            this.btnStart.active = true;
+        if (this.menuNode) {
+            this.menuNode.active = true;
         }
     },
 
