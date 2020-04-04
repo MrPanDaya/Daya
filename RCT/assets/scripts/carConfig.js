@@ -1,6 +1,6 @@
 (function(){
-    window.bPlayMainMenu = false;
-    window.bPlaySound = false;
+    window.bPlayMainMenu = true;
+    window.bPlaySound = true;
 
     window.mainCarCfg = {
         car0 : {

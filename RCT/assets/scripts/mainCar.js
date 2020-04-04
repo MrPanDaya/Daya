@@ -2,22 +2,11 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        audioList: {
-            type: cc.AudioClip,
-            default: []
-        },
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        this.soundId = {
-            move: 0,
-            broken: 1,
-            brake: 2,
-            nitrogn: 3,
-            pass: 4,
-        }
         cc.mainPlayer = this;
         this.startPlay = false;
         this.node.active = false;
@@ -30,12 +19,11 @@ cc.Class({
         }
     },
 
-    start() {
-        
-    },
+    // start() {
+    // },
 
     update(dt) {
-        if(this.isBroken || !this.startPlay){
+        if(this.isBroken || !this.startPlay || cc.mainScene.pause){
             return;
         }
         var dltX = dt * this.dir * this.carCfg.maxSpeedX;
@@ -49,6 +37,8 @@ cc.Class({
             }else if(this.xPosIndex > 3){
                 this.xPosIndex = 3;
             }
+            // var boxCllider = this.node.getComponent(cc.PhysicsBoxCollider);
+            // boxCllider.apply();
         }
         this.node.x = posX;
 
@@ -104,20 +94,28 @@ cc.Class({
     onStartPlay(){
         this.startPlay = true;
         this.isBroken = false;
+        this.dir = 0;
+        this.xPosIndex = 1;
+        this.node.y = this.startPos.x;
+        this.node.x = this.startPos.y;
+        this.carPosY = this.node.y;
+        this.nitrogentTimer = 0;
+        this.node.anchorY = this.carCfg.achorB;
+        this.node.angle = 0;
         cc.carSpeed = 0;
-        if(bPlaySound){
-            this.moveSound = cc.audioEngine.play(this.audioList[this.soundId.move], true, 0.5);
-        }
+        cc.audioMgr.playSound(cc.soundId.move, true);
     },
 
     initCar(id) {
         this.xPosList = [-260, -85, 85, 260];
-        this.xPosIndex = 1;
+        this.xPosIndex = 2;
+        this.startPlay = false;
         this.bRecover = false;
         this.isBroken = false;
         this.dir = 0;
-        this.node.y = 0
-        this.node.x = this.xPosList[this.xPosIndex];
+        this.startPos = cc.p(-320, this.xPosList[this.xPosIndex]);
+        this.node.y = this.startPos.x;
+        this.node.x = this.startPos.y;
         this.carPosY = this.node.y;
 
         // 获取配置
@@ -149,6 +147,9 @@ cc.Class({
     },
 
     onKeyDown(event) {
+        if(cc.mainScene.pause){
+            return;
+        }
         switch (event.keyCode) {
             case cc.macro.KEY.left:
                 if (this.dir == 0) {
@@ -164,12 +165,17 @@ cc.Class({
                 this.onUsedNitrogen();
                 break;
             case cc.macro.KEY.down:
-                this.onCarBroken();
+                if(cc.mainScene){
+                    cc.mainScene.onBtnPause();
+                }
                 break;
         }
     },
 
     onKeyUp(event){
+        if(cc.mainScene.pause){
+            return;
+        }
         switch (event.keyCode) {
             case cc.macro.KEY.left:
                 this.recover();
@@ -181,14 +187,19 @@ cc.Class({
     },
 
     onCarBroken() {
+        if(this.isBroken){
+            return;
+        }
         this.isBroken = true;
         cc.carSpeed = 0;
-        if(this.moveSound != null){
-            cc.audioEngine.stop(this.moveSound);
-            this.moveSound = null;
-        }
-        if(cc.mainMenu){
-            cc.mainMenu.stop();
+        cc.audioMgr.stopSound(cc.soundId.move);
+    },
+
+    onCarPause(bPause){
+        if(cc.mainScene.pause){
+            cc.audioMgr.stopSound(cc.soundId.move);
+        }else{
+            cc.audioMgr.playSound(cc.soundId.move, true);
         }
     },
 
@@ -212,6 +223,7 @@ cc.Class({
         if (this.xPosIndex <= 0 || this.isBroken) {
             return;
         }
+        cc.audioMgr.playSound(cc.soundId.brake);
         this.node.stopAllActions();
         this.dir = -1;
         this.xPosIndex -= 1;
@@ -226,6 +238,7 @@ cc.Class({
         if (this.xPosIndex >= 3 || this.isBroken) {
             return;
         }
+        cc.audioMgr.playSound(cc.soundId.brake);
         this.node.stopAllActions();
         this.dir = 1;
         this.xPosIndex += 1;
@@ -257,7 +270,10 @@ cc.Class({
     },
 
     onBeginContact(contact, sefCollider, otherCollider){
-        this.onCarBroken();
+        if(cc.mainScene){
+            cc.mainScene.onGameStop();
+        }
+        cc.audioMgr.playSound(cc.soundId.broken);
         console.log("onBeginContact");
     },
 

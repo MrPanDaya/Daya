@@ -20,6 +20,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+        cc.mainScene = this;
         this.roadNum = 7;
         this.bgHeight = 260 * this.roadNum;
         cc.carSpeed = 0;
@@ -37,10 +38,10 @@ cc.Class({
         this.maxCarSpeed = 3000;
         this.pointMinRot = 105;
         this.pointMaxRot = -105;
-        this.rancingPoint = cc.find('Canvas/racing_point');
+        this.rancingPoint = cc.find('Canvas/main_ui_node/racing_point');
         this.rancingPoint.angle = this.pointMinRot;
 
-        this.carSpeedLab = cc.find('Canvas/car_speed').getComponent(cc.Label);
+        this.carSpeedLab = cc.find('Canvas/main_ui_node/car_speed').getComponent(cc.Label);
 
         // 开启物理引擎
         var phyMgr = cc.director.getPhysicsManager();
@@ -59,7 +60,7 @@ cc.Class({
     },
 
     update(dt) {
-        if (cc.carSpeed === undefined) {
+        if (cc.carSpeed === undefined || this.pause) {
             return;
         }
         this.carSpeedLab.string = Math.floor(cc.carSpeed/10)+"km/h";
@@ -92,26 +93,32 @@ cc.Class({
     },
 
     onDestroy() {
-        if (cc.mainMenu) {
-            cc.mainMenu.stop();
-        }
+        cc.audioMgr.stopMainMenu();
     },
 
     onBtnStartGame() {
-        if(bPlayMainMenu){
-            cc.mainMenu = this.getComponent("cc.AudioSource");
-            if (cc.mainMenu) {
-                cc.mainMenu.play();
-            }
-        }
+        cc.audioMgr.playSound(cc.soundId.btn);
+        cc.audioMgr.playMainMenu();
 
-        this.btnStart = cc.find('Canvas/btnStart');
+        this.btnStart = cc.find('Canvas/main_ui_node/btnStart');
         if (this.btnStart) {
             this.btnStart.active = false;
         }
+
+        // 开启物理系统
+        cc.director.getPhysicsManager().enabled = true;
+
+        if(this.pause){
+            this.pause = false;
+            if (cc.mainPlayer) {
+                cc.mainPlayer.onCarPause(false);
+            }
+            return;
+        }
+        this.pause = false;
         this.score = 0;
-        this.scoreBg = cc.find('Canvas/scoreBg');
-        this.scoreNode = cc.find('Canvas/scoreBg/score');
+        this.scoreBg = cc.find('Canvas/main_ui_node/scoreBg');
+        this.scoreNode = cc.find('Canvas/main_ui_node/scoreBg/score');
         this.scoreLabel = this.scoreNode.getComponent(cc.Label);
         this.scoreLabel.string = this.score;
 
@@ -122,9 +129,27 @@ cc.Class({
     },
 
     onBtnPause() {
+        cc.audioMgr.playSound(cc.soundId.btn);
+        if(cc.mainPlayer.isBroken){
+            return;
+        }
+        this.pause = true;
         if (cc.mainPlayer) {
+            cc.mainPlayer.onCarPause(true);
+        }
+        cc.audioMgr.stopMainMenu();
+        if (this.btnStart) {
+            this.btnStart.active = true;
+        }
+        // 暂停物理系统
+        cc.director.getPhysicsManager().enabled = false;
+    },
+
+    onGameStop(){
+        if(cc.mainPlayer){
             cc.mainPlayer.onCarBroken();
         }
+        cc.audioMgr.stopMainMenu();
         if (this.btnStart) {
             this.btnStart.active = true;
         }

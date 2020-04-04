@@ -55,6 +55,7 @@ cc.Class({
             this.node.angle += 180;
             this.speed *= 0.5;
         }
+        this.clearTimer = 0;
         // 设置碰撞区域大小
         var boxCllider = this.node.getComponent(cc.PhysicsBoxCollider);
         boxCllider.size.height = this.aiCarCfg.height;
@@ -64,7 +65,14 @@ cc.Class({
     },
 
     update (dt) {
-        if(!cc.carSpeed){
+        if(cc.mainPlayer && cc.mainPlayer.isBroken){
+            this.clearTimer += dt;
+            if(this.clearTimer >= 1.5){
+                this.mainScene.removeAiCar(this.node);
+            }
+            return;
+        }
+        if(!cc.carSpeed || cc.mainScene.pause){
             return;
         }
         var speed = this.aiCarCfg.speed*this.nDir - cc.carSpeed;

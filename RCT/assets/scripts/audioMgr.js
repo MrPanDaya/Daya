@@ -11,46 +11,72 @@
 cc.Class({
     extends: cc.Component,
 
-    properties: {
-        audioList: {
-            type: cc.AudioClip,
-            default: []
-        },
+    ctor() {
+        this.init();
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-        // this.mainMenu = this.getComponent("cc.AudioSource");
+    init() {
+        cc.soundId = {
+            move: "move",
+            broken: "broken",
+            brake: "brake",
+            nitrogn: "nitrogn",
+            pass: "pass",
+            btn: "btn",
+        }
+        this.audioList = {};
+        this.volume = 0.5;
+        this.roopSound = {};
+        var self = this;
+        cc.loader.loadResDir("sound", function (err, assets) {
+            for(var key in assets){
+                var soundRes = assets[key];
+                self.audioList[soundRes.name] = soundRes;
+            }
+            self.mainMenu = self.audioList["menu1"];
+        });
         
-    },
-
-    start () {
-
     },
 
     playMainMenu(){
         if(!bPlayMainMenu){
             return;
         }
+        
         if (this.mainMenu) {
-            this.mainMenu.play();
+            cc.audioEngine.playMusic(this.mainMenu, true);
         }
     },
 
     stopMainMenu(){
         if (this.mainMenu) {
-            this.mainMenu.stop();
+            cc.audioEngine.stopMusic();
         }
     },
 
     playSound(soundId, bRoop){
-
+        if(!bPlaySound){
+            return;
+        }
+        bRoop = bRoop === undefined ? false : bRoop;
+        if(bRoop && this.roopSound[soundId]){
+            cc.audioEngine.resume(this.roopSound[soundId]);
+        }else{
+            var sound = cc.audioEngine.play(this.audioList[soundId], bRoop, this.volume);
+            if(bRoop){
+                this.roopSound[soundId] = sound;
+            }
+        }
     },
 
-    stopSound(){
-
+    stopSound(soundId){
+        if(this.roopSound[soundId] !== undefined){
+            cc.audioEngine.pause(this.roopSound[soundId]);
+        }
     },
 
+    // start () {},
     // update (dt) {},
 });
