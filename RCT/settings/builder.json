@@ -1,10 +1,8 @@
 {
   "title": "RCT",
   "packageName": "",
-  "startScene": "78c51931-5914-45ad-bbe0-9e369e37aede",
-  "excludeScenes": [
-    "6f3e198b-daef-4408-97b7-6f6ee7b35615"
-  ],
+  "startScene": "6f3e198b-daef-4408-97b7-6f6ee7b35615",
+  "excludeScenes": [],
   "includeSDKBox": false,
   "orientation": {
     "landscapeLeft": true,

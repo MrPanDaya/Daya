@@ -19,8 +19,17 @@
       false
     ]
   ],
-  "excluded-modules": [],
-  "last-module-event-record-time": 1573659313747,
+  "excluded-modules": [
+    "Label Effect",
+    "Native Socket",
+    "ParticleSystem",
+    "Spine Skeleton",
+    "VideoPlayer",
+    "WebView",
+    "3D",
+    "3D Primitive"
+  ],
+  "last-module-event-record-time": 1586141219338,
   "design-resolution-width": 1280,
   "design-resolution-height": 720,
   "fit-width": true,

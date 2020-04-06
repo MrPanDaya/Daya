@@ -270,10 +270,10 @@ cc.Class({
     },
 
     onBeginContact(contact, sefCollider, otherCollider){
-        if(cc.mainScene){
+        cc.audioMgr.playSound(cc.soundId.broken);
+        if(cc.mainScene && !this.isBroken){
             cc.mainScene.onGameStop();
         }
-        cc.audioMgr.playSound(cc.soundId.broken);
         console.log("onBeginContact");
     },
 

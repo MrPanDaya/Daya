@@ -43,7 +43,8 @@ cc.Class({
 
         this.carSpeedLab = cc.find('Canvas/main_ui_node/car_speed').getComponent(cc.Label);
         this.btnStart = cc.find('Canvas/main_ui_node/btnStart');
-        this.menuNode = cc.find("Canvas/menu_ui_node");
+        this.menuNode = cc.find("Canvas/menu_ui_node").getComponent("uiMenu");
+        this.endNode = cc.find("Canvas/end_ui_node").getComponent("uiGameEnd");
 
         // 开启物理引擎
         var phyMgr = cc.director.getPhysicsManager();
@@ -60,7 +61,10 @@ cc.Class({
             cc.mainPlayer.initCar(0);
         }
         if(this.menuNode){
-            this.menuNode.active = false;
+            this.menuNode.setVisible(false);
+        }
+        if(this.endNode){
+            this.endNode.setVisible(false);
         }
     },
 
@@ -109,7 +113,7 @@ cc.Class({
             this.btnStart.active = false;
         }
         if (this.menuNode) {
-            this.menuNode.active = false;
+            this.menuNode.setVisible(false);
         }
 
         // 开启物理系统
@@ -127,29 +131,6 @@ cc.Class({
         }
     },
 
-    onBtnContinue() {
-        cc.audioMgr.playSound(cc.soundId.btn);
-        if(!this.pause || !cc.mainPlayer || !cc.mainPlayer.startPlay){
-            return;
-        }
-        cc.audioMgr.playMainMenu();
-
-        if (this.menuNode) {
-            this.menuNode.active = false;
-        }
-
-        // 开启物理系统
-        cc.director.getPhysicsManager().enabled = true;
-
-        if(this.pause){
-            this.pause = false;
-            if (cc.mainPlayer) {
-                cc.mainPlayer.onCarPause(false);
-            }
-            return;
-        }
-    },
-
     onBtnPause() {
         cc.audioMgr.playSound(cc.soundId.btn);
         if(cc.mainPlayer.isBroken){
@@ -161,30 +142,19 @@ cc.Class({
         }
         cc.audioMgr.stopMainMenu();
         if (this.menuNode) {
-            this.menuNode.active = true;
+            this.menuNode.setVisible(true);
         }
         // 暂停物理系统
         cc.director.getPhysicsManager().enabled = false;
     },
 
-    onBtnExit(){
-        var self = this
-        cc.director.preloadScene("loginScene", function () {
-            cc.audioMgr.playSound(cc.soundId.btn);
-            if (self.menuNode) {
-                self.menuNode.active = false;
-            }
-            cc.director.loadScene("loginScene");
-        });
-    },
-
     onGameStop(){
-        if(cc.mainPlayer){
+        if(cc.mainPlayer){ 
             cc.mainPlayer.onCarBroken();
         }
         cc.audioMgr.stopMainMenu();
-        if (this.menuNode) {
-            this.menuNode.active = true;
+        if (this.endNode) {
+            this.endNode.setVisible(true);
         }
     },
 
