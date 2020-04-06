@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "gasAni",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.7,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "73b4fd21-bb23-4f1e-8683-da23b05262f9"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "c80eacb4-38df-4479-bfc1-df11062d03ef"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "d67f1720-4c74-4fea-96b0-82643d03c371"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "dab42e8d-e263-4608-934c-26f3d78fcff4"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "0705b9eb-2fdf-4e4d-9b2b-e83c8cb2f576"
+            }
+          },
+          {
+            "frame": 0.6833333333333333,
+            "value": {
+              "__uuid__": "d67f1720-4c74-4fea-96b0-82643d03c371"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

@@ -21,6 +21,7 @@ cc.Class({
 
     onLoad() {
         cc.mainScene = this;
+        this.maxScore = LocalStorage.getNumber("maxScore");;
         this.roadNum = 7;
         this.bgHeight = 260 * this.roadNum;
         cc.carSpeed = 0;
@@ -51,7 +52,7 @@ cc.Class({
         phyMgr.enabled = true;
         phyMgr.gravity = cc.v2(0,0);
         // 开启调试
-        phyMgr.debugDrawFlags = cc.PhysicsManager.DrawBits.e_jointBit | cc.PhysicsManager.DrawBits.e_shapeBit;
+        // phyMgr.debugDrawFlags = cc.PhysicsManager.DrawBits.e_jointBit | cc.PhysicsManager.DrawBits.e_shapeBit;
 
         this.initAiCar();
     },
@@ -121,6 +122,7 @@ cc.Class({
 
         this.pause = false;
         this.score = 0;
+        this.addMoney = 0;
         this.scoreBg = cc.find('Canvas/main_ui_node/scoreBg');
         this.scoreNode = cc.find('Canvas/main_ui_node/scoreBg/score');
         this.scoreLabel = this.scoreNode.getComponent(cc.Label);
@@ -153,6 +155,20 @@ cc.Class({
             cc.mainPlayer.onCarBroken();
         }
         cc.audioMgr.stopMainMenu();
+        // 计算分数
+        this.score = Math.floor(this.score);
+        if(this.score > this.maxScore){
+            this.maxScore = this.score;
+            LocalStorage.setNumber("maxScore", this.maxScore);
+        }
+        // 计算金币
+        var baseMoney = Math.floor(this.score/20);
+        var extMoney = 10;
+        this.addMoney = baseMoney + extMoney;
+        var totalMoney = LocalStorage.getNumber("totalMoney");
+        totalMoney += this.addMoney;
+        LocalStorage.setNumber("totalMoney", totalMoney);
+        // 显示结算界面
         if (this.endNode) {
             this.endNode.setVisible(true);
         }

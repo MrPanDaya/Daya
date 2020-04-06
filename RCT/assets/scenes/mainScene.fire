@@ -189,7 +189,7 @@
       "array": [
         0,
         0,
-        451.1924133300781,
+        452.0584411621094,
         0,
         0,
         0,
@@ -476,7 +476,7 @@
       "ctor": "Float32Array",
       "array": [
         85,
-        -320,
+        -250,
         0,
         0,
         0,
@@ -540,6 +540,9 @@
       "__id__": 8
     },
     "_enabled": true,
+    "gasAniPrefab": {
+      "__uuid__": "7bd3f6bf-5303-43be-946e-17b001a0ce26"
+    },
     "_id": "ebunE/9BBPnIiMtzQJx+Yy"
   },
   {
@@ -550,7 +553,7 @@
       "__id__": 8
     },
     "_enabled": true,
-    "_type": 2,
+    "_type": 0,
     "_allowSleep": false,
     "_gravityScale": 1,
     "_linearDamping": 1,
@@ -579,12 +582,12 @@
     "_density": 20,
     "_sensor": false,
     "_friction": 0.3,
-    "_restitution": 0.1,
+    "_restitution": 0.9,
     "body": null,
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": -60.00000000000001
+      "y": -60
     },
     "_size": {
       "__type__": "cc.Size",
@@ -3044,7 +3047,7 @@
         "__id__": 97
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 103
@@ -4123,7 +4126,7 @@
       "ctor": "Float32Array",
       "array": [
         -150,
-        -300,
+        -260,
         0,
         0,
         0,
@@ -4398,7 +4401,7 @@
       "ctor": "Float32Array",
       "array": [
         150,
-        -300,
+        -260,
         0,
         0,
         0,

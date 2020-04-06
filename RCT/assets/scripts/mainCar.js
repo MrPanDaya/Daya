@@ -2,6 +2,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        gasAniPrefab: cc.Prefab,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -10,6 +11,11 @@ cc.Class({
         cc.mainPlayer = this;
         this.startPlay = false;
         this.node.active = false;
+        this.grassNode = cc.instantiate(this.gasAniPrefab);
+        this.node.addChild(this.grassNode);
+        this.grassNode.active = false;
+        this.boxCollider = this.getComponent(cc.PhysicsBoxCollider);
+
         this.initKeyEvent();
     },
 
@@ -37,8 +43,6 @@ cc.Class({
             }else if(this.xPosIndex > 3){
                 this.xPosIndex = 3;
             }
-            // var boxCllider = this.node.getComponent(cc.PhysicsBoxCollider);
-            // boxCllider.apply();
         }
         this.node.x = posX;
 
@@ -96,12 +100,14 @@ cc.Class({
         this.isBroken = false;
         this.dir = 0;
         this.xPosIndex = 1;
-        this.node.y = this.startPos.x;
-        this.node.x = this.startPos.y;
-        this.carPosY = this.node.y;
-        this.nitrogentTimer = 0;
-        this.node.anchorY = this.carCfg.achorB;
         this.node.angle = 0;
+        this.setAnchorY(this.carCfg.achorB);
+        this.node.x = this.startPos.x;
+        this.node.y = this.startPos.y;
+        this.carPosY = this.node.y;
+        this.setAnchorY(this.carCfg.achorB);
+        this.nitrogentTimer = 0;
+        
         cc.carSpeed = 0;
         cc.audioMgr.playSound(cc.soundId.move, true);
     },
@@ -113,9 +119,9 @@ cc.Class({
         this.bRecover = false;
         this.isBroken = false;
         this.dir = 0;
-        this.startPos = cc.p(-320, this.xPosList[this.xPosIndex]);
-        this.node.y = this.startPos.x;
-        this.node.x = this.startPos.y;
+        this.startPos = cc.v2(this.xPosList[this.xPosIndex], -250);
+        this.node.x = this.startPos.x;
+        this.node.y = this.startPos.y;
         this.carPosY = this.node.y;
 
         // 获取配置
@@ -208,15 +214,27 @@ cc.Class({
         if(this.isBroken){
             return;
         }
+        this.grassNode.active = true;
         //cc.carSpeed = this.carCfg.maxSpeedN;
         this.nitrogentTimer = this.carCfg.nitrogentTimer;
     },
 
     onNitrogenOver() {
+        this.grassNode.active = false;
         if(this.isBroken){
             return;
         }
         // cc.carSpeed = this.carCfg.maxSpeed;
+    },
+
+    setAnchorY(anchorY){
+        var lastAnchorY = this.node.anchorY;
+        this.node.anchorY = anchorY;
+        var dltY = (this.node.anchorY - lastAnchorY) * this.node.height;
+        this.node.y = this.carPosY + dltY;
+        this.grassNode.y -= dltY;
+        this.boxCollider.offset.y -= dltY;
+        this.boxCollider.apply();
     },
 
     turnLeft() {
@@ -228,9 +246,7 @@ cc.Class({
         this.dir = -1;
         this.xPosIndex -= 1;
         this.bRecover = false;
-        var lastAnchorY = this.node.anchorY;
-        this.node.anchorY = this.carCfg.achorF;
-        this.node.y = this.carPosY + (this.node.anchorY - lastAnchorY) * this.node.height;
+        this.setAnchorY(this.carCfg.achorF);
         this.node.runAction(cc.rotateTo(this.carCfg.turnTime, -this.carCfg.carAng))
     },
 
@@ -243,9 +259,7 @@ cc.Class({
         this.dir = 1;
         this.xPosIndex += 1;
         this.bRecover = false;
-        var lastAnchorY = this.node.anchorY;
-        this.node.anchorY = this.carCfg.achorF;
-        this.node.y = this.carPosY + (this.node.anchorY - lastAnchorY) * this.node.height;
+        this.setAnchorY(this.carCfg.achorF);
         this.node.runAction(cc.rotateTo(this.carCfg.turnTime, this.carCfg.carAng))
     },
 
@@ -254,8 +268,7 @@ cc.Class({
             return;
         }
         this.bRecover = true;
-        var lastAnchorY = this.node.anchorY;
-        this.node.anchorY = this.carCfg.achorB;
+        this.setAnchorY(this.carCfg.achorB);
         if (this.dir == -1) {
             this.node.x -= this.node.width * 0.5;
         } else if (this.dir == 1) {
@@ -270,11 +283,13 @@ cc.Class({
     },
 
     onBeginContact(contact, sefCollider, otherCollider){
+        if(this.nitrogentTimer > 0){
+            return;
+        }
         cc.audioMgr.playSound(cc.soundId.broken);
         if(cc.mainScene && !this.isBroken){
             cc.mainScene.onGameStop();
         }
-        console.log("onBeginContact");
     },
 
 });
