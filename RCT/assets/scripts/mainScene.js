@@ -52,7 +52,7 @@ cc.Class({
         phyMgr.enabled = true;
         phyMgr.gravity = cc.v2(0,0);
         // 开启调试
-        // phyMgr.debugDrawFlags = cc.PhysicsManager.DrawBits.e_jointBit | cc.PhysicsManager.DrawBits.e_shapeBit;
+        phyMgr.debugDrawFlags = cc.PhysicsManager.DrawBits.e_jointBit | cc.PhysicsManager.DrawBits.e_shapeBit;
 
         this.initAiCar();
     },

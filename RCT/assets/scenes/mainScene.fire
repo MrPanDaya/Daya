@@ -571,7 +571,7 @@
     "_id": "73VnIGHZFKg4rgkntploGX"
   },
   {
-    "__type__": "cc.PhysicsBoxCollider",
+    "__type__": "cc.PhysicsPolygonCollider",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -587,14 +587,36 @@
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": -60
+      "y": 0
     },
-    "_size": {
-      "__type__": "cc.Size",
-      "width": 90,
-      "height": 200
-    },
-    "_id": "9bAkmsN19CPZjosgTqJaQS"
+    "points": [
+      {
+        "__type__": "cc.Vec2",
+        "x": -45,
+        "y": -160
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 45,
+        "y": -160
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 45,
+        "y": 15
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 0,
+        "y": 45
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -45,
+        "y": 15
+      }
+    ],
+    "_id": "996WYgtVhOcbA1BcNHwBFN"
   },
   {
     "__type__": "cc.Widget",

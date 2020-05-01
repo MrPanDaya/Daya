@@ -14,7 +14,7 @@ cc.Class({
         this.grassNode = cc.instantiate(this.gasAniPrefab);
         this.node.addChild(this.grassNode);
         this.grassNode.active = false;
-        this.boxCollider = this.getComponent(cc.PhysicsBoxCollider);
+        this.boxCollider = this.getComponent(cc.PhysicsPolygonCollider);
 
         this.initKeyEvent();
     },
