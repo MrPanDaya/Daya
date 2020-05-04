@@ -59,7 +59,8 @@ cc.Class({
 
     start() {
         if (cc.mainPlayer) {
-            cc.mainPlayer.initCar(0);
+            var selId = LocalStorage.getNumber("selectCar");
+            cc.mainPlayer.initCar(selId);
         }
         if(this.menuNode){
             this.menuNode.setVisible(false);

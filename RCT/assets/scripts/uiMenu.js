@@ -53,10 +53,10 @@ cc.Class({
 
     onBtnExit(){
         var self = this
-        cc.director.preloadScene("loginScene", function () {
+        cc.director.preloadScene("selRoleScene", function () {
             cc.audioMgr.playSound(cc.soundId.btn);
             if (self.node)  self.node.active = false;
-            cc.director.loadScene("loginScene");
+            cc.director.loadScene("selRoleScene");
         });
     },
 });

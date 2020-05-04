@@ -1,13 +1,3 @@
-// Learn cc.Class:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-
 cc.Class({
     extends: cc.Component,
 
@@ -15,15 +5,14 @@ cc.Class({
         backNode: cc.Node,
         roadPrefab: cc.Prefab,
         carPrefab: cc.Prefab,
-        carScroll: cc.ScrollView
+        carScroll: cc.ScrollView,
+        labSel: cc.Label,
+        labUnlock: cc.Label,
+        labCarName: cc.Label,
     },
 
-    // LIFE-CYCLE CALLBACKS:
-
     onLoad () {
-        this.roadNum = 7;
-        this.bgHeight = 260 * this.roadNum;
-        for (var j = 0; j < this.roadNum; ++j) {
+        for (var j = 0; j < 7; ++j) {
             var road = cc.instantiate(this.roadPrefab);
             this.backNode.addChild(road);
             road.y = -780 + j * 260;
@@ -34,7 +23,7 @@ cc.Class({
             var car = cc.instantiate(this.carPrefab);
             this.carScroll.content.addChild(car);
             car.x = (i + 1) * 240 + 100;
-            car.carId = 0;
+            car.carId = i;
             var carCfg = mainCarCfg['car'+i];
             cc.loader.loadRes(carCfg.img, cc.SpriteFrame, function (err, spriteFrame) {
                 var picNode = this.getChildByName("car_node");
@@ -42,13 +31,33 @@ cc.Class({
             }.bind(car));
             this.showList.push(car);
         }
-        this.selId = 0;
+        // LocalStorage.setNumber("totalMoney", 100000000);
+        LocalStorage.setNumber("unLockCar0", 1);
+        this.selId = LocalStorage.getNumber("selectCar") || 0;
         this.showList[this.selId].setScale(1.5, 1.5);
+        var unLock = LocalStorage.getNumber("unLockCar" + this.selId);
+        this.labUnlock.node.active = unLock <= 0;
+        this.labSel.node.active = unLock > 0;
+        var cfg = mainCarCfg['car' + this.selId];
+        this.labCarName.string = cfg.name || '';
+        // 设置分数
+        var scoreNode = cc.find("Canvas/top_node/score_bg/score");
+        scoreNode.getComponent(cc.Label).string = LocalStorage.getString("maxScore") || "0";
     },
 
     start () {
         var centerNode = cc.find("Canvas/center_node");
         this.centerPos = centerNode.convertToWorldSpaceAR(cc.v2(0,0));
+
+        var scoreNode = cc.find("Canvas/top_node/score_bg/score");
+        if(scoreNode.width >= 170){
+            var scoreBgNode = cc.find("Canvas/top_node/score_bg");
+            scoreBgNode.width = scoreNode.width + 30;
+        }
+
+        // 设置选中
+        this.selId = LocalStorage.getNumber("selectCar") || 0;
+        this.carScroll.scrollToOffset(cc.v2(240 * this.selId, 0), 0.3);
     },
 
     // update (dt) {},
@@ -67,8 +76,12 @@ cc.Class({
                     if (scale == 1.5) {
                         this.selId = node.carId;
                         var unLock = LocalStorage.getNumber("unLockCar" + this.selId);
-                        if(unLock > 0){
-
+                        this.labUnlock.node.active = unLock <= 0;
+                        this.labSel.node.active = unLock > 0;
+                        var carCfg = mainCarCfg['car' + this.selId];
+                        this.labCarName.string = carCfg.name || '';
+                        if(unLock <= 0) {
+                            this.labUnlock.string = carCfg.unLockMoney + "";
                         }
                     }
                 }
@@ -77,7 +90,26 @@ cc.Class({
     },
 
     btnOK() {
-
+        var unLock = LocalStorage.getNumber("unLockCar" + this.selId);
+        if(unLock <= 0) {
+            var carCfg = mainCarCfg['car' + this.selId];
+            var totalMoney = LocalStorage.getNumber("totalMoney");
+            if(totalMoney >= carCfg.unLockMoney){
+                totalMoney -= carCfg.unLockMoney;
+                LocalStorage.setNumber("totalMoney", totalMoney);
+                LocalStorage.setNumber("unLockCar" + this.selId, 1);
+                this.labUnlock.node.active = false;
+                this.labSel.node.active = true;
+            }else{
+                console.log("money not enough")
+            }
+        }else{
+            LocalStorage.setNumber("selectCar", this.selId);
+            cc.director.preloadScene("mainScene", function () {
+                cc.audioMgr.playSound(cc.soundId.btn);
+                cc.director.loadScene("mainScene");
+            });
+        }
     },
 
 });

@@ -23,9 +23,9 @@ cc.Class({
 
     onBtnStartGame(){
         this.runStartEffect(function(){
-            cc.director.preloadScene("mainScene", function () {
+            cc.director.preloadScene("selRoleScene", function () {
                 cc.audioMgr.playSound(cc.soundId.btn);
-                cc.director.loadScene("mainScene");
+                cc.director.loadScene("selRoleScene");
             });
         });
     },

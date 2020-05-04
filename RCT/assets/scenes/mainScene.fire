@@ -375,7 +375,7 @@
         "__id__": 8
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 13
@@ -672,7 +672,7 @@
         "__id__": 38
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 41
@@ -906,7 +906,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {

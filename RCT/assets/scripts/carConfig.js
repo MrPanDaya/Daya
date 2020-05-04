@@ -5,6 +5,7 @@
     window.mainCarCfg = {
         car0 : {
             img: 'img/main_scene/car01',
+            name: 's1',
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
@@ -16,9 +17,11 @@
             turnTime : 0.15,    // 转向时间
             recoverTime: 0.1,   // 恢复时间
             nitrogentTimer: 5,  // 氮气加速的时间
+            unLockMoney: 0,     // 解锁消耗的金币
         },
         car1 : {
             img: 'img/main_scene/car02',
+            name: 's2',
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
@@ -30,9 +33,11 @@
             turnTime : 0.15,    // 转向时间
             recoverTime: 0.1,   // 恢复时间
             nitrogentTimer: 5,  // 氮气加速的时间
+            unLockMoney: 1000,  // 解锁消耗的金币
         },
         car2 : {
             img: 'img/main_scene/car03',
+            name: 's3',
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
@@ -44,9 +49,11 @@
             turnTime : 0.15,    // 转向时间
             recoverTime: 0.1,   // 恢复时间
             nitrogentTimer: 5,  // 氮气加速的时间
+            unLockMoney: 5000,  // 解锁消耗的金币
         },
         car3 : {
             img: 'img/main_scene/car04',
+            name: 's4',
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
@@ -58,9 +65,11 @@
             turnTime : 0.15,    // 转向时间
             recoverTime: 0.1,   // 恢复时间
             nitrogentTimer: 5,  // 氮气加速的时间
+            unLockMoney: 20000, // 解锁消耗的金币
         },
         car4 : {
             img: 'img/main_scene/car05',
+            name: 's5',
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
@@ -72,9 +81,11 @@
             turnTime : 0.15,    // 转向时间
             recoverTime: 0.1,   // 恢复时间
             nitrogentTimer: 5,  // 氮气加速的时间
+            unLockMoney: 50000, // 解锁消耗的金币
         },
         car5 : {
             img: 'img/main_scene/car06',
+            name: 's6',
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
@@ -86,6 +97,7 @@
             turnTime : 0.15,    // 转向时间
             recoverTime: 0.1,   // 恢复时间
             nitrogentTimer: 5,  // 氮气加速的时间
+            unLockMoney: 80000, // 解锁消耗的金币
         }
     };
 
