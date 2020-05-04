@@ -16,7 +16,7 @@
             addSpeedN : 700,
             turnTime : 0.15,    // 转向时间
             recoverTime: 0.1,   // 恢复时间
-            nitrogentTimer: 5,  // 氮气加速的时间
+            ngTimer: 5,  // 氮气加速的时间
             unLockMoney: 0,     // 解锁消耗的金币
         },
         car1 : {
@@ -32,7 +32,7 @@
             addSpeedN : 700,
             turnTime : 0.15,    // 转向时间
             recoverTime: 0.1,   // 恢复时间
-            nitrogentTimer: 5,  // 氮气加速的时间
+            ngTimer: 5,  // 氮气加速的时间
             unLockMoney: 1000,  // 解锁消耗的金币
         },
         car2 : {
@@ -48,7 +48,7 @@
             addSpeedN : 700,
             turnTime : 0.15,    // 转向时间
             recoverTime: 0.1,   // 恢复时间
-            nitrogentTimer: 5,  // 氮气加速的时间
+            ngTimer: 5,  // 氮气加速的时间
             unLockMoney: 5000,  // 解锁消耗的金币
         },
         car3 : {
@@ -64,7 +64,7 @@
             addSpeedN : 700,
             turnTime : 0.15,    // 转向时间
             recoverTime: 0.1,   // 恢复时间
-            nitrogentTimer: 5,  // 氮气加速的时间
+            ngTimer: 5,  // 氮气加速的时间
             unLockMoney: 20000, // 解锁消耗的金币
         },
         car4 : {
@@ -80,7 +80,7 @@
             addSpeedN : 700,
             turnTime : 0.15,    // 转向时间
             recoverTime: 0.1,   // 恢复时间
-            nitrogentTimer: 5,  // 氮气加速的时间
+            ngTimer: 5,  // 氮气加速的时间
             unLockMoney: 50000, // 解锁消耗的金币
         },
         car5 : {
@@ -96,8 +96,65 @@
             addSpeedN : 700,
             turnTime : 0.15,    // 转向时间
             recoverTime: 0.1,   // 恢复时间
-            nitrogentTimer: 5,  // 氮气加速的时间
+            ngTimer: 5,  // 氮气加速的时间
             unLockMoney: 80000, // 解锁消耗的金币
+        }
+    };
+
+    window.mainCarLvCfg = {
+        car0 : {
+            lv: 4,
+            lvCost: 10000,
+            maxSpeed : 2200,
+            maxSpeedN : 2400,
+            addSpeed : 800,
+            addSpeedN : 900,
+            ngTimer: 9
+        },
+        car1 : {
+            lv: 4,
+            lvCost: 10000,
+            maxSpeed : 2200,
+            maxSpeedN : 2400,
+            addSpeed : 800,
+            addSpeedN : 900,
+            ngTimer: 9
+        },
+        car2 : {
+            lv: 4,
+            lvCost: 10000,
+            maxSpeed : 2200,
+            maxSpeedN : 2400,
+            addSpeed : 800,
+            addSpeedN : 900,
+            ngTimer: 9
+        },
+        car3 : {
+            lv: 4,
+            lvCost: 10000,
+            maxSpeed : 2200,
+            maxSpeedN : 2400,
+            addSpeed : 800,
+            addSpeedN : 900,
+            ngTimer: 9
+        },
+        car4 : {
+            lv: 5,
+            lvCost: 15000,
+            maxSpeed : 2300,
+            maxSpeedN : 2500,
+            addSpeed : 900,
+            addSpeedN : 1000,
+            ngTimer: 10
+        },
+        car5 : {
+            lv: 5,
+            lvCost: 15000,
+            maxSpeed : 2300,
+            maxSpeedN : 2500,
+            addSpeed : 900,
+            addSpeedN : 1000,
+            ngTimer: 10
         }
     };
 

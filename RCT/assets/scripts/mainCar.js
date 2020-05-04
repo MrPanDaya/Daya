@@ -50,16 +50,16 @@ cc.Class({
     },
 
     onUpdateNitrogen(dt){
-        if(this.nitrogentTimer > 0){
+        if(this.ngTimer > 0){
             this.addSpeedByNitrogen(dt);
         }else{
             this.decSpeedByNoNitrogen(dt);
         }
 
         // 氮气检测
-        this.nitrogentTimer -= dt;
-        if (this.nitrogentTimer <= 0) {
-            this.nitrogentTimer = 0;
+        this.ngTimer -= dt;
+        if (this.ngTimer <= 0) {
+            this.ngTimer = 0;
             this.onNitrogenOver();
         }
     },
@@ -106,7 +106,7 @@ cc.Class({
         this.node.y = this.startPos.y;
         this.carPosY = this.node.y;
         this.setAnchorY(this.carCfg.achorB);
-        this.nitrogentTimer = 0;
+        this.ngTimer = 0;
         
         cc.carSpeed = 0;
         cc.audioMgr.playSound(cc.soundId.move, true);
@@ -216,7 +216,7 @@ cc.Class({
         }
         this.grassNode.active = true;
         //cc.carSpeed = this.carCfg.maxSpeedN;
-        this.nitrogentTimer = this.carCfg.nitrogentTimer;
+        this.ngTimer = this.carCfg.ngTimer;
     },
 
     onNitrogenOver() {
@@ -283,7 +283,7 @@ cc.Class({
     },
 
     onBeginContact(contact, sefCollider, otherCollider){
-        if(this.nitrogentTimer > 0){
+        if(this.ngTimer > 0){
             return;
         }
         cc.audioMgr.playSound(cc.soundId.broken);
