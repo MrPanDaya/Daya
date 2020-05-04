@@ -21,7 +21,7 @@ cc.Class({
 
     onLoad() {
         cc.mainScene = this;
-        this.maxScore = LocalStorage.getNumber("maxScore");;
+        this.maxScore = LocalStorage.getNumber("maxScore");
         this.roadNum = 7;
         this.bgHeight = 260 * this.roadNum;
         cc.carSpeed = 0;
