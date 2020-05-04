@@ -5,7 +5,7 @@
     window.mainCarCfg = {
         car0 : {
             img: 'img/main_scene/car01',
-            name: 's1',
+            name: '急速一号',
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
@@ -21,7 +21,7 @@
         },
         car1 : {
             img: 'img/main_scene/car02',
-            name: 's2',
+            name: '急速二号',
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
@@ -37,7 +37,7 @@
         },
         car2 : {
             img: 'img/main_scene/car03',
-            name: 's3',
+            name: '急速三号',
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
@@ -53,7 +53,7 @@
         },
         car3 : {
             img: 'img/main_scene/car04',
-            name: 's4',
+            name: '清纯一号',
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
@@ -69,7 +69,7 @@
         },
         car4 : {
             img: 'img/main_scene/car05',
-            name: 's5',
+            name: '清纯二号',
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
@@ -85,7 +85,7 @@
         },
         car5 : {
             img: 'img/main_scene/car06',
-            name: 's6',
+            name: '热情速吧',
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
