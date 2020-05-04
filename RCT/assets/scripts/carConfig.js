@@ -101,7 +101,7 @@
         }
     };
 
-    window.mainCarLvCfg = {
+    window.carLvUpCfg = {
         car0 : {
             lv: 4,
             lvCost: 10000,
