@@ -28,6 +28,8 @@ cc.Class({
             cc.loader.loadRes(carCfg.img, cc.SpriteFrame, function (err, spriteFrame) {
                 var picNode = this.getChildByName("car_node");
                 picNode.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+                var carSelNode = this.getChildByName('car_sel');
+                carSelNode.active = false;
             }.bind(car));
             this.showList.push(car);
         }
@@ -40,21 +42,30 @@ cc.Class({
         this.labSel.node.active = unLock > 0;
         var cfg = mainCarCfg['car' + this.selId];
         this.labCarName.string = cfg.name || '';
+
         // 设置分数
-        var scoreNode = cc.find("Canvas/top_node/score_bg/score");
+        var scoreNode = cc.find("Canvas/top_node/score");
         scoreNode.getComponent(cc.Label).string = LocalStorage.getString("maxScore") || "0";
+        // 设置金币
+        var goldNode = cc.find("Canvas/top_node/gold");
+        goldNode.getComponent(cc.Label).string = LocalStorage.getString("totalMoney") || "0";
     },
 
     start () {
         var centerNode = cc.find("Canvas/center_node");
         this.centerPos = centerNode.convertToWorldSpaceAR(cc.v2(0,0));
 
-        var scoreNode = cc.find("Canvas/top_node/score_bg/score");
-        if(scoreNode.width >= 170){
-            var scoreBgNode = cc.find("Canvas/top_node/score_bg");
-            scoreBgNode.width = scoreNode.width + 30;
-        }
-
+        // 适配文字背景
+        // var scoreNode = cc.find("Canvas/top_node/score_bg/score");
+        // if(scoreNode.width >= 170){
+        //     var scoreBgNode = cc.find("Canvas/top_node/score_bg");
+        //     scoreBgNode.width = scoreNode.width + 30;
+        // }
+        // var goldNode = cc.find("Canvas/top_node/gold_bg/gold");
+        // if(goldNode.width >= 170){
+        //     var goldBgNode = cc.find("Canvas/top_node/gold_bg");
+        //     goldBgNode.width = goldNode.width + 30;
+        // }
         // 设置选中
         this.selId = LocalStorage.getNumber("selectCar") || 0;
         this.carScroll.scrollToOffset(cc.v2(240 * this.selId, 0), 0.3);
@@ -67,9 +78,11 @@ cc.Class({
             var node = this.showList[key];
             if (node && node.active) {
                 var pos = this.carScroll.content.convertToWorldSpaceAR(cc.v2(node.x, node.y));
-                var dis = Math.abs(pos.x - this.centerPos.x)
+                var dis = Math.abs(pos.x - this.centerPos.x);
+                var carSelNode = node.getChildByName('car_sel');
                 if (dis >= 100) {
                     node.setScale(1, 1);
+                    carSelNode.active = false;
                 } else {
                     var scale = Math.min(1 + 0.5 * (120 - dis) / 100, 1.5);
                     node.setScale(scale, scale);
@@ -84,6 +97,8 @@ cc.Class({
                             this.labUnlock.string = carCfg.unLockMoney + "";
                         }
                     }
+                    // 选中框
+                    carSelNode.active = (node.carId === this.selId);
                 }
             }
         }
