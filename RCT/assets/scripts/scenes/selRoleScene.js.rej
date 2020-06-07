@@ -1,0 +1,11 @@
+diff a/RCT/assets/scripts/scenes/selRoleScene.js b/RCT/assets/scripts/scenes/selRoleScene.js	(rejected hunks)
+@@ -98,9 +98,6 @@
+                         this.btnUnlockNode.active = unLock <= 0;
+                         var carCfg = mainCarCfg['car' + this.selId];
+                         this.labCarName.string = carCfg.name || '';
+-                        if(unLock <= 0) {
+-                            this.labUnlock.string = carCfg.unLockMoney + "";
+-                        }
+                     }
+                     // ѡ�п�
+                     carSelNode.active = (node.carId === this.selId);

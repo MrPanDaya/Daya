@@ -6,8 +6,10 @@ cc.Class({
         roadPrefab: cc.Prefab,
         carPrefab: cc.Prefab,
         carScroll: cc.ScrollView,
-        labSel: cc.Label,
-        labUnlock: cc.Label,
+        lvlupNode: cc.Node,
+        btnOkNode: cc.Node,
+        btnLvlupNode: cc.Node,
+        btnUnlockNode: cc.Node,
         labCarName: cc.Label,
     },
 
@@ -38,8 +40,9 @@ cc.Class({
         this.selId = LocalStorage.getNumber("selectCar") || 0;
         this.showList[this.selId].setScale(1.5, 1.5);
         var unLock = LocalStorage.getNumber("unLockCar" + this.selId);
-        this.labUnlock.node.active = unLock <= 0;
-        this.labSel.node.active = unLock > 0;
+        this.btnOkNode.active = unLock > 0;
+        this.btnLvlupNode.active = unLock > 0;
+        this.btnUnlockNode.active = unLock <= 0;
         var cfg = mainCarCfg['car' + this.selId];
         this.labCarName.string = cfg.name || '';
 
@@ -88,13 +91,14 @@ cc.Class({
                     node.setScale(scale, scale);
                     if (scale == 1.5) {
                         this.selId = node.carId;
-                        var unLock = LocalStorage.getNumber("unLockCar" + this.selId);
-                        this.labUnlock.node.active = unLock <= 0;
-                        this.labSel.node.active = unLock > 0;
                         var carCfg = mainCarCfg['car' + this.selId];
                         this.labCarName.string = carCfg.name || '';
-                        if(unLock <= 0) {
-                            this.labUnlock.string = carCfg.unLockMoney + "";
+                        var unLock = LocalStorage.getNumber("unLockCar" + this.selId);
+                        this.btnOkNode.active = unLock > 0;
+                        this.btnLvlupNode.active = unLock > 0;
+                        this.btnUnlockNode.active = unLock <= 0;
+                        if(unLock <= 0){
+                            this.btnUnlockNode.getChildByName("lab_unlock").getComponent(cc.Label).string = carCfg.unLockMoney + "";
                         }
                     }
                     // 选中框
@@ -104,7 +108,18 @@ cc.Class({
         }
     },
 
-    btnOK() {
+    onBtnOK() {
+        var unLock = LocalStorage.getNumber("unLockCar" + this.selId);
+        if(unLock > 0) {
+            LocalStorage.setNumber("selectCar", this.selId);
+            cc.director.preloadScene("mainScene", function () {
+                cc.audioMgr.playSound(cc.soundId.btn);
+                cc.director.loadScene("mainScene");
+            });
+        }
+    },
+
+    onBtnUnlock(){
         var unLock = LocalStorage.getNumber("unLockCar" + this.selId);
         if(unLock <= 0) {
             var carCfg = mainCarCfg['car' + this.selId];
@@ -113,20 +128,22 @@ cc.Class({
                 totalMoney -= carCfg.unLockMoney;
                 LocalStorage.setNumber("totalMoney", totalMoney);
                 LocalStorage.setNumber("unLockCar" + this.selId, 1);
-                this.labUnlock.node.active = false;
-                this.labSel.node.active = true;
+                this.btnOkNode.active = true;
+                this.btnLvlupNode.active = true;
+                this.btnUnlockNode.active = false;
                 // 设置金币
                 var goldNode = cc.find("Canvas/top_node/gold");
                 goldNode.getComponent(cc.Label).string = totalMoney + "";
             }else{
                 console.log("money not enough")
             }
-        }else{
-            LocalStorage.setNumber("selectCar", this.selId);
-            cc.director.preloadScene("mainScene", function () {
-                cc.audioMgr.playSound(cc.soundId.btn);
-                cc.director.loadScene("mainScene");
-            });
+        }
+    },
+
+    onBtnLvlup(){
+        if(this.lvlupNode){
+            this.lvlupNode.active = true;
+            cc.uiLvlup.setSelId(this.selId);
         }
     },
 
