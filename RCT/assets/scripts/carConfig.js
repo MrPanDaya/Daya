@@ -105,56 +105,56 @@
         car0 : {
             lv: 4,
             lvCost: 10000,
-            maxSpeed : 2200,
-            maxSpeedN : 2400,
-            addSpeed : 800,
-            addSpeedN : 900,
-            ngTimer: 9
+            maxSpeed : 100,
+            maxSpeedN : 100,
+            addSpeed : 50,
+            addSpeedN : 50,
+            ngTimer: 1
         },
         car1 : {
             lv: 4,
             lvCost: 10000,
-            maxSpeed : 2200,
-            maxSpeedN : 2400,
-            addSpeed : 800,
-            addSpeedN : 900,
-            ngTimer: 9
+            maxSpeed : 100,
+            maxSpeedN : 100,
+            addSpeed : 50,
+            addSpeedN : 50,
+            ngTimer: 1
         },
         car2 : {
             lv: 4,
             lvCost: 10000,
-            maxSpeed : 2200,
-            maxSpeedN : 2400,
-            addSpeed : 800,
-            addSpeedN : 900,
-            ngTimer: 9
+            maxSpeed : 100,
+            maxSpeedN : 100,
+            addSpeed : 50,
+            addSpeedN : 50,
+            ngTimer: 1
         },
         car3 : {
             lv: 4,
             lvCost: 10000,
-            maxSpeed : 2200,
-            maxSpeedN : 2400,
-            addSpeed : 800,
-            addSpeedN : 900,
-            ngTimer: 9
+            maxSpeed : 100,
+            maxSpeedN : 100,
+            addSpeed : 50,
+            addSpeedN : 50,
+            ngTimer: 1
         },
         car4 : {
             lv: 5,
             lvCost: 15000,
-            maxSpeed : 2300,
-            maxSpeedN : 2500,
-            addSpeed : 900,
-            addSpeedN : 1000,
-            ngTimer: 10
+            maxSpeed : 100,
+            maxSpeedN : 100,
+            addSpeed : 60,
+            addSpeedN : 60,
+            ngTimer: 1
         },
         car5 : {
             lv: 5,
             lvCost: 15000,
-            maxSpeed : 2300,
-            maxSpeedN : 2500,
-            addSpeed : 900,
-            addSpeedN : 1000,
-            ngTimer: 10
+            maxSpeed : 100,
+            maxSpeedN : 100,
+            addSpeed : 60,
+            addSpeedN : 60,
+            ngTimer: 1
         }
     };
 
@@ -238,6 +238,28 @@
             img: 'img/main_scene/ncar16',
             speed : 1000,
             height : 198,
+        }
+    };
+
+    window.initLocalData = function () {
+        var defData = {
+            selectCar : 0,
+            maxScore: 0,
+            totalMoney: 0,
+            unLockInfo:{
+                car0: 1,
+            },
+            levelInfo:{
+                car0: 0,
+            }
+        }
+        cc.LocalData = LocalStorage.getObject("RctData", defData);
+        saveLocalData();
+    };
+
+    window.saveLocalData = function () {
+        if(cc.LocalData){
+            LocalStorage.setObject("RctData", cc.LocalData);
         }
     };
 

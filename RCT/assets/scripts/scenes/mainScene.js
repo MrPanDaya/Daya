@@ -21,7 +21,7 @@ cc.Class({
 
     onLoad() {
         cc.mainScene = this;
-        this.maxScore = LocalStorage.getNumber("maxScore");
+        this.maxScore = cc.LocalData.maxScore || 0;
         this.roadNum = 7;
         this.bgHeight = 260 * this.roadNum;
         cc.carSpeed = 0;
@@ -59,7 +59,7 @@ cc.Class({
 
     start() {
         if (cc.mainPlayer) {
-            var selId = LocalStorage.getNumber("selectCar");
+            var selId = cc.LocalData.selectCar || 0;
             cc.mainPlayer.initCar(selId);
         }
         if(this.menuNode){
@@ -160,15 +160,15 @@ cc.Class({
         this.score = Math.floor(this.score);
         if(this.score > this.maxScore){
             this.maxScore = this.score;
-            LocalStorage.setNumber("maxScore", this.maxScore);
+            cc.LocalData.maxScore = this.maxScore;
+            saveLocalData();
         }
         // 计算金币
         var baseMoney = Math.floor(this.score/20);
         var extMoney = 10;
         this.addMoney = baseMoney + extMoney;
-        var totalMoney = LocalStorage.getNumber("totalMoney");
-        totalMoney += this.addMoney;
-        LocalStorage.setNumber("totalMoney", totalMoney);
+        cc.LocalData.totalMoney += this.addMoney;
+        saveLocalData();
         // 显示结算界面
         if (this.endNode) {
             this.endNode.setVisible(true);

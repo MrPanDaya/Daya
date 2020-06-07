@@ -14,6 +14,9 @@ cc.Class({
     },
 
     onLoad () {
+        initLocalData();
+        cc.selRoleScene = this;
+
         for (var j = 0; j < 7; ++j) {
             var road = cc.instantiate(this.roadPrefab);
             this.backNode.addChild(road);
@@ -35,11 +38,10 @@ cc.Class({
             }.bind(car));
             this.showList.push(car);
         }
-        // LocalStorage.setNumber("totalMoney", 100000000);
-        LocalStorage.setNumber("unLockCar0", 1);
-        this.selId = LocalStorage.getNumber("selectCar") || 0;
+        // cc.LocalData.totalMoney = 1000000;
+        this.selId = cc.LocalData.selectCar || 0;
         this.showList[this.selId].setScale(1.5, 1.5);
-        var unLock = LocalStorage.getNumber("unLockCar" + this.selId);
+        var unLock = cc.LocalData.unLockInfo["car" + this.selId] || 0;
         this.btnOkNode.active = unLock > 0;
         this.btnLvlupNode.active = unLock > 0;
         this.btnUnlockNode.active = unLock <= 0;
@@ -48,33 +50,27 @@ cc.Class({
 
         // 设置分数
         var scoreNode = cc.find("Canvas/top_node/score");
-        scoreNode.getComponent(cc.Label).string = LocalStorage.getString("maxScore") || "0";
-        // 设置金币
-        var goldNode = cc.find("Canvas/top_node/gold");
-        goldNode.getComponent(cc.Label).string = LocalStorage.getString("totalMoney") || "0";
+        scoreNode.getComponent(cc.Label).string = cc.LocalData.maxScore || "0";
+
+        this.onTotalMoneyChanged();
     },
 
     start () {
         var centerNode = cc.find("Canvas/center_node");
         this.centerPos = centerNode.convertToWorldSpaceAR(cc.v2(0,0));
 
-        // 适配文字背景
-        // var scoreNode = cc.find("Canvas/top_node/score_bg/score");
-        // if(scoreNode.width >= 170){
-        //     var scoreBgNode = cc.find("Canvas/top_node/score_bg");
-        //     scoreBgNode.width = scoreNode.width + 30;
-        // }
-        // var goldNode = cc.find("Canvas/top_node/gold_bg/gold");
-        // if(goldNode.width >= 170){
-        //     var goldBgNode = cc.find("Canvas/top_node/gold_bg");
-        //     goldBgNode.width = goldNode.width + 30;
-        // }
         // 设置选中
-        this.selId = LocalStorage.getNumber("selectCar") || 0;
+        this.selId = cc.LocalData.selectCar || 0;
         this.carScroll.scrollToOffset(cc.v2(240 * this.selId, 0), 0.3);
     },
 
     // update (dt) {},
+
+    onTotalMoneyChanged(){
+        // 设置金币
+        var goldNode = cc.find("Canvas/top_node/gold");
+        goldNode.getComponent(cc.Label).string = cc.LocalData.totalMoney || "0";
+    },
 
     carScoll() {
         for (var key in this.showList) {
@@ -85,33 +81,35 @@ cc.Class({
                 var carSelNode = node.getChildByName('car_sel');
                 if (dis >= 100) {
                     node.setScale(1, 1);
-                    carSelNode.active = false;
                 } else {
                     var scale = Math.min(1 + 0.5 * (120 - dis) / 100, 1.5);
                     node.setScale(scale, scale);
-                    if (scale == 1.5) {
+                    if(this.selId !== node.carId){
                         this.selId = node.carId;
                         var carCfg = mainCarCfg['car' + this.selId];
                         this.labCarName.string = carCfg.name || '';
-                        var unLock = LocalStorage.getNumber("unLockCar" + this.selId);
+                        var unLock = cc.LocalData.unLockInfo["car" + this.selId] || 0;
                         this.btnOkNode.active = unLock > 0;
                         this.btnLvlupNode.active = unLock > 0;
                         this.btnUnlockNode.active = unLock <= 0;
                         if(unLock <= 0){
-                            this.btnUnlockNode.getChildByName("lab_unlock").getComponent(cc.Label).string = carCfg.unLockMoney + "";
+                            var labUnlockNode = this.btnUnlockNode.getChildByName("lab_unlock");
+                            labUnlockNode.getComponent(cc.Label).string = carCfg.unLockMoney;
+                            labUnlockNode.color = cc.LocalData.totalMoney < carCfg.unLockMoney ? cc.color(255, 0, 0, 255) : cc.color(225, 170, 0, 255);
                         }
                     }
-                    // 选中框
-                    carSelNode.active = (node.carId === this.selId);
                 }
+                // 选中框
+                carSelNode.active = (node.carId === this.selId);
             }
         }
     },
 
     onBtnOK() {
-        var unLock = LocalStorage.getNumber("unLockCar" + this.selId);
+        var unLock = cc.LocalData.unLockInfo["car" + this.selId] || 0;
         if(unLock > 0) {
-            LocalStorage.setNumber("selectCar", this.selId);
+            cc.LocalData.selectCar = this.selId;
+            saveLocalData();
             cc.director.preloadScene("mainScene", function () {
                 cc.audioMgr.playSound(cc.soundId.btn);
                 cc.director.loadScene("mainScene");
@@ -120,20 +118,18 @@ cc.Class({
     },
 
     onBtnUnlock(){
-        var unLock = LocalStorage.getNumber("unLockCar" + this.selId);
+        var unLock = cc.LocalData.unLockInfo["car" + this.selId] || 0;
         if(unLock <= 0) {
             var carCfg = mainCarCfg['car' + this.selId];
-            var totalMoney = LocalStorage.getNumber("totalMoney");
-            if(totalMoney >= carCfg.unLockMoney){
-                totalMoney -= carCfg.unLockMoney;
-                LocalStorage.setNumber("totalMoney", totalMoney);
-                LocalStorage.setNumber("unLockCar" + this.selId, 1);
+            if(cc.LocalData.totalMoney >= carCfg.unLockMoney){
+                cc.LocalData.totalMoney -= carCfg.unLockMoney;
+                cc.LocalData.unLockInfo["car" + this.selId] = 1;
+                saveLocalData();
                 this.btnOkNode.active = true;
                 this.btnLvlupNode.active = true;
                 this.btnUnlockNode.active = false;
-                // 设置金币
-                var goldNode = cc.find("Canvas/top_node/gold");
-                goldNode.getComponent(cc.Label).string = totalMoney + "";
+                // 更新金币
+                this.onTotalMoneyChanged();
             }else{
                 console.log("money not enough")
             }
