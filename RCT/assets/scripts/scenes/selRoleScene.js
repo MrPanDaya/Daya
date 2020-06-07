@@ -115,6 +115,9 @@ cc.Class({
                 LocalStorage.setNumber("unLockCar" + this.selId, 1);
                 this.labUnlock.node.active = false;
                 this.labSel.node.active = true;
+                // …Ë÷√Ω±“
+                var goldNode = cc.find("Canvas/top_node/gold");
+                goldNode.getComponent(cc.Label).string = totalMoney + "";
             }else{
                 console.log("money not enough")
             }
