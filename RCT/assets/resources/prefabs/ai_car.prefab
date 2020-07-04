@@ -150,7 +150,7 @@
     "_id": ""
   },
   {
-    "__type__": "cc.PhysicsBoxCollider",
+    "__type__": "cc.PhysicsPolygonCollider",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -168,11 +168,38 @@
       "x": 0,
       "y": 0
     },
-    "_size": {
-      "__type__": "cc.Size",
-      "width": 90,
-      "height": 204
-    },
+    "points": [
+      {
+        "__type__": "cc.Vec2",
+        "x": 0,
+        "y": -112
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 45,
+        "y": -97
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 45,
+        "y": 97
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 0,
+        "y": 112
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -45,
+        "y": 97
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -45,
+        "y": -97
+      }
+    ],
     "_id": ""
   },
   {

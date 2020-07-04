@@ -32,16 +32,14 @@ cc.Class({
         if(this.isBroken || !this.startPlay || cc.mainScene.pause){
             return;
         }
+        var endPosX = this.xPosList[this.xPosIndex];
         var dltX = dt * this.dir * this.carCfg.maxSpeedX;
         var posX = this.node.x + dltX;
-        var endPosX = this.xPosList[this.xPosIndex];
         if ((this.dir < 0 && posX <= endPosX) || (this.dir > 0 && posX >= endPosX)) {
             posX = endPosX;
-            this.xPosIndex += this.dir;
-            if(this.xPosIndex < 0){
-                this.xPosIndex = 0;
-            }else if(this.xPosIndex > 3){
-                this.xPosIndex = 3;
+            if(this.dir != 0){
+                this.recover();
+                this.dir = 0;
             }
         }
         this.node.x = posX;
@@ -98,12 +96,13 @@ cc.Class({
     onStartPlay(){
         this.startPlay = true;
         this.isBroken = false;
+        this.bRecover = false;
         this.dir = 0;
-        this.xPosIndex = 1;
+        this.xPosIndex = 2;
         this.node.angle = 0;
         this.setAnchorY(this.carCfg.achorB);
-        this.node.x = this.startPos.x;
-        this.node.y = this.startPos.y;
+        this.node.x = this.xPosList[this.xPosIndex];
+        this.node.y = hardLvCfg[cc.mainScene.hardLv].posY;
         this.carPosY = this.node.y;
         this.setAnchorY(this.carCfg.achorB);
         this.ngTimer = 0;
@@ -119,9 +118,8 @@ cc.Class({
         this.bRecover = false;
         this.isBroken = false;
         this.dir = 0;
-        this.startPos = cc.v2(this.xPosList[this.xPosIndex], -250);
-        this.node.x = this.startPos.x;
-        this.node.y = this.startPos.y;
+        this.node.x = this.xPosList[this.xPosIndex];
+        this.node.y = hardLvCfg[0].posY;
         this.carPosY = this.node.y;
 
         // 获取配置
@@ -148,7 +146,6 @@ cc.Class({
         }
         if(cc.sys.os === 'Windows'){
             cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-            cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
         }
     },
 
@@ -174,20 +171,6 @@ cc.Class({
                 if(cc.mainScene){
                     cc.mainScene.onBtnPause();
                 }
-                break;
-        }
-    },
-
-    onKeyUp(event){
-        if(cc.mainScene.pause){
-            return;
-        }
-        switch (event.keyCode) {
-            case cc.macro.KEY.left:
-                this.recover();
-                break;
-            case cc.macro.KEY.right:
-                this.recover();
                 break;
         }
     },
@@ -238,27 +221,33 @@ cc.Class({
     },
 
     turnLeft() {
-        if (this.xPosIndex <= 0 || this.isBroken) {
+        if (this.xPosIndex <= 0 || this.isBroken || this.dir === -1) {
             return;
         }
-        cc.audioMgr.playSound(cc.soundId.brake);
-        this.node.stopAllActions();
         this.dir = -1;
         this.xPosIndex -= 1;
         this.bRecover = false;
+        if(this.xPosIndex < 0){
+            this.xPosIndex = 0;
+        }
+        cc.audioMgr.playSound(cc.soundId.brake);
+        this.node.stopAllActions();
         this.setAnchorY(this.carCfg.achorF);
         this.node.runAction(cc.rotateTo(this.carCfg.turnTime, -this.carCfg.carAng))
     },
 
     turnRight() {
-        if (this.xPosIndex >= 3 || this.isBroken) {
+        if (this.xPosIndex >= 3 || this.isBroken || this.dir === 1) {
             return;
         }
-        cc.audioMgr.playSound(cc.soundId.brake);
-        this.node.stopAllActions();
         this.dir = 1;
         this.xPosIndex += 1;
         this.bRecover = false;
+        if(this.xPosIndex >= 3){
+            this.xPosIndex = 3;
+        }
+        cc.audioMgr.playSound(cc.soundId.brake);
+        this.node.stopAllActions();
         this.setAnchorY(this.carCfg.achorF);
         this.node.runAction(cc.rotateTo(this.carCfg.turnTime, this.carCfg.carAng))
     },
@@ -277,19 +266,26 @@ cc.Class({
         this.node.y = this.carPosY;
         var rota = cc.rotateTo(this.carCfg.recoverTime, 0);
         var fun = cc.callFunc(function () {
-            this.dir = 0;
+            if(this.node.y !== hardLvCfg[cc.mainScene.hardLv].posY){
+                this.node.y = hardLvCfg[cc.mainScene.hardLv].posY;
+                this.carPosY = this.node.y;
+            }
         }.bind(this))
         this.node.runAction(cc.sequence(rota, fun))
     },
 
     onBeginContact(contact, sefCollider, otherCollider){
         if(this.ngTimer > 0){
+            var aiCar = otherCollider.node.getComponent("aiCar");
+            if(aiCar){
+                aiCar.isBroken = true;
+            }
             return;
         }
+        console.log("otherCollider", otherCollider);
         cc.audioMgr.playSound(cc.soundId.broken);
         if(cc.mainScene && !this.isBroken){
             cc.mainScene.onGameStop();
         }
     },
-
 });

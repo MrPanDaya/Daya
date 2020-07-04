@@ -2,6 +2,39 @@
     window.bPlayMainMenu = true;
     window.bPlaySound = true;
 
+    window.hardLvCfg = {
+        0 : {
+            posY: -250,
+            disY: 8000,
+            aiCarTimer: 1,
+        },
+        1 : {
+            posY: -200,
+            disY: 20000,
+            aiCarTimer: 0.9,
+        },
+        2 : {
+            posY: -150,
+            disY: 40000,
+            aiCarTimer: 0.7,
+        },
+        3 : {
+            posY: -150,
+            disY: 60000,
+            aiCarTimer: 0.6,
+        },
+        4 : {
+            posY: -100,
+            disY: 80000,
+            aiCarTimer: 0.5,
+        },
+        5 : {
+            posY: 0,
+            disY: 100000,
+            aiCarTimer: 0.4,
+        },
+    }
+
     window.mainCarCfg = {
         car0 : {
             img: 'img/main_scene/car01',

@@ -47,6 +47,18 @@ cc.Class({
         this.menuNode = cc.find("Canvas/menu_ui_node").getComponent("uiMenu");
         this.endNode = cc.find("Canvas/end_ui_node").getComponent("uiGameEnd");
 
+        this.scoreBg = cc.find('Canvas/main_ui_node/scoreBg');
+        this.scoreNode = cc.find('Canvas/main_ui_node/scoreBg/score');
+        this.scoreLabel = this.scoreNode.getComponent(cc.Label);
+
+        this.hardLvupText = cc.find("Canvas/main_ui_node/hard_lvup_txt");
+        this.hardLvupText.active = false;
+
+        this.btnTurLeft = cc.find("Canvas/main_ui_node/btn_turn_left");
+        this.btnTurRight = cc.find("Canvas/main_ui_node/btn_turn_right");
+        this.btnTurLeft.active = false;
+        this.btnTurRight.active = false;
+
         // 开启物理引擎
         var phyMgr = cc.director.getPhysicsManager();
         phyMgr.enabled = true;
@@ -100,7 +112,28 @@ cc.Class({
             this.scoreBg.width = this.scoreNode.width + 20;
         }
 
+        this.checkAndHardLvUp();
+
         this.updateAiCar(dt);
+    },
+
+    // 难度升级
+    checkAndHardLvUp(){
+        if(this.hardLv >= 5){
+            return;
+        }
+        // 升级
+        if(this.score >= hardLvCfg[this.hardLv].disY){
+            this.hardLv += 1;
+            this.aiCarTimer = hardLvCfg[this.hardLv].aiCarTimer;
+            // 显示难度升级
+            this.hardLvupText.active = true;
+            var blink = cc.blink(1.5, 5);
+            var endCall = cc.callFunc(function(){
+                this.hardLvupText.active = false;
+            }.bind(this))
+            this.hardLvupText.runAction(cc.sequence(blink, endCall));
+        }
     },
 
     onDestroy() {
@@ -124,10 +157,15 @@ cc.Class({
         this.pause = false;
         this.score = 0;
         this.addMoney = 0;
-        this.scoreBg = cc.find('Canvas/main_ui_node/scoreBg');
-        this.scoreNode = cc.find('Canvas/main_ui_node/scoreBg/score');
-        this.scoreLabel = this.scoreNode.getComponent(cc.Label);
         this.scoreLabel.string = this.score;
+
+        // 设置难度等级
+        this.hardLv = 0;
+        var curHardCfg = hardLvCfg[this.hardLv];
+        this.aiCarTimer = curHardCfg.aiCarTimer;
+
+        this.btnTurLeft.active = true;
+        this.btnTurRight.active = true;
 
         if (cc.mainPlayer) {
             cc.mainPlayer.onStartPlay();
@@ -151,11 +189,22 @@ cc.Class({
         cc.director.getPhysicsManager().enabled = false;
     },
 
+    onBtnTurnLeft(){
+        cc.mainPlayer.turnLeft();
+    },
+
+    onBtnTurnRight(){
+        cc.mainPlayer.turnRight();
+    },
+
     onGameStop(){
         if(cc.mainPlayer){ 
             cc.mainPlayer.onCarBroken();
         }
         cc.audioMgr.stopMainMenu();
+        // 因此操作按钮
+        this.btnTurLeft.active = false;
+        this.btnTurRight.active = false;
         // 计算分数
         this.score = Math.floor(this.score);
         if(this.score > this.maxScore){
@@ -187,7 +236,7 @@ cc.Class({
 
     updateAiCar(dt){
         this.randCarTimer += dt;
-        if(this.randCarTimer < 1){
+        if(this.randCarTimer < this.aiCarTimer){
             return;
         }
         this.randCarTimer = 0;

@@ -18,7 +18,8 @@ cc.Class({
 
     onLoad () {
         this.node.y = 2000;
-        this.carRigidbody = this.node.getComponent(cc.RigidBody);
+        this.offsetPosY = [-10,5,-5,10,-5,5];
+        this.isBroken = false;
     },
 
     initAiCar(target){
@@ -26,6 +27,7 @@ cc.Class({
             return;
         }
         this.mainScene = target;
+        this.isBroken = false;
         // 随机车
         var carCount = Object.keys(aiCarCfg).length;
         if(carCount <= 0){
@@ -57,17 +59,27 @@ cc.Class({
         }
         this.clearTimer = 0;
         // 设置碰撞区域大小
-        var boxCllider = this.node.getComponent(cc.PhysicsBoxCollider);
-        boxCllider.size.height = this.aiCarCfg.height;
+        var boxCllider = this.node.getComponent(cc.PhysicsPolygonCollider);
+        if(this.nRoadId < 2){
+            boxCllider.restitution = 0.1;
+        }else{
+            boxCllider.restitution = 0.9;
+        }
+        var he = this.aiCarCfg.height / 2;
+        var offY = [-he, -he, he, he, he, -he];
+        for(var i = 0; i < offY.length; ++i){
+            boxCllider.points[i].y = offY[i] + this.offsetPosY[i];
+        }
         boxCllider.apply();
         // console.log("heigth :" + this.aiCarCfg.height + " " + boxCllider.size.height);
         // console.log("carId,roadId,speed : " + this.nIndex + " " + this.nRoadId + " " + this.speed);
     },
 
+
     update (dt) {
-        if(cc.mainPlayer && cc.mainPlayer.isBroken){
+        if(cc.mainPlayer && cc.mainPlayer.isBroken || this.isBroken === true){
             this.clearTimer += dt;
-            if(this.clearTimer >= 1.5){
+            if(this.clearTimer >= 1){
                 this.mainScene.removeAiCar(this.node);
             }
             return;
@@ -76,8 +88,8 @@ cc.Class({
             return;
         }
         var speed = this.aiCarCfg.speed*this.nDir - cc.carSpeed;
-        this.carRigidbody = this.node.getComponent(cc.RigidBody);
-        this.carRigidbody.linearVelocity = cc.v2(0, speed);
+        var carRigidbody = this.node.getComponent(cc.RigidBody);
+        carRigidbody.linearVelocity = cc.v2(0, speed);
 
         if(this.node.y < -2000 || this.node.y > 2000){
             this.mainScene.removeAiCar(this.node);
