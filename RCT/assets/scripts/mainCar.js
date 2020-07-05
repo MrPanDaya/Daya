@@ -130,8 +130,10 @@ cc.Class({
         this.carPosY = this.node.y;
 
         // 获取配置
-        this.carCfg = mainCarCfg['car'+id];
+        var carLv = cc.LocalData.levelInfo['car' + id] || 0;
+        this.carCfg = getCarCfgByLevel(id, carLv);
         this.node.anchorY = this.carCfg.achorB;
+
         var self = this;
         cc.loader.loadRes(this.carCfg.img, cc.SpriteFrame, function (err, spriteFrame) {
             self.node.getComponent(cc.Sprite).spriteFrame = spriteFrame;

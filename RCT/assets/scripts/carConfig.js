@@ -301,4 +301,44 @@
         }
     };
 
+    window.getCarCfgByLevel = function(selId, lv){
+        var carCfg = mainCarCfg['car' + selId];
+        var str = JSON.stringify(carCfg);
+        var cfg = JSON.parse(str);
+        if(lv > 0){
+            var lvupCfg = carLvUpCfg['car' + selId];
+            if(lv > lvupCfg.lv){
+                lv = lvupCfg.lv;
+            }
+            cfg.maxSpeed += lvupCfg.maxSpeed * lv;
+            cfg.maxSpeedN += lvupCfg.maxSpeedN * lv;
+            cfg.addSpeed += lvupCfg.addSpeed * lv;
+            cfg.addSpeedN += lvupCfg.addSpeedN * lv;
+            cfg.ngTimer += lvupCfg.ngTimer * lv;
+        }
+
+        return cfg;
+    };
+
+    window.shareApp = function(params, callBack){
+        if(wx && wx.shareAppMessage){
+            var args = {};
+            if (params.title) {
+                args.title = params.title;
+            }
+            // 携带参数分享，带到 query 中
+            if (params.query) {
+                args.query = params.query;
+            }
+            // 如果有指定分享图片，按照 imgpath、imgurl 的顺序显示图片
+            // 如果没有指定，使用当前截屏
+            if (params.imgpath) {
+                args.imageUrl = params.imgpath;
+            } else if (params.imgurl) {
+                args.imageUrl = params.imgurl;
+            }
+            wx.shareAppMessage(args);
+        }
+    };
+
 })();

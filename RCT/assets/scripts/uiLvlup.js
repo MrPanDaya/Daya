@@ -34,8 +34,8 @@ cc.Class({
         this.btnLvup.active = (this.selLv < lvupCfg.lv);
         this.labLvup.string = lvupCfg.lvCost;
         this.labLvup.node.color = cc.LocalData.totalMoney < lvupCfg.lvCost ? cc.color(255, 0, 0, 255) : cc.color(26, 177, 44, 255);
-        this.carCfgCur = this.getCarCfgByLevel(this.selId, this.selLv);
-        this.carCfgMax = this.getCarCfgByLevel(this.selId, lvupCfg.lv);
+        this.carCfgCur = getCarCfgByLevel(this.selId, this.selLv);
+        this.carCfgMax = getCarCfgByLevel(this.selId, lvupCfg.lv);
 
         this.maxSpeedBar.width = this.barMaxWidth * this.carCfgCur.maxSpeed / this.carCfgMax.maxSpeed;
         this.maxSpeedBar.getChildByName("cur_value").getComponent(cc.Label).string = this.carCfgCur.maxSpeed;
@@ -51,25 +51,6 @@ cc.Class({
 
         this.maxNgTimeBar.width = this.barMaxWidth * this.carCfgCur.ngTimer / this.carCfgMax.ngTimer;
         this.maxNgTimeBar.getChildByName("cur_value").getComponent(cc.Label).string = this.carCfgCur.ngTimer;
-    },
-
-    getCarCfgByLevel(selId, lv){
-        var carCfg = mainCarCfg['car' + this.selId];
-        var str = JSON.stringify(carCfg);
-        var cfg = JSON.parse(str);
-        if(lv > 0){
-            var lvupCfg = carLvUpCfg['car' + this.selId];
-            if(lv > lvupCfg.lv){
-                lv = lvupCfg.lv;
-            }
-            cfg.maxSpeed += lvupCfg.maxSpeed * lv;
-            cfg.maxSpeedN += lvupCfg.maxSpeedN * lv;
-            cfg.addSpeed += lvupCfg.addSpeed * lv;
-            cfg.addSpeedN += lvupCfg.addSpeedN * lv;
-            cfg.ngTimer += lvupCfg.ngTimer * lv;
-        }
-
-        return cfg;
     },
 
     onClose(){
