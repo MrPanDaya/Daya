@@ -1,7 +1,9 @@
 (function(){
     window.bPlayMainMenu = true;
     window.bPlaySound = true;
+    window.ngTotalCDTimer = 15;
 
+    // 难度等级配置
     window.hardLvCfg = {
         0 : {
             posY: -250,
@@ -16,25 +18,26 @@
         2 : {
             posY: -150,
             disY: 40000,
-            aiCarTimer: 0.7,
+            aiCarTimer: 0.9,
         },
         3 : {
             posY: -150,
             disY: 60000,
-            aiCarTimer: 0.6,
+            aiCarTimer: 0.9,
         },
         4 : {
             posY: -100,
             disY: 80000,
-            aiCarTimer: 0.5,
+            aiCarTimer: 0.9,
         },
         5 : {
             posY: 0,
             disY: 100000,
-            aiCarTimer: 0.4,
+            aiCarTimer: 0.9,
         },
     }
 
+    // 赛车配置
     window.mainCarCfg = {
         car0 : {
             img: 'img/main_scene/car01',
@@ -42,7 +45,7 @@
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
-            maxSpeedX : 300,    // 水平的最大速度
+            maxSpeedX : 400,    // 水平的最大速度
             maxSpeed : 1800,    // 最大速度
             maxSpeedN : 2000,   // 氮气加速的最大速度
             addSpeed : 600,
@@ -58,7 +61,7 @@
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
-            maxSpeedX : 300,    // 水平的最大速度
+            maxSpeedX : 400,    // 水平的最大速度
             maxSpeed : 1800,    // 最大速度
             maxSpeedN : 2000,   // 氮气加速的最大速度
             addSpeed : 600,
@@ -74,7 +77,7 @@
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
-            maxSpeedX : 300,    // 水平的最大速度
+            maxSpeedX : 400,    // 水平的最大速度
             maxSpeed : 1800,    // 最大速度
             maxSpeedN : 2000,   // 氮气加速的最大速度
             addSpeed : 600,
@@ -90,7 +93,7 @@
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
-            maxSpeedX : 300,    // 水平的最大速度
+            maxSpeedX : 400,    // 水平的最大速度
             maxSpeed : 1800,    // 最大速度
             maxSpeedN : 2000,   // 氮气加速的最大速度
             addSpeed : 600,
@@ -106,7 +109,7 @@
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
-            maxSpeedX : 300,    // 水平的最大速度
+            maxSpeedX : 400,    // 水平的最大速度
             maxSpeed : 1800,    // 最大速度
             maxSpeedN : 2000,   // 氮气加速的最大速度
             addSpeed : 600,
@@ -122,7 +125,7 @@
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
-            maxSpeedX : 300,    // 水平的最大速度
+            maxSpeedX : 400,    // 水平的最大速度
             maxSpeed : 1800,    // 最大速度
             maxSpeedN : 2000,   // 氮气加速的最大速度
             addSpeed : 600,
@@ -134,6 +137,7 @@
         }
     };
 
+    // 赛车升级配置
     window.carLvUpCfg = {
         car0 : {
             lv: 4,
@@ -191,6 +195,7 @@
         }
     };
 
+    // ai车配置
     window.aiCarCfg = {
         car0 : {
             img: 'img/main_scene/ncar01',
@@ -199,12 +204,12 @@
         },
         car1 : {
             img: 'img/main_scene/ncar02',
-            speed : 800,
+            speed : 950,
             height : 410,
         },
         car2 : {
             img: 'img/main_scene/ncar03',
-            speed : 1200,
+            speed : 1050,
             height : 190,
         },
         car3 : {
@@ -234,7 +239,7 @@
         },
         car8 : {
             img: 'img/main_scene/ncar09',
-            speed : 800,
+            speed : 950,
             height : 270,
         },
         car9 : {

@@ -15,6 +15,7 @@ cc.Class({
         bgArray: [cc.Node],
         roadResList: [cc.Prefab],
         aiCarPrefab: cc.Prefab,
+        cdProgress: cc.ProgressBar,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -54,6 +55,9 @@ cc.Class({
         this.hardLvupText = cc.find("Canvas/main_ui_node/hard_lvup_txt");
         this.hardLvupText.active = false;
 
+        this.btnNitrogen = cc.find("Canvas/main_ui_node/btn_nitrogen");
+        this.btnNitrogen.active = false;
+
         this.btnTurLeft = cc.find("Canvas/main_ui_node/btn_turn_left");
         this.btnTurRight = cc.find("Canvas/main_ui_node/btn_turn_right");
         this.btnTurLeft.active = false;
@@ -64,7 +68,7 @@ cc.Class({
         phyMgr.enabled = true;
         phyMgr.gravity = cc.v2(0,0);
         // 开启调试
-        phyMgr.debugDrawFlags = cc.PhysicsManager.DrawBits.e_jointBit | cc.PhysicsManager.DrawBits.e_shapeBit;
+        // phyMgr.debugDrawFlags = cc.PhysicsManager.DrawBits.e_jointBit | cc.PhysicsManager.DrawBits.e_shapeBit;
 
         this.initAiCar();
     },
@@ -113,8 +117,8 @@ cc.Class({
         }
 
         this.checkAndHardLvUp();
-
         this.updateAiCar(dt);
+        this.updateNitrogenCD(dt);
     },
 
     // 难度升级
@@ -159,6 +163,9 @@ cc.Class({
         this.addMoney = 0;
         this.scoreLabel.string = this.score;
 
+        this.randCarTimer0 = 0;
+        this.randCarTimer1 = 0;
+
         // 设置难度等级
         this.hardLv = 0;
         var curHardCfg = hardLvCfg[this.hardLv];
@@ -166,6 +173,11 @@ cc.Class({
 
         this.btnTurLeft.active = true;
         this.btnTurRight.active = true;
+
+        // 氮气的CD
+        this.btnNitrogen.active = true;
+        this.cdProgress.progress = 1;
+        this.ngCDTimer = ngTotalCDTimer;
 
         if (cc.mainPlayer) {
             cc.mainPlayer.onStartPlay();
@@ -197,6 +209,15 @@ cc.Class({
         cc.mainPlayer.turnRight();
     },
 
+    onBtnNitrogen(){
+        if(this.cdProgress.progress > 0){
+            return;
+        }
+        this.cdProgress.progress = 1;
+        this.ngCDTimer = ngTotalCDTimer;
+        cc.mainPlayer && cc.mainPlayer.onUsedNitrogen();
+    },
+
     onGameStop(){
         if(cc.mainPlayer){ 
             cc.mainPlayer.onCarBroken();
@@ -225,7 +246,6 @@ cc.Class({
     },
 
     initAiCar(){
-        this.randCarTimer = 0;
         this.carNode = cc.find("Canvas/car_node");
         this.aiCarPool = new cc.NodePool();
         for(var i = 0; i < 5; ++i){
@@ -235,11 +255,18 @@ cc.Class({
     },
 
     updateAiCar(dt){
-        this.randCarTimer += dt;
-        if(this.randCarTimer < this.aiCarTimer){
+        this.updateAiCar0(dt);
+        this.updateAiCar1(dt);
+    },
+
+    updateAiCar0(dt){
+        this.randCarTimer0 += dt;
+        if(this.randCarTimer0 < (this.aiCarTimer - this.hardLv*0.1)){
             return;
         }
-        this.randCarTimer = 0;
+        this.randCarTimer0 = 0;
+        var arr = [1, 2];
+        var roadId = arr[Math.round(Math.random())];
         var aiCar = null;
         if(this.aiCarPool.size() > 0){
             aiCar = this.aiCarPool.get();
@@ -247,7 +274,46 @@ cc.Class({
             aiCar = cc.instantiate(this.aiCarPrefab);
         }
         aiCar.parent = this.carNode;
-        aiCar.getComponent("aiCar").initAiCar(this);
+        aiCar.getComponent("aiCar").initAiCar(this, roadId);
+    },
+
+    updateAiCar1(dt){
+        this.randCarTimer1 += dt;
+        if(this.randCarTimer1 < this.aiCarTimer){
+            return;
+        }
+        this.randCarTimer1 = 0;
+        var arr = [0, 3];
+        var roadId = arr[Math.round(Math.random())];
+        var aiCar = null;
+        if(this.aiCarPool.size() > 0){
+            aiCar = this.aiCarPool.get();
+        }else{
+            aiCar = cc.instantiate(this.aiCarPrefab);
+        }
+        aiCar.parent = this.carNode;
+        aiCar.getComponent("aiCar").initAiCar(this, roadId);
+    },
+
+    updateNitrogenCD(dt){
+        if(this.cdProgress.progress <= 0){
+            return;
+        }
+        this.ngCDTimer -= dt;
+        this.ngCDTimer = Math.max(this.ngCDTimer, 0);
+        this.cdProgress.progress = this.ngCDTimer/ngTotalCDTimer;
+    },
+
+    runNitrogenOverAction(){
+        if(this.bNgOverAction){
+            return;
+        }
+        this.bNgOverAction = true;
+        var blink = cc.blink(2.5, 5);
+        var endCall = cc.callFunc(function(){
+            this.bNgOverAction = false;
+        }.bind(this))
+        this.btnNitrogen.runAction(cc.sequence(blink, endCall));
     },
 
     removeAiCar(aiCar){

@@ -38,7 +38,8 @@ cc.Class({
         if ((this.dir < 0 && posX <= endPosX) || (this.dir > 0 && posX >= endPosX)) {
             posX = endPosX;
             if(this.dir != 0){
-                this.recover();
+                this.bRecover = false;
+                this.coverBack();
                 this.dir = 0;
             }
         }
@@ -49,6 +50,9 @@ cc.Class({
 
     onUpdateNitrogen(dt){
         if(this.ngTimer > 0){
+            if(this.ngTimer <= 2){
+                cc.mainScene.runNitrogenOverAction();
+            }
             this.addSpeedByNitrogen(dt);
         }else{
             this.decSpeedByNoNitrogen(dt);
@@ -133,17 +137,18 @@ cc.Class({
     },
 
     initKeyEvent(){
-        if (window.wx && wx.onAccelerometerChange) {
-            wx.onAccelerometerChange(function (res) {
-                if (this.dir == 0) {
-                    if (res.x > 0.3) {
-                        this.turnRight();
-                    } else if (res.x < -0.3) {
-                        this.turnLeft();
-                    }
-                }
-            }.bind(this))
-        }
+        // 重力操作
+        // if (window.wx && wx.onAccelerometerChange) {
+        //     wx.onAccelerometerChange(function (res) {
+        //         if (this.dir == 0) {
+        //             if (res.x > 0.3) {
+        //                 this.turnRight();
+        //             } else if (res.x < -0.3) {
+        //                 this.turnLeft();
+        //             }
+        //         }
+        //     }.bind(this))
+        // }
         if(cc.sys.os === 'Windows'){
             cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         }
@@ -224,9 +229,12 @@ cc.Class({
         if (this.xPosIndex <= 0 || this.isBroken || this.dir === -1) {
             return;
         }
+        if(this.bRecover === true && this.dir === 1){
+            return;
+        }
         this.dir = -1;
         this.xPosIndex -= 1;
-        this.bRecover = false;
+        // this.bRecover = false;
         if(this.xPosIndex < 0){
             this.xPosIndex = 0;
         }
@@ -240,9 +248,12 @@ cc.Class({
         if (this.xPosIndex >= 3 || this.isBroken || this.dir === 1) {
             return;
         }
+        if(this.bRecover === true && this.dir === -1){
+            return;
+        }
         this.dir = 1;
         this.xPosIndex += 1;
-        this.bRecover = false;
+        // this.bRecover = false;
         if(this.xPosIndex >= 3){
             this.xPosIndex = 3;
         }
@@ -252,7 +263,7 @@ cc.Class({
         this.node.runAction(cc.rotateTo(this.carCfg.turnTime, this.carCfg.carAng))
     },
 
-    recover() {
+    coverBack() {
         if (this.bRecover || this.isBroken) {
             return;
         }
@@ -282,7 +293,7 @@ cc.Class({
             }
             return;
         }
-        console.log("otherCollider", otherCollider);
+        // console.log("otherCollider", otherCollider);
         cc.audioMgr.playSound(cc.soundId.broken);
         if(cc.mainScene && !this.isBroken){
             cc.mainScene.onGameStop();
