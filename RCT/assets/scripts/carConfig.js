@@ -45,7 +45,7 @@
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
-            maxSpeedX : 400,    // 水平的最大速度
+            maxSpeedX : 500,    // 水平的最大速度
             maxSpeed : 1800,    // 最大速度
             maxSpeedN : 2000,   // 氮气加速的最大速度
             addSpeed : 600,
@@ -61,7 +61,7 @@
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
-            maxSpeedX : 400,    // 水平的最大速度
+            maxSpeedX : 500,    // 水平的最大速度
             maxSpeed : 1800,    // 最大速度
             maxSpeedN : 2000,   // 氮气加速的最大速度
             addSpeed : 600,
@@ -77,7 +77,7 @@
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
-            maxSpeedX : 400,    // 水平的最大速度
+            maxSpeedX : 500,    // 水平的最大速度
             maxSpeed : 1800,    // 最大速度
             maxSpeedN : 2000,   // 氮气加速的最大速度
             addSpeed : 600,
@@ -93,7 +93,7 @@
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
-            maxSpeedX : 400,    // 水平的最大速度
+            maxSpeedX : 500,    // 水平的最大速度
             maxSpeed : 1800,    // 最大速度
             maxSpeedN : 2000,   // 氮气加速的最大速度
             addSpeed : 600,
@@ -109,7 +109,7 @@
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
-            maxSpeedX : 400,    // 水平的最大速度
+            maxSpeedX : 500,    // 水平的最大速度
             maxSpeed : 1800,    // 最大速度
             maxSpeedN : 2000,   // 氮气加速的最大速度
             addSpeed : 600,
@@ -125,7 +125,7 @@
             achorF : 0.2,       // 前轮锚点
             achorB : 0.8,       // 后轮锚点
             carAng : 12,        // 转向的角度
-            maxSpeedX : 400,    // 水平的最大速度
+            maxSpeedX : 500,    // 水平的最大速度
             maxSpeed : 1800,    // 最大速度
             maxSpeedN : 2000,   // 氮气加速的最大速度
             addSpeed : 600,
