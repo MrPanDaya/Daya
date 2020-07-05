@@ -14,6 +14,9 @@ cc.Class({
         this.grassNode = cc.instantiate(this.gasAniPrefab);
         this.node.addChild(this.grassNode);
         this.grassNode.active = false;
+        this.effDun = cc.find("Canvas/car_node/main_car/eff_dun");
+        this.effDun.active = false;
+
         this.boxCollider = this.getComponent(cc.PhysicsPolygonCollider);
 
         this.initKeyEvent();
@@ -203,12 +206,14 @@ cc.Class({
             return;
         }
         this.grassNode.active = true;
+        this.effDun.active = true;
         //cc.carSpeed = this.carCfg.maxSpeedN;
         this.ngTimer = this.carCfg.ngTimer;
     },
 
     onNitrogenOver() {
         this.grassNode.active = false;
+        this.effDun.active = false;
         if(this.isBroken){
             return;
         }
@@ -221,6 +226,7 @@ cc.Class({
         var dltY = (this.node.anchorY - lastAnchorY) * this.node.height;
         this.node.y = this.carPosY + dltY;
         this.grassNode.y -= dltY;
+        this.effDun.y -= dltY;
         this.boxCollider.offset.y -= dltY;
         this.boxCollider.apply();
     },
@@ -287,13 +293,8 @@ cc.Class({
 
     onBeginContact(contact, sefCollider, otherCollider){
         if(this.ngTimer > 0){
-            var aiCar = otherCollider.node.getComponent("aiCar");
-            if(aiCar){
-                aiCar.isBroken = true;
-            }
             return;
         }
-        // console.log("otherCollider", otherCollider);
         cc.audioMgr.playSound(cc.soundId.broken);
         if(cc.mainScene && !this.isBroken){
             cc.mainScene.onGameStop();

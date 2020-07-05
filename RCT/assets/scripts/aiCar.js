@@ -79,7 +79,7 @@ cc.Class({
     update (dt) {
         if(cc.mainPlayer && cc.mainPlayer.isBroken || this.isBroken === true){
             this.clearTimer += dt;
-            if(this.clearTimer >= 1){
+            if(this.clearTimer >= 0.8){
                 this.mainScene.removeAiCar(this.node);
             }
             return;
@@ -94,5 +94,9 @@ cc.Class({
         if(this.node.y < -2000 || this.node.y > 2000){
             this.mainScene.removeAiCar(this.node);
         }
+    },
+
+    onBeginContact(contact, sefCollider, otherCollider){
+        this.isBroken = true;
     },
 });

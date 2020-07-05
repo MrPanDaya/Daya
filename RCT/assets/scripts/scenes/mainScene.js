@@ -213,6 +213,8 @@ cc.Class({
         if(this.cdProgress.progress > 0){
             return;
         }
+        cc.audioMgr.playSound(cc.soundId.btn);
+
         this.cdProgress.progress = 1;
         this.ngCDTimer = ngTotalCDTimer;
         cc.mainPlayer && cc.mainPlayer.onUsedNitrogen();
