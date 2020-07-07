@@ -1,0 +1,6 @@
+.vscode
+.idea
+.vs
+*.csproj
+/.vscode
+/RCT/packConfig

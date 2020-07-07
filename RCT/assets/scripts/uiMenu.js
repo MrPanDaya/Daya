@@ -30,13 +30,13 @@ cc.Class({
     },
     
     onBtnContinue() {
-        cc.audioMgr.playSound(cc.soundId.btn);
+        window.audioMgr.playSound(cc.soundId.btn);
         this.node.active = false;
 
         if(!cc.mainScene.pause || !cc.mainPlayer || !cc.mainPlayer.startPlay){
             return;
         }
-        cc.audioMgr.playMainMenu();
+        window.audioMgr.playMainMenu();
 
         // 开启物理系统
         cc.director.getPhysicsManager().enabled = true;
@@ -54,7 +54,7 @@ cc.Class({
     onBtnExit(){
         var self = this
         cc.director.preloadScene("selRoleScene", function () {
-            cc.audioMgr.playSound(cc.soundId.btn);
+            window.audioMgr.playSound(cc.soundId.btn);
             if (self.node)  self.node.active = false;
             cc.director.loadScene("selRoleScene");
         });

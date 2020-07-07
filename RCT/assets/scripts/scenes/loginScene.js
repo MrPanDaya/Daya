@@ -8,8 +8,8 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        var audioMgr = require("audioMgr");
-        cc.audioMgr = new audioMgr();
+        window.audioMgr.init();
+        initWXEvent();
     },
 
     start () {
@@ -24,7 +24,7 @@ cc.Class({
     onBtnStartGame(){
         this.runStartEffect(function(){
             cc.director.preloadScene("selRoleScene", function () {
-                cc.audioMgr.playSound(cc.soundId.btn);
+                window.audioMgr.playSound(cc.soundId.btn);
                 cc.director.loadScene("selRoleScene");
             });
         });

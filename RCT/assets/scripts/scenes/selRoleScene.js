@@ -111,7 +111,7 @@ cc.Class({
             cc.LocalData.selectCar = this.selId;
             saveLocalData();
             cc.director.preloadScene("mainScene", function () {
-                cc.audioMgr.playSound(cc.soundId.btn);
+                window.audioMgr.playSound(cc.soundId.btn);
                 cc.director.loadScene("mainScene");
             });
         }

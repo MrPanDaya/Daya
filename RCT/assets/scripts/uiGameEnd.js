@@ -64,7 +64,7 @@ cc.Class({
     },
 
     onBtnContinue(){
-        cc.audioMgr.playSound(cc.soundId.btn);
+        window.audioMgr.playSound(cc.soundId.btn);
         if(cc.mainScene) cc.mainScene.onBtnStartGame();
         this.node.active = false;
     },
@@ -72,7 +72,7 @@ cc.Class({
     onBtnExitGame(){
         var self = this
         cc.director.preloadScene("selRoleScene", function () {
-            cc.audioMgr.playSound(cc.soundId.btn);
+            window.audioMgr.playSound(cc.soundId.btn);
             if (self.node)  self.node.active = false;
             cc.director.loadScene("selRoleScene");
         });

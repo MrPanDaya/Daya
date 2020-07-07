@@ -341,4 +341,19 @@
         }
     };
 
+    window.initWXEvent = function(){
+        if(!window.wx) return;
+        if(window.initWX) return;
+        window.initWX = true;
+        wx.onShow(function (opt) {
+
+        });
+
+        wx.onHide(function () {
+            if(cc.mainPlayer && cc.mainPlayer.startPlay){
+                cc.mainScene.onBtnPause();
+            }
+        });
+    };
+
 })();

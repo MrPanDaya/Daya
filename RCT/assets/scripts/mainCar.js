@@ -115,7 +115,7 @@ cc.Class({
         this.ngTimer = 0;
         
         cc.carSpeed = 0;
-        cc.audioMgr.playSound(cc.soundId.move, true);
+        window.audioMgr.playSound(cc.soundId.move, true);
     },
 
     initCar(id) {
@@ -191,14 +191,14 @@ cc.Class({
         }
         this.isBroken = true;
         cc.carSpeed = 0;
-        cc.audioMgr.stopSound(cc.soundId.move);
+        window.audioMgr.stopSound(cc.soundId.move);
     },
 
     onCarPause(bPause){
         if(cc.mainScene.pause){
-            cc.audioMgr.stopSound(cc.soundId.move);
+            window.audioMgr.stopSound(cc.soundId.move);
         }else{
-            cc.audioMgr.playSound(cc.soundId.move, true);
+            window.audioMgr.playSound(cc.soundId.move, true);
         }
     },
 
@@ -246,7 +246,7 @@ cc.Class({
         if(this.xPosIndex < 0){
             this.xPosIndex = 0;
         }
-        cc.audioMgr.playSound(cc.soundId.brake);
+        window.audioMgr.playSound(cc.soundId.brake);
         this.node.stopAllActions();
         this.setAnchorY(this.carCfg.achorF);
         this.node.runAction(cc.rotateTo(this.carCfg.turnTime, -this.carCfg.carAng))
@@ -265,7 +265,7 @@ cc.Class({
         if(this.xPosIndex >= 3){
             this.xPosIndex = 3;
         }
-        cc.audioMgr.playSound(cc.soundId.brake);
+        window.audioMgr.playSound(cc.soundId.brake);
         this.node.stopAllActions();
         this.setAnchorY(this.carCfg.achorF);
         this.node.runAction(cc.rotateTo(this.carCfg.turnTime, this.carCfg.carAng))
@@ -297,7 +297,7 @@ cc.Class({
         if(this.ngTimer > 0){
             return;
         }
-        cc.audioMgr.playSound(cc.soundId.broken);
+        window.audioMgr.playSound(cc.soundId.broken);
         if(cc.mainScene && !this.isBroken){
             cc.mainScene.onGameStop();
         }

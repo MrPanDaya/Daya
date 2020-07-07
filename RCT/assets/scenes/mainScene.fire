@@ -189,7 +189,7 @@
       "array": [
         0,
         0,
-        511.8210144042969,
+        501.4287109375,
         0,
         0,
         0,
@@ -5748,21 +5748,30 @@
     "_id": "71NUXORmBETrFlsO/YDT9Z"
   },
   {
-    "__type__": "cc.AudioSource",
+    "__type__": "cc.Widget",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 2
     },
     "_enabled": true,
-    "_clip": {
-      "__uuid__": "fa0702ab-678b-495e-a80b-5075a907a77d"
-    },
-    "_volume": 1,
-    "_mute": false,
-    "_loop": true,
-    "playOnLoad": false,
-    "preload": false,
-    "_id": "4dssef53hHlK7C+j/MOab3"
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 45,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0,
+    "_id": "347Qhi4QtLPK1Rv6hYtS/T"
   }
 ]

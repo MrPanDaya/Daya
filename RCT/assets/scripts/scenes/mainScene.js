@@ -141,12 +141,12 @@ cc.Class({
     },
 
     onDestroy() {
-        cc.audioMgr.stopMainMenu();
+        window.audioMgr.stopMainMenu();
     },
 
     onBtnStartGame() {
-        cc.audioMgr.playSound(cc.soundId.btn);
-        cc.audioMgr.playMainMenu();
+        window.audioMgr.playSound(cc.soundId.btn);
+        window.audioMgr.playMainMenu();
 
         if (this.btnStart) {
             this.btnStart.active = false;
@@ -185,7 +185,7 @@ cc.Class({
     },
 
     onBtnPause() {
-        cc.audioMgr.playSound(cc.soundId.btn);
+        window.audioMgr.playSound(cc.soundId.btn);
         if(cc.mainPlayer.isBroken){
             return;
         }
@@ -193,7 +193,7 @@ cc.Class({
         if (cc.mainPlayer) {
             cc.mainPlayer.onCarPause(true);
         }
-        cc.audioMgr.stopMainMenu();
+        window.audioMgr.stopMainMenu();
         if (this.menuNode) {
             this.menuNode.setVisible(true);
         }
@@ -213,7 +213,7 @@ cc.Class({
         if(this.cdProgress.progress > 0){
             return;
         }
-        cc.audioMgr.playSound(cc.soundId.btn);
+        window.audioMgr.playSound(cc.soundId.btn);
 
         this.cdProgress.progress = 1;
         this.ngCDTimer = ngTotalCDTimer;
@@ -224,7 +224,7 @@ cc.Class({
         if(cc.mainPlayer){ 
             cc.mainPlayer.onCarBroken();
         }
-        cc.audioMgr.stopMainMenu();
+        window.audioMgr.stopMainMenu();
         // 因此操作按钮
         this.btnTurLeft.active = false;
         this.btnTurRight.active = false;
