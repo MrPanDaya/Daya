@@ -27,6 +27,7 @@
                     var soundRes = assets[key];
                     self.audioList[soundRes.name] = soundRes;
                 }
+                self.mainMenu = self.audioList["menu1"];
             });
         },
 
@@ -102,7 +103,6 @@
             if (window.wx && window.wx.createInnerAudioContext && this.roopSound[soundId]) {
                 this.roopSound[soundId].stop();
                 if(this.roopSound[soundId].loop){
-                    console.log("========stopSound========");
                     this.roopSound[soundId].destroy();
                     this.roopSound[soundId] = undefined;
                 }
