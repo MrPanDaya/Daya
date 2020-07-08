@@ -12,6 +12,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        boomAniPrefab: cc.Prefab,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -20,6 +21,9 @@ cc.Class({
         this.node.y = 2000;
         this.offsetPosY = [-10,5,-5,10,-5,5];
         this.isBroken = false;
+        this.boomNode = cc.instantiate(this.boomAniPrefab);
+        this.node.addChild(this.boomNode);
+        this.boomNode.active = false;
     },
 
     initAiCar(target, roadIndex){
@@ -28,6 +32,7 @@ cc.Class({
         }
         this.mainScene = target;
         this.isBroken = false;
+        this.boomNode.active = false;
         // 随机车
         var carCount = Object.keys(aiCarCfg).length;
         if(carCount <= 0){
@@ -79,6 +84,11 @@ cc.Class({
     update (dt) {
         if(cc.mainPlayer && cc.mainPlayer.isBroken || this.isBroken === true){
             this.clearTimer += dt;
+            if(this.clearTimer >= 0.6 && this.boomNode.active === false){
+                window.audioMgr.playSound("boom");
+                this.boomNode.active = true;
+                this.boomNode.getComponent(cc.Animation).play("boomAni", 0);
+            }
             if(this.clearTimer >= 0.8){
                 this.mainScene.removeAiCar(this.node);
             }

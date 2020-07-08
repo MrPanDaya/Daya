@@ -17,6 +17,7 @@
                 nitrogn: "nitrogn",
                 pass: "pass",
                 btn: "btn",
+                boom: "boom",
             }
             this.audioList = {};
             this.volume = 0.5;
