@@ -190,6 +190,7 @@ cc.Class({
             return;
         }
         this.isBroken = true;
+        this.startPlay = false;
         cc.carSpeed = 0;
         window.audioMgr.stopSound(cc.soundId.move);
     },

@@ -5,6 +5,7 @@ cc.Class({
         backNode: cc.Node,
         roadPrefab: cc.Prefab,
         carPrefab: cc.Prefab,
+        setMenuPrefab: cc.Prefab,
         carScroll: cc.ScrollView,
         lvlupNode: cc.Node,
         btnOkNode: cc.Node,
@@ -143,4 +144,9 @@ cc.Class({
         }
     },
 
+    onBtnMenu(){
+        window.audioMgr.playSound(cc.soundId.btn);
+        var set_ui_node = cc.instantiate(this.setMenuPrefab);
+        this.node.addChild(set_ui_node);
+    },
 });

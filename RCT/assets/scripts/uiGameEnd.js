@@ -74,6 +74,7 @@ cc.Class({
         cc.director.preloadScene("selRoleScene", function () {
             window.audioMgr.playSound(cc.soundId.btn);
             if (self.node)  self.node.active = false;
+            if(cc.mainPlayer) cc.mainPlayer.startPlay = false;
             cc.director.loadScene("selRoleScene");
         });
     },

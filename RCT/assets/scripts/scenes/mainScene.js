@@ -15,6 +15,7 @@ cc.Class({
         bgArray: [cc.Node],
         roadResList: [cc.Prefab],
         aiCarPrefab: cc.Prefab,
+        setMenuPrefab: cc.Prefab,
         cdProgress: cc.ProgressBar,
     },
 
@@ -199,6 +200,12 @@ cc.Class({
         }
         // 暂停物理系统
         cc.director.getPhysicsManager().enabled = false;
+    },
+
+    onBtnMenu(){
+        window.audioMgr.playSound(cc.soundId.btn);
+        var set_ui_node = cc.instantiate(this.setMenuPrefab);
+        this.node.addChild(set_ui_node);
     },
 
     onBtnTurnLeft(){
