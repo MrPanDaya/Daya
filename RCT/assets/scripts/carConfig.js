@@ -356,4 +356,37 @@
         });
     };
 
+    /*
+        *描述: 截屏 参数单位为微信的canvas单位
+        *参数: x 起点x坐标
+        *参数: y 起点y坐标
+        *参数: w 宽度
+        *参数: h 高度
+        *参数: callback 截屏回调
+    */
+    window.captureScreen = function(x, y, w, h, callback){
+        if (!window.wx) {
+            return
+        }
+        canvas.toTempFilePath({
+            x: x,
+            y: y,
+            width: w,
+            height: h,
+            destWidth: 500,
+            destHeight: 400,
+            complete:function(res) {
+                callback && callback(res);
+            },
+            fail:function(res){
+                console.log("ShareLogic.captureScreen failed:", res);
+                callback && callback(undefined, "截屏失败");
+            }
+        });
+    };
+
+    window.shareByMiniGame = function (params) {
+        params.imageUrl = cc.url.raw('share.jpg');
+        wx.shareAppMessage(params);
+    };
 })();

@@ -49,7 +49,7 @@ cc.Class({
         var cfg = mainCarCfg['car' + this.selId];
         this.labCarName.string = cfg.name || '';
 
-        // ���÷���
+        // 设置分数
         var scoreNode = cc.find("Canvas/top_node/score");
         scoreNode.getComponent(cc.Label).string = cc.LocalData.maxScore || "0";
 
@@ -60,7 +60,7 @@ cc.Class({
         var centerNode = cc.find("Canvas/center_node");
         this.centerPos = centerNode.convertToWorldSpaceAR(cc.v2(0,0));
 
-        // ����ѡ��
+        // 设置选中
         this.selId = cc.LocalData.selectCar || 0;
         this.carScroll.scrollToOffset(cc.v2(240 * this.selId, 0), 0.3);
     },
@@ -68,7 +68,7 @@ cc.Class({
     // update (dt) {},
 
     onTotalMoneyChanged(){
-        // ���ý��
+        // 设置金币
         var goldNode = cc.find("Canvas/top_node/gold");
         goldNode.getComponent(cc.Label).string = cc.LocalData.totalMoney || "0";
     },
@@ -100,7 +100,7 @@ cc.Class({
                         }
                     }
                 }
-                // ѡ�п�
+                // 选中框
                 carSelNode.active = (node.carId === this.selId);
             }
         }
@@ -129,7 +129,7 @@ cc.Class({
                 this.btnOkNode.active = true;
                 this.btnLvlupNode.active = true;
                 this.btnUnlockNode.active = false;
-                // ���½��
+                // 更新金币
                 this.onTotalMoneyChanged();
             }else{
                 console.log("money not enough")
@@ -148,5 +148,12 @@ cc.Class({
         window.audioMgr.playSound(cc.soundId.btn);
         var set_ui_node = cc.instantiate(this.setMenuPrefab);
         this.node.addChild(set_ui_node);
+    },
+
+    onBtnShare(){
+        var args = {};
+        args.title = "这款赛车让我有点小时候的感觉";
+        args.desc = "常常想起小时候的黑白掌机里面的赛车，于是决定自己做一个！哈~";
+        shareByMiniGame(args);
     },
 });

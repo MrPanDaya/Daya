@@ -226,6 +226,12 @@ cc.Class({
         this.ngCDTimer = ngTotalCDTimer;
         cc.mainPlayer && cc.mainPlayer.onUsedNitrogen();
     },
+    onBtnShare(){
+        var args = {};
+        args.title = "我突然想起小时候的黑白掌机";
+        args.desc = "常常想起小时候的黑白掌机里面的赛车，于是决定自己做一个！哈~";
+        shareByMiniGame(args);
+    },
 
     onGameStop(){
         if(cc.mainPlayer){ 
