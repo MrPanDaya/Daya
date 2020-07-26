@@ -1,0 +1,29 @@
+{
+	"AndriodBase": "android_base",
+	"AndroidAdUtils": "android_base",
+	"PermissionUtils": "android_base",
+	"AndroidBaidu": "android",
+	"AndroidBaiduNew": "android",
+	"AndroidHuawei": "android",
+	"AndroidOppo": "android",
+	"AndroidVivo": "android",
+	"AndroidXiaomi": "android",
+	"AndroidYingyongbao": "android",
+	"AndroidZiyunying": "android",
+	"AndroidKuaiShou": "android",
+	
+	"NativeIOSBase": "ios_base",
+	"IOSZiYunYing": "ios",
+	
+	"MiniGameBase": "minigame_base",
+	"QQMiniGame": "minigame",
+	"WXMiniGame": "minigame",
+	
+	"H5Base": "h5_base",
+	"dingding": "h5",
+	"jingdong": "h5",
+	"jiule": "h5",
+	"kayou": "h5",
+	"laiyouxi": "h5",
+	"qieyou": "h5"
+}
