@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # encoding=utf-8
-# 生成 apk 安装包
+# 小游戏打包资源拷贝工具
 
 import os
 import sys
