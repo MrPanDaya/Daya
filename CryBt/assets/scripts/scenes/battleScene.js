@@ -58,14 +58,25 @@ cc.Class({
 
     initWeaponGrid(){
         var weaponGridCfg = this.mapConfig.weaponGrid;
+        this.weaponGirdList = [];
         for(var k in weaponGridCfg){
             var gridPos = weaponGridCfg[k];
             var weaponGrid = cc.instantiate(this.weapon_grid);
             this.weapon_node.addChild(weaponGrid);
             weaponGrid.x = (gridPos.posX - 6) * 64;
             weaponGrid.y = (gridPos.posY - 3) * 64;
-            weaponGrid.getComponent("weapon_grid").initWeaponGrid();
+            var grid = weaponGrid.getComponent("weapon_grid");
+            grid.initWeaponGrid();
+            this.weaponGirdList.push(grid);
         }
-    }
+    },
+
+    onWeaponGridSelected(grid){
+        for(var i = 0, len = this.weaponGirdList.length; i < len; ++i){
+            if(this.weaponGirdList[i] != grid){
+                this.weaponGirdList[i].onWeaponGridUnSel();
+            }
+        }
+    },
 
 });

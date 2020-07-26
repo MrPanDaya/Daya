@@ -836,9 +836,6 @@
       "__id__": 2
     },
     "_enabled": true,
-    "road_node": {
-      "__id__": 8
-    },
     "bag_sprite": {
       "__id__": 6
     },
