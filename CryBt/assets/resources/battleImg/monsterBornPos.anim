@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "monsterBornPos",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.0166666666666666,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "b6827578-c2db-4497-8513-dcef303a28fd"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "2000e322-b99e-474d-b751-2718afa996ac"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "15575710-969d-4db9-9e2b-a35189cff5ff"
+            }
+          },
+          {
+            "frame": 1,
+            "value": {
+              "__uuid__": "1f36a75c-fbd4-43fe-bae7-60682b8f469b"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
