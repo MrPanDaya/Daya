@@ -1,6 +1,8 @@
 (function(){
-    window.weaponCfgList =  {};
+    window.userData = {
 
+    };
+    window.weaponCfgList =  {};
     window.initWeaponCfg = function(){
         var list = [
             {"id":"1011","name":"Weapon1","assertName":"weapon11","backPic":"weaponBg11","normalBtn":"weapon1_Nor","disbaleBtn":"weapon1_Dis","attEffect":"AttEffect01","nextLevelId":"1012","att":"8","buildMoney":"100","dropMoney":"50","attSpeed":"0.9","attRadius":"2","buttleEffect":"buttlEffect011","buttleType":"0","buttleSpeed":"10","buttleAccSpeed":"0","buttleMaxSpeed":"10","buttleRadius":"0","sound":"bullet1.mp3"},

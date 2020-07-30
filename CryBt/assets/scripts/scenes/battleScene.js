@@ -6,6 +6,7 @@ cc.Class({
         road_grid: cc.Prefab,
         weapon_grid: cc.Prefab,
         born_effect: cc.Prefab,
+        weapon_choose: cc.Prefab,
     },
 
     onLoad () {
@@ -15,7 +16,16 @@ cc.Class({
         this.buttle_node = this.node.getChildByName("buttle_node");
         this.weapon_node = this.node.getChildByName("weapon_node");
         this.monster_born_node = this.node.getChildByName("monster_born_node");
-        this.initScene(1000)
+        this.weapon_tips = this.node.getChildByName("weapon_tips");
+        this.weapon_lvup = this.node.getChildByName("weapon_lvup").getComponent("lvup_weapon");
+        this.initUserData();
+        this.initScene(1000);
+    },
+
+    initUserData(){
+        this.data = {
+            money: 500,
+        }
     },
 
     // start () { },
@@ -33,6 +43,8 @@ cc.Class({
         this.initRoad();
         // 武器格子
         this.initWeaponGrid();
+        // 可使用的武器列表
+        this.initBuildWeaponList();
     },
 
     initRoad(){
@@ -71,12 +83,57 @@ cc.Class({
         }
     },
 
+    initBuildWeaponList(){
+        for(var i = 0, len = this.mapConfig.weapon.length; i < len; ++i){
+            var weaponId = this.mapConfig.weapon[i];
+            var weaponCfg = weaponCfgList[weaponId];
+            if(weaponCfg){
+                var chooseWeapon = cc.instantiate(this.weapon_choose);
+                this.weapon_tips.addChild(chooseWeapon);
+                chooseWeapon.getComponent("choose_weapon").initWeapon(i, weaponCfg);
+            }
+        }
+    },
+
     onWeaponGridSelected(grid){
         for(var i = 0, len = this.weaponGirdList.length; i < len; ++i){
             if(this.weaponGirdList[i] != grid){
                 this.weaponGirdList[i].onWeaponGridUnSel();
             }
         }
+    },
+
+    onUnSelect(){
+        this.hideWeaponTips();
+        this.weapon_lvup.node.active = false;
+        if(this.selWeaponGrid){
+            this.selWeaponGrid.onWeaponGridUnSel();
+            this.selWeaponGrid = null;
+        }
+    },
+
+    showWeaponTips(weaponGrid){
+        this.selWeaponGrid = weaponGrid;
+        this.weapon_tips.active = true;
+        this.weapon_tips.x = weaponGrid.node.x + 64;
+        this.weapon_tips.y = weaponGrid.node.y;
+        this.weapon_lvup.node.active = false;
+    },
+
+    hideWeaponTips(){
+        this.weapon_tips.active = false;
+    },
+
+    buildWeapon(weaponId){
+        if(this.selWeaponGrid){
+            this.selWeaponGrid.buildWeapon(weaponId);
+        }
+    },
+
+    showLvupWeaponNode(weaponGrid){
+        this.selWeaponGrid = weaponGrid;
+        this.weapon_lvup.showLvupWeapon(this.selWeaponGrid);
+        this.hideWeaponTips();
     },
 
 });

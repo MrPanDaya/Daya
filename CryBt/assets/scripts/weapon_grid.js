@@ -14,8 +14,9 @@ cc.Class({
     initWeaponGrid(){
         // cc.battleScene.weapon_node;
         // cc.battleScene.buttle_node;
-        this.empty_node.active = false;
         this.weaponId = 0;
+        this.weaponCfg = null;
+        this.empty_node.active = false;
         this.onWeaponGridUnSel();
     },
 
@@ -27,11 +28,10 @@ cc.Class({
             this.weapon_node.active = false;
             this.sel_node.active = true;
             this.sel_node.getComponent(cc.Animation).play("grid_state", 0);
+            cc.battleScene.showWeaponTips(this);
         }else {
-
+            cc.battleScene.showLvupWeaponNode(this);
         }
-
-        // this.buildWeapon(1012 + Math.floor(Math.random()*7) * 10)
     },
 
     onWeaponGridUnSel(){
@@ -43,8 +43,6 @@ cc.Class({
                 this.empty_node.active = true;
                 this.empty_node.getComponent(cc.Animation).play("weaponEmpty", 0);
             }
-        }else{
-
         }
     },
 
@@ -62,5 +60,29 @@ cc.Class({
             self.sel_node.active = false;
             self.empty_node.active = false;
         });
+    },
+
+    buildNextLevel() {
+        if (!this.weaponCfg) return;
+        cc.battleScene.data.money -= 200;
+        if(this.weaponCfg.nextLevelId !== "0"){
+            this.buildWeapon(this.weaponCfg.nextLevelId);
+        }
+    },
+
+    dropWeapon(){
+        this.initWeaponGrid();
+    },
+
+    isMaxLevel(){
+        return (this.weaponCfg && this.weaponCfg.nextLevelId === "0");
+    },
+
+    getNextLvCost(){
+        if(this.weaponCfg && this.weaponCfg.nextLevelId !== "0"){
+            var nextLvCfg = weaponCfgList[this.weaponCfg.nextLevelId];
+            return nextLvCfg.buildMoney;
+        }
+        return "MAX";
     },
 });
