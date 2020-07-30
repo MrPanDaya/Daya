@@ -1,0 +1,49 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "monster_05",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.0166666666666666,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "c2915288-6ac1-43bd-bf91-69ea68fe935f"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "6b0c85ea-046c-4ba3-b96b-14685ef2d24c"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "92490bd2-ba5b-495d-8f76-012fd628e0a2"
+            }
+          },
+          {
+            "frame": 0.75,
+            "value": {
+              "__uuid__": "59ccb67e-4cf6-42bb-9500-14189d870850"
+            }
+          },
+          {
+            "frame": 1,
+            "value": {
+              "__uuid__": "0252bfd7-a8f3-4af3-a83c-44cd92830fd3"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
