@@ -26,7 +26,10 @@ cc.Class({
                 if(this.nextRoadId >= Object.keys(this.roadCfg).length){
                     this.stopMove = true;
                     this.node.active = false;
-                    cc.battleScene.monster_wave.updateWave();
+                    // 还有血量的话，继续下一波
+                    if(cc.battleScene.crystal.decBlood()){
+                        cc.battleScene.monster_wave.updateWave();
+                    }
                 }
             }
         }

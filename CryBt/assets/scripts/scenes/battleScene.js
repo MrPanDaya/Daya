@@ -7,6 +7,7 @@ cc.Class({
         weapon_grid: cc.Prefab,
         born_effect: cc.Prefab,
         weapon_choose: cc.Prefab,
+        crystal_prefab: cc.Prefab,
     },
 
     onLoad () {
@@ -18,6 +19,7 @@ cc.Class({
         this.monster_born_node = this.node.getChildByName("monster_born_node");
         this.weapon_tips = this.node.getChildByName("weapon_tips");
         this.weapon_lvup = this.node.getChildByName("weapon_lvup").getComponent("lvup_weapon");
+        this.battle_ui = this.node.getChildByName("ui_node").getComponent("battle_ui");
         this.initUserData();
         this.initScene(1000);
     },
@@ -26,6 +28,10 @@ cc.Class({
         this.data = {
             money: 500,
         }
+    },
+
+    onGameEnd(){
+        console.log("fail the game end!");
     },
 
     // start () {},
@@ -47,6 +53,8 @@ cc.Class({
         this.initBuildWeaponList();
         // 初始化怪物列表
         this.initMonsterWave();
+        // 设置界面
+        this.initBattleUI();
     },
 
     initRoad(){
@@ -68,6 +76,16 @@ cc.Class({
         this.bornEffect.x = (startGridCfg.posX - 6) * 64;
         this.bornEffect.y = (startGridCfg.posY - 3) * 64;
         this.bornEffect.getComponent(cc.Animation).play("monsterBornPos", 0);
+        // 水晶
+        var endGridCfg = roadCfg[Object.keys(roadCfg).length - 1];
+        if(!this.crystalNode){
+            this.crystalNode = cc.instantiate(this.crystal_prefab);
+            this.monster_born_node.addChild(this.crystalNode);
+        }
+        this.crystalNode.x = (endGridCfg.posX - 6) * 64;
+        this.crystalNode.y = (endGridCfg.posY - 3) * 64;
+        this.crystal = this.crystalNode.getComponent("crystalAi");
+        this.crystal.initCrystal(1);
     },
 
     initWeaponGrid(){
@@ -100,6 +118,15 @@ cc.Class({
     initMonsterWave(){
         this.monster_wave.initConfig(this.mapConfig.monsterWave);
         this.monster_wave.startGame(this.mapConfig.roadGrid);
+    },
+
+    initBattleUI(){
+        this.battle_ui.crystal_num.string = this.mapConfig.startMoney;
+        this.battle_ui.total_wave.string = Object.keys(this.mapConfig.monsterWave).length;
+    },
+
+    setCurWave(waveId){
+        this.battle_ui.cur_wave.string = waveId;
     },
 
     onWeaponGridSelected(grid){

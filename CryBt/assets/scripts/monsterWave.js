@@ -41,9 +41,10 @@ cc.Class({
         this.waveId += 1;
         var waveCfg = this.monsterWaveCfg[this.waveId - 1];
         if (!waveCfg) {
-            console.log("the game end !");
+            console.log("success the game end !");
             return;
         }
+        cc.battleScene.setCurWave(this.waveId);
         this.monsterList = [];
         for (var i = waveCfg.length - 1; i >= 0; --i) {
             var monsterId = waveCfg[i];
