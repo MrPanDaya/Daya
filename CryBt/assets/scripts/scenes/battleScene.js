@@ -12,7 +12,7 @@ cc.Class({
     onLoad () {
         cc.battleScene = this;
         this.road_node = this.node.getChildByName("road_node");
-        this.monster_node = this.node.getChildByName("monster_node");
+        this.monster_wave = this.node.getChildByName("monster_node").getComponent("monsterWave");
         this.buttle_node = this.node.getChildByName("buttle_node");
         this.weapon_node = this.node.getChildByName("weapon_node");
         this.monster_born_node = this.node.getChildByName("monster_born_node");
@@ -28,7 +28,7 @@ cc.Class({
         }
     },
 
-    // start () { },
+    // start () {},
     // update (dt) {},
 
     initScene(sceneId){
@@ -45,6 +45,8 @@ cc.Class({
         this.initWeaponGrid();
         // 可使用的武器列表
         this.initBuildWeaponList();
+        // 初始化怪物列表
+        this.initMonsterWave();
     },
 
     initRoad(){
@@ -93,6 +95,11 @@ cc.Class({
                 chooseWeapon.getComponent("choose_weapon").initWeapon(i, weaponCfg);
             }
         }
+    },
+
+    initMonsterWave(){
+        this.monster_wave.initConfig(this.mapConfig.monsterWave);
+        this.monster_wave.startGame(this.mapConfig.roadGrid);
     },
 
     onWeaponGridSelected(grid){
