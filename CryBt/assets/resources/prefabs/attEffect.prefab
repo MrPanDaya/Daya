@@ -13,15 +13,189 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "monster",
+    "_name": "attEffect",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
       {
         "__id__": 2
+      },
+      {
+        "__id__": 5
       }
     ],
     "_active": true,
+    "_components": [
+      {
+        "__id__": 8
+      }
+    ],
+    "_prefab": {
+      "__id__": 9
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 64,
+      "height": 64
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float32Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "effect1",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 3
+      }
+    ],
+    "_prefab": {
+      "__id__": 4
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 64,
+      "height": 64
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float32Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "5ef96b02-e253-4497-8afb-565a2b2418a5"
+    },
+    "_type": 0,
+    "_sizeMode": 2,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": false,
+    "_atlas": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "cf3a767b-2691-4646-87c3-b89d9ed8c3f4"
+    },
+    "fileId": "24ilwFj4BNWrUBwWNvVgA6",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "effect2",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": false,
     "_components": [
       {
         "__id__": 6
@@ -78,99 +252,25 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Node",
-    "_name": "monsterAni",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 3
-      },
-      {
-        "__id__": 4
-      }
-    ],
-    "_prefab": {
-      "__id__": 5
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 128,
-      "height": 128
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float32Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0.5,
-        0.5,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "_defaultClip": null,
-    "_clips": [],
-    "playOnLoad": false,
-    "_id": ""
-  },
-  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 2
+      "__id__": 5
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": null,
+    "_spriteFrame": {
+      "__uuid__": "a19c0da6-2d2c-43c7-99c9-25fc0db2fc94"
+    },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 2,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -179,10 +279,8 @@
     },
     "_fillStart": 0,
     "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "fd6f30bd-ca9d-48da-9c1d-5c35ce8ccbc2"
-    },
+    "_isTrimmedMode": false,
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -191,21 +289,24 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9450ed47-7056-4586-9b2e-888939bebf91"
+      "__uuid__": "cf3a767b-2691-4646-87c3-b89d9ed8c3f4"
     },
-    "fileId": "4e0PbmeRFMhJW7l15q6E+1",
+    "fileId": "f78pyrXqlHIJxkWIOzyWKR",
     "sync": false
   },
   {
-    "__type__": "7552fOqpMVPUrN5u2Mf4QNo",
+    "__type__": "c6222Ty6sVP1I1AZvjlXlNJ",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "monsterNode": {
-      "__id__": 2
+    "effect1": {
+      "__id__": 3
+    },
+    "effect2": {
+      "__id__": 6
     },
     "_id": ""
   },
@@ -215,9 +316,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9450ed47-7056-4586-9b2e-888939bebf91"
+      "__uuid__": "cf3a767b-2691-4646-87c3-b89d9ed8c3f4"
     },
-    "fileId": "07js84fS9G45+OJsU2rPPV",
+    "fileId": "70KkftzBNAS6bTcVjoTHZA",
     "sync": false
   }
 ]

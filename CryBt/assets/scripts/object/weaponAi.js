@@ -16,9 +16,9 @@ cc.Class({
                 var dir = monsterPos.sub(pos);
                 var ang = Math.acos(dir.x/Math.sqrt(dir.x*dir.x + dir.y*dir.y))*(180/Math.PI);
                 if (dir.y < 0) {
-                    this.weapon_node.angle = -ang + 90;
+                    this.weapon.node.angle = -ang + 90;
                 } else {
-                    this.weapon_node.angle = ang + 90;
+                    this.weapon.node.angle = ang + 90;
                 }
                 // 发射子弹
                 this.updateToFire(dt);

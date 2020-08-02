@@ -3467,6 +3467,9 @@
     "bullet_prefab": {
       "__uuid__": "179f2bb5-1fe2-4c01-a193-3d8ed30b7d76"
     },
+    "attEffect_prefab": {
+      "__uuid__": "cf3a767b-2691-4646-87c3-b89d9ed8c3f4"
+    },
     "_id": "7dn6QcHWtD6730yLp3iTXu"
   }
 ]

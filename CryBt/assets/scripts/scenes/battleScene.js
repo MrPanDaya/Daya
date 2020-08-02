@@ -9,6 +9,7 @@ cc.Class({
         weapon_choose: cc.Prefab,
         crystal_prefab: cc.Prefab,
         bullet_prefab: cc.Prefab,
+        attEffect_prefab: cc.Prefab,
     },
 
     onLoad () {
@@ -58,6 +59,8 @@ cc.Class({
         this.initBattleUI();
         // 初始化子弹内存池
         this.initBulletPool();
+        // 初始化子弹特效池
+        this.initBulletEffectPool();
     },
 
     initRoad(){
@@ -123,16 +126,6 @@ cc.Class({
         this.monster_wave.startGame(this.mapConfig.roadGrid);
     },
 
-    initBulletPool(){
-        this.bulletPool = [];
-        for(var i = 0; i < 3; ++i){
-            var bulletNode = cc.instantiate(this.bullet_prefab);
-            bulletNode.active = false;
-            this.bullet_node.addChild(bulletNode);
-            this.bulletPool.push(bulletNode);
-        }
-    },
-
     initBattleUI(){
         this.battle_ui.crystal_num.string = this.mapConfig.startMoney;
         this.battle_ui.total_wave.string = Object.keys(this.mapConfig.monsterWave).length;
@@ -183,6 +176,15 @@ cc.Class({
         this.hideWeaponTips();
     },
 
+    initBulletPool(){
+        this.bulletPool = [];
+        for(var i = 0; i < 3; ++i){
+            var bulletNode = cc.instantiate(this.bullet_prefab);
+            bulletNode.active = false;
+            this.bullet_node.addChild(bulletNode);
+            this.bulletPool.push(bulletNode);
+        }
+    },
     getBullet(){
         var bulletNode = null;
         if(this.bulletPool.length > 0){
@@ -196,6 +198,29 @@ cc.Class({
     backBullet(bulletNode){
         bulletNode.active = false;
         this.bulletPool.push(bulletNode);
+    },
+
+    initBulletEffectPool(){
+        this.bulletEffectPool = [];
+        for(var i = 0; i < 10; ++i){
+            var bulletEffNode = cc.instantiate(this.attEffect_prefab);
+            bulletEffNode.active = false;
+            this.bulletEffectPool.push(bulletEffNode);
+        }
+    },
+    getBulletEffect(){
+        var bulletEffNode = null;
+        if(this.bulletEffectPool.length > 0){
+            bulletEffNode = this.bulletEffectPool.shift();
+        }else{
+            bulletEffNode = cc.instantiate(this.attEffect_prefab);
+        }
+        return bulletEffNode;
+    },
+    backBulletEffect(bulletEffNode){
+        bulletEffNode.active = false;
+        bulletEffNode.removeFromParent(false);
+        this.bulletEffectPool.push(bulletEffNode);
     },
 
 });

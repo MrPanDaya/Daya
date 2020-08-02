@@ -39,7 +39,7 @@ cc.Class({
 
         this.node.x = weapon.node.x;
         this.node.y = weapon.node.y;
-        this.node.angle = weapon.weapon_node.angle;
+        this.node.angle = weapon.weapon.node.angle;
         this.node.getComponent(cc.Sprite).spriteFrame = weapon.buttlePic;
         this.node.active = true;
     },

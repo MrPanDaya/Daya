@@ -2,9 +2,10 @@
 cc.Class({
     extends: cc.Component,
     properties: {
+        monsterNode: cc.Node,
     },
     onLoad () {
-        this.oldScale = this.node.scale;
+        this.oldScale = this.monsterNode.scale;
         this.node.active = false;
     },
     // start () {},
@@ -36,12 +37,12 @@ cc.Class({
         }
     },
     initMonster(monsterCfg){
-        this.node.scale = this.oldScale * checkNum(monsterCfg.scale);
+        this.monsterNode.scale = this.oldScale * checkNum(monsterCfg.scale);
         this.monsterCfg = monsterCfg;
-        var action = this.node.getComponent(cc.Animation);
+        var action = this.monsterNode.getComponent(cc.Animation);
         cc.loader.loadRes("monster/" + this.monsterCfg.assert, cc.SpriteAtlas, function (err, alt) {
             var clip = cc.AnimationClip.createWithSpriteFrames(alt.getSpriteFrames(), 5);
-            clip.name = "m_run"
+            clip.name = "m_run";
             clip.wrapMode = cc.WrapMode.Loop;
             action.addClip(clip);
             action.play("m_run", 0);
@@ -61,7 +62,10 @@ cc.Class({
         this.node.removeFromParent();
     },
     onAttected(weaponCfg){
-
+        var effect = cc.battleScene.getBulletEffect();
+        this.node.addChild(effect);
+        effect.active = true;
+        effect.getComponent("attEffect").playBulletEffect(weaponCfg.attEffect);
     },
     getNextPos(){
         return cc.v2((this.roadCfg[this.nextRoadId].posX - 6) * 64, (this.roadCfg[this.nextRoadId].posY - 3) * 64);
