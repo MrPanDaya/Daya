@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "choose_weapon",
+    "_name": "weaponSel",
     "_objFlags": 0,
     "_parent": null,
     "_children": [

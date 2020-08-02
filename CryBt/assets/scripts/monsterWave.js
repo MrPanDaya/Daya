@@ -52,7 +52,6 @@ cc.Class({
             for (var j = monsterCfg.num - 1; j >= 0; --j) {
                 var monsterNode = cc.instantiate(this.monsterPrefab);
                 this.node.addChild(monsterNode);
-                monsterNode.active = false;
                 var monster = monsterNode.getComponent("monsterAi");
                 monster.initMonster(monsterCfg);
                 this.monsterList.push(monster);
@@ -66,6 +65,16 @@ cc.Class({
             this.monsterList[len - index].startMove(this.roadCfg);
         }.bind(this))
         this.node.runAction(cc.sequence(del, callFun).repeat(this.monsterList.length));
-    }
+    },
+
+    getFireMonster(weapon){
+        // for(var i = 0, len = this.monsterList.length; i < len; ++i){
+        //     var monster = this.monsterList[i];
+        //     if(monster && monster.node.active){
+        //
+        //     }
+        // }
+        return null;
+    },
 
 });

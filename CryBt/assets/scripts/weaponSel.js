@@ -21,7 +21,7 @@ cc.Class({
     },
 
     onSelected(){
-        console.log("build " + this.weaponCfg.id);
+        // console.log("build " + this.weaponCfg.id);
         cc.battleScene.buildWeapon(this.weaponCfg.id);
         cc.battleScene.hideWeaponTips();
     },

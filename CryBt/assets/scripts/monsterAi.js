@@ -5,6 +5,7 @@ cc.Class({
     },
     onLoad () {
         this.oldScale = this.node.scale;
+        this.node.active = false;
     },
     // start () {},
     update (dt) {
@@ -59,7 +60,6 @@ cc.Class({
         this.roadCfg = null;
         this.node.removeFromParent();
     },
-
     getNextPos(){
         return cc.v2((this.roadCfg[this.nextRoadId].posX - 6) * 64, (this.roadCfg[this.nextRoadId].posY - 3) * 64);
     },

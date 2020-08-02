@@ -3413,6 +3413,12 @@
     "cur_wave": {
       "__id__": 74
     },
+    "one_speed": {
+      "__id__": 50
+    },
+    "double_speed": {
+      "__id__": 52
+    },
     "_id": "4bjWCu6OJOFZW1e+D8VHIi"
   },
   {
@@ -3446,7 +3452,7 @@
     "road_grid": {
       "__uuid__": "eea4132c-184b-4a79-a54c-c9da0cf63572"
     },
-    "weapon_grid": {
+    "weapon_prefab": {
       "__uuid__": "a6e2b522-8dfe-4d4f-b2de-8dc2bfb1093b"
     },
     "born_effect": {

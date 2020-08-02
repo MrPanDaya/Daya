@@ -24,34 +24,34 @@ cc.Class({
     },
 
     showLvupWeapon(selWeapon){
-        this.selWeaponGrid = selWeapon;
+        this.selWeapon = selWeapon;
         if(selWeapon){
             this.node.active = true;
 
-            this.node.x = this.selWeaponGrid.node.x;
-            this.node.y = this.selWeaponGrid.node.y;
-            this.node.width = this.sWidth * this.selWeaponGrid.weaponCfg.attRadius;
-            this.node.height = this.sHeight * this.selWeaponGrid.weaponCfg.attRadius;
+            this.node.x = this.selWeapon.node.x;
+            this.node.y = this.selWeapon.node.y;
+            this.node.width = this.sWidth * this.selWeapon.weaponCfg.attRadius;
+            this.node.height = this.sHeight * this.selWeapon.weaponCfg.attRadius;
             this.node.active = true;
 
-            this.btnLvup.interactable = !this.selWeaponGrid.isMaxLevel();
-            this.lvupText.string = this.selWeaponGrid.getNextLvCost();
-            this.dropText.string = this.selWeaponGrid.weaponCfg.dropMoney;
+            this.btnLvup.interactable = !this.selWeapon.isMaxLevel();
+            this.lvupText.string = this.selWeapon.getNextLvCost();
+            this.dropText.string = this.selWeapon.weaponCfg.dropMoney;
 
             this.lvupText.color = cc.battleScene.data.money > 100 ? this.tmpColor : cc.color(255,0,0,255);
         }
     },
 
     onBtnLvup(){
-        if(this.selWeaponGrid){
-            this.selWeaponGrid.buildNextLevel();
+        if(this.selWeapon){
+            this.selWeapon.buildNextLevel();
         }
         this.node.active = false;
     },
 
     onBtnDrop(){
-        if(this.selWeaponGrid){
-            this.selWeaponGrid.dropWeapon();
+        if(this.selWeapon){
+            this.selWeapon.dropWeapon();
         }
         this.node.active = false;
     },

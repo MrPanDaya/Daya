@@ -4,7 +4,7 @@ cc.Class({
     properties: {
         bag_sprite: cc.Sprite,
         road_grid: cc.Prefab,
-        weapon_grid: cc.Prefab,
+        weapon_prefab: cc.Prefab,
         born_effect: cc.Prefab,
         weapon_choose: cc.Prefab,
         crystal_prefab: cc.Prefab,
@@ -48,7 +48,7 @@ cc.Class({
         // 道路
         this.initRoad();
         // 武器格子
-        this.initWeaponGrid();
+        this.initWeapon();
         // 可使用的武器列表
         this.initBuildWeaponList();
         // 初始化怪物列表
@@ -88,18 +88,18 @@ cc.Class({
         this.crystal.initCrystal(1);
     },
 
-    initWeaponGrid(){
+    initWeapon(){
         var weaponGridCfg = this.mapConfig.weaponGrid;
-        this.weaponGirdList = [];
+        this.weaponList = [];
         for(var k in weaponGridCfg){
             var gridPos = weaponGridCfg[k];
-            var weaponGrid = cc.instantiate(this.weapon_grid);
-            this.weapon_node.addChild(weaponGrid);
-            weaponGrid.x = (gridPos.posX - 6) * 64;
-            weaponGrid.y = (gridPos.posY - 3) * 64;
-            var grid = weaponGrid.getComponent("weapon_grid");
-            grid.initWeaponGrid();
-            this.weaponGirdList.push(grid);
+            var weapon = cc.instantiate(this.weapon_prefab);
+            this.weapon_node.addChild(weapon);
+            weapon.x = (gridPos.posX - 6) * 64;
+            weapon.y = (gridPos.posY - 3) * 64;
+            var weaponAi = weapon.getComponent("weaponAi");
+            weaponAi.initWeapon();
+            this.weaponList.push(weaponAi);
         }
     },
 
@@ -110,7 +110,7 @@ cc.Class({
             if(weaponCfg){
                 var chooseWeapon = cc.instantiate(this.weapon_choose);
                 this.weapon_tips.addChild(chooseWeapon);
-                chooseWeapon.getComponent("choose_weapon").initWeapon(i, weaponCfg);
+                chooseWeapon.getComponent("weaponSel").initWeapon(i, weaponCfg);
             }
         }
     },
@@ -129,10 +129,10 @@ cc.Class({
         this.battle_ui.cur_wave.string = waveId;
     },
 
-    onWeaponGridSelected(grid){
-        for(var i = 0, len = this.weaponGirdList.length; i < len; ++i){
-            if(this.weaponGirdList[i] != grid){
-                this.weaponGirdList[i].onWeaponGridUnSel();
+    onWeaponSelected(grid){
+        for(var i = 0, len = this.weaponList.length; i < len; ++i){
+            if(this.weaponList[i] != grid){
+                this.weaponList[i].onWeaponUnSel();
             }
         }
     },
@@ -140,17 +140,17 @@ cc.Class({
     onUnSelect(){
         this.hideWeaponTips();
         this.weapon_lvup.node.active = false;
-        if(this.selWeaponGrid){
-            this.selWeaponGrid.onWeaponGridUnSel();
-            this.selWeaponGrid = null;
+        if(this.selWeapon){
+            this.selWeapon.onWeaponUnSel();
+            this.selWeapon = null;
         }
     },
 
-    showWeaponTips(weaponGrid){
-        this.selWeaponGrid = weaponGrid;
+    showWeaponTips(weapon){
+        this.selWeapon = weapon;
         this.weapon_tips.active = true;
-        this.weapon_tips.x = weaponGrid.node.x + 64;
-        this.weapon_tips.y = weaponGrid.node.y;
+        this.weapon_tips.x = weapon.node.x + 64;
+        this.weapon_tips.y = weapon.node.y;
         this.weapon_lvup.node.active = false;
     },
 
@@ -159,14 +159,14 @@ cc.Class({
     },
 
     buildWeapon(weaponId){
-        if(this.selWeaponGrid){
-            this.selWeaponGrid.buildWeapon(weaponId);
+        if(this.selWeapon){
+            this.selWeapon.buildWeapon(weaponId);
         }
     },
 
-    showLvupWeaponNode(weaponGrid){
-        this.selWeaponGrid = weaponGrid;
-        this.weapon_lvup.showLvupWeapon(this.selWeaponGrid);
+    showLvupWeaponNode(weapon){
+        this.selWeapon = weapon;
+        this.weapon_lvup.showLvupWeapon(this.selWeapon);
         this.hideWeaponTips();
     },
 

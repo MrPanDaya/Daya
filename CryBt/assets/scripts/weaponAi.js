@@ -7,21 +7,20 @@ cc.Class({
         weapon_node: cc.Node,
         weapon: cc.Sprite
     },
-    // onLoad () {},
-    // start () {},
-    // update (dt) {},
 
-    initWeaponGrid(){
-        // cc.battleScene.weapon_node;
-        // cc.battleScene.buttle_node;
+    update (dt) {
+        var fireMonster = cc.battleScene.monster_wave.getFireMonster(this);
+    },
+
+    initWeapon(){
         this.weaponId = 0;
         this.weaponCfg = null;
         this.empty_node.active = false;
-        this.onWeaponGridUnSel();
+        this.onWeaponUnSel();
     },
 
     onWeaponGirdSel(){
-        cc.battleScene.onWeaponGridSelected(this);
+        cc.battleScene.onWeaponSelected(this);
         this.selected = true;
         if(!this.weaponId){
             this.empty_node.active = false;
@@ -34,7 +33,7 @@ cc.Class({
         }
     },
 
-    onWeaponGridUnSel(){
+    onWeaponUnSel(){
         this.selected = false;
         if(!this.weaponId){
             this.sel_node.active = false;
@@ -47,7 +46,7 @@ cc.Class({
     },
 
     buildWeapon(weaponId){
-        console.log("build weapon:" + weaponId);
+        // console.log("build weapon:" + weaponId);
         this.weaponId = weaponId;
         this.weaponCfg = weaponCfgList[weaponId+""];
         var self = this;
@@ -71,7 +70,7 @@ cc.Class({
     },
 
     dropWeapon(){
-        this.initWeaponGrid();
+        this.initWeapon();
     },
 
     isMaxLevel(){
