@@ -485,6 +485,9 @@
       "__id__": 1
     },
     "_enabled": true,
+    "deathEff_prefab": {
+      "__uuid__": "5caf2947-ac3a-4bb7-8ac3-e432e501e943"
+    },
     "monsterNode": {
       "__id__": 2
     },

@@ -2,6 +2,7 @@
 cc.Class({
     extends: cc.Component,
     properties: {
+        deathEff_prefab: cc.Prefab,
         monsterNode: cc.Node,
         hpNode: cc.Node,
         hpPicNode: cc.Node,
@@ -66,7 +67,15 @@ cc.Class({
     onDeath(){
         this.roadCfg = null;
         cc.battleScene.onMonsterDeath();
-        this.node.removeFromParent();
+
+        this.hpNode.active = false;
+        var deathAniNode = cc.instantiate(this.deathEff_prefab);
+        this.node.addChild(deathAniNode);
+        var deathAni = deathAniNode.getComponent(cc.Animation);
+        deathAni.on('finished', function () {
+            this.node.removeFromParent();
+        }.bind(this));
+        deathAni.play("deathEffect", 0);
     },
     onAttected(weaponCfg){
         this.hpNode.active = true;
