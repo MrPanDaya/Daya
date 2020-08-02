@@ -68,13 +68,22 @@ cc.Class({
     },
 
     getFireMonster(weapon){
-        // for(var i = 0, len = this.monsterList.length; i < len; ++i){
-        //     var monster = this.monsterList[i];
-        //     if(monster && monster.node.active){
-        //
-        //     }
-        // }
-        return null;
+        if(!this.monsterList || !weapon) return null;
+        var selMonster = null;
+        for(var i = 0, len = this.monsterList.length; i < len; ++i){
+            var monster = this.monsterList[i];
+            if(monster && monster.node.active){
+                var weaponPos = cc.v2(weapon.node.x, weapon.node.y);
+                var monsterPos = cc.v2(monster.node.x, monster.node.y);
+                var dis = weaponPos.sub(monsterPos).mag();
+                if(dis < weapon.weaponCfg.attRadius * 64){
+                    if(!selMonster || selMonster.nextRoadId < monster.nextRoadId){
+                        selMonster = monster;
+                    }
+                }
+            }
+        }
+        return selMonster;
     },
 
 });

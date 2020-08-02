@@ -9,7 +9,20 @@ cc.Class({
     },
 
     update (dt) {
-        var fireMonster = cc.battleScene.monster_wave.getFireMonster(this);
+        if(this.weaponCfg){
+            var fireMonster = cc.battleScene.monster_wave.getFireMonster(this);
+            if (fireMonster) {
+                var monsterPos = cc.v2(fireMonster.node.x, fireMonster.node.y);
+                var pos = cc.v2(this.node.x, this.node.y);
+                var dir = monsterPos.sub(pos);
+                var ang = Math.acos(dir.x/Math.sqrt(dir.x*dir.x + dir.y*dir.y))*(180/Math.PI);
+                if(dir.y < 0){
+                    this.weapon_node.angle = -ang+90;
+                }else{
+                    this.weapon_node.angle = ang+90;
+                }
+            }
+        }
     },
 
     initWeapon(){
