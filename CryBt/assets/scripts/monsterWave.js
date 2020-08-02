@@ -21,22 +21,6 @@ cc.Class({
         this.startNextWave();
     },
 
-    updateWave(){
-        if(this.gameEnd){
-            return;
-        }
-        var bWeaveEnd = true;
-        for(var i = 0; i < this.monsterList.length; ++i){
-            if(!this.monsterList[i].stopMove){
-                bWeaveEnd = false;
-                return;
-            }
-        }
-        if(bWeaveEnd){
-            this.startNextWave();
-        }
-    },
-
     startNextWave(){
         this.waveId += 1;
         var waveCfg = this.monsterWaveCfg[this.waveId - 1];
@@ -58,10 +42,10 @@ cc.Class({
             }
         }
         var index = 0;
+        var len = this.monsterList.length;
         var del = cc.delayTime(1.2);
         var callFun = cc.callFunc(function () {
             index++;
-            var len = this.monsterList.length;
             this.monsterList[len - index].startMove(this.roadCfg);
         }.bind(this))
         this.node.runAction(cc.sequence(del, callFun).repeat(this.monsterList.length));
@@ -72,7 +56,7 @@ cc.Class({
         var selMonster = null;
         for(var i = 0, len = this.monsterList.length; i < len; ++i){
             var monster = this.monsterList[i];
-            if(monster && monster.node.active){
+            if(monster && monster.monsterHp > 0 && monster.node.active){
                 var weaponPos = cc.v2(weapon.node.x, weapon.node.y);
                 var monsterPos = cc.v2(monster.node.x, monster.node.y);
                 var dis = weaponPos.sub(monsterPos).mag();
@@ -84,6 +68,20 @@ cc.Class({
             }
         }
         return selMonster;
+    },
+
+    checkMonster(){
+        var isAllDeath = true;
+        for(var i = 0; i < this.monsterList.length; ++i){
+            if(this.monsterList[i].monsterHp > 0){
+                isAllDeath = false;
+                break;
+            }
+        }
+        // 下一波
+        if(isAllDeath){
+            this.startNextWave();
+        }
     },
 
 });

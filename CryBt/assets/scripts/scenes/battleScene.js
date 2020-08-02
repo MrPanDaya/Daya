@@ -176,6 +176,10 @@ cc.Class({
         this.hideWeaponTips();
     },
 
+    onMonsterDeath(){
+        this.monster_wave.checkMonster();
+    },
+
     initBulletPool(){
         this.bulletPool = [];
         for(var i = 0; i < 3; ++i){

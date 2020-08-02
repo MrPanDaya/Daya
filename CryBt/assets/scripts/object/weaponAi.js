@@ -9,28 +9,24 @@ cc.Class({
     },
     update (dt) {
         if(this.weaponCfg){
-            this.flowMonster = cc.battleScene.monster_wave.getFireMonster(this);
-            if (this.flowMonster) {
-                var monsterPos = cc.v2(this.flowMonster.node.x, this.flowMonster.node.y);
-                var pos = cc.v2(this.node.x, this.node.y);
-                var dir = monsterPos.sub(pos);
-                var ang = Math.acos(dir.x/Math.sqrt(dir.x*dir.x + dir.y*dir.y))*(180/Math.PI);
-                if (dir.y < 0) {
-                    this.weapon.node.angle = -ang + 90;
-                } else {
-                    this.weapon.node.angle = ang + 90;
+            this.fireTimer += dt;
+            if(this.fireTimer >= checkNum(this.weaponCfg.attSpeed)){
+                this.fireTimer = 0;
+                this.flowMonster = cc.battleScene.monster_wave.getFireMonster(this);
+                if (this.flowMonster) {
+                    var monsterPos = cc.v2(this.flowMonster.node.x, this.flowMonster.node.y);
+                    var pos = cc.v2(this.node.x, this.node.y);
+                    var dir = monsterPos.sub(pos);
+                    var ang = Math.acos(dir.x/Math.sqrt(dir.x*dir.x + dir.y*dir.y))*(180/Math.PI);
+                    if (dir.y < 0) {
+                        this.weapon.node.angle = -ang + 90;
+                    } else {
+                        this.weapon.node.angle = ang + 90;
+                    }
+                    // 发射子弹
+                    cc.battleScene.getBullet().initButtle(this, this.flowMonster);
                 }
-                // 发射子弹
-                this.updateToFire(dt);
             }
-        }
-    },
-
-    updateToFire(dt){
-        this.fireTimer += dt;
-        if(this.fireTimer >= checkNum(this.weaponCfg.attSpeed)){
-            this.fireTimer = 0;
-            cc.battleScene.getBullet().initButtle(this, this.flowMonster);
         }
     },
 

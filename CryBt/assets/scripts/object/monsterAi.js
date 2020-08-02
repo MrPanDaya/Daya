@@ -3,6 +3,8 @@ cc.Class({
     extends: cc.Component,
     properties: {
         monsterNode: cc.Node,
+        hpNode: cc.Node,
+        hpPicNode: cc.Node,
     },
     onLoad () {
         this.oldScale = this.monsterNode.scale;
@@ -30,7 +32,7 @@ cc.Class({
                     this.node.active = false;
                     // 还有血量的话，继续下一波
                     if(cc.battleScene.crystal.decBlood()){
-                        cc.battleScene.monster_wave.updateWave();
+                        cc.battleScene.monster_wave.startNextWave();
                     }
                 }
             }
@@ -39,6 +41,10 @@ cc.Class({
     initMonster(monsterCfg){
         this.monsterNode.scale = this.oldScale * checkNum(monsterCfg.scale);
         this.monsterCfg = monsterCfg;
+        this.maxHp = checkNum(this.monsterCfg.maxHp);
+        this.monsterHp = this.maxHp;
+        this.hpNode.active = false;
+        this.hpPicNode.scaleX = 1;
         var action = this.monsterNode.getComponent(cc.Animation);
         cc.loader.loadRes("monster/" + this.monsterCfg.assert, cc.SpriteAtlas, function (err, alt) {
             var clip = cc.AnimationClip.createWithSpriteFrames(alt.getSpriteFrames(), 5);
@@ -59,9 +65,20 @@ cc.Class({
     },
     onDeath(){
         this.roadCfg = null;
+        cc.battleScene.onMonsterDeath();
         this.node.removeFromParent();
     },
     onAttected(weaponCfg){
+        this.hpNode.active = true;
+        var att = checkNum(weaponCfg.att);
+        this.monsterHp -= att;
+        if(this.monsterHp <= 0){
+            this.monsterHp = 0;
+            this.onDeath();
+        }
+        var percent = this.monsterHp/this.maxHp;
+        this.hpPicNode.scaleX = percent;
+
         var effect = cc.battleScene.getBulletEffect();
         this.node.addChild(effect);
         effect.active = true;
