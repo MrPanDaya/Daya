@@ -13,7 +13,7 @@ cc.Class({
             var nexPos = this.getNextPos();
             var dir = nexPos.sub(cc.v2(this.node.x, this.node.y));
             dir = dir.normalize();
-            dir.mulSelf(dt * checkNum(this.monsterCfg.maxSpeed * 64));
+            dir.mulSelf(dt * checkNum(this.monsterCfg.maxSpeed) * 64);
             this.node.x += dir.x;
             this.node.y += dir.y;
             if(dir.x > 0 && this.node.x >= nexPos.x || dir.x < 0 && this.node.x <= nexPos.x){
@@ -59,6 +59,9 @@ cc.Class({
     onDeath(){
         this.roadCfg = null;
         this.node.removeFromParent();
+    },
+    onAttected(weaponCfg){
+
     },
     getNextPos(){
         return cc.v2((this.roadCfg[this.nextRoadId].posX - 6) * 64, (this.roadCfg[this.nextRoadId].posY - 3) * 64);

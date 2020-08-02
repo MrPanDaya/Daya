@@ -34,6 +34,7 @@ cc.Class({
         }
         this.bloodSprite.spriteFrame = this.bloodPicList[this.crystalHp];
 
+        return true;
         return this.crystalHp > 0;
     },
 });

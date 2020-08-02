@@ -5,23 +5,32 @@ cc.Class({
         empty_node: cc.Node,
         sel_node: cc.Node,
         weapon_node: cc.Node,
-        weapon: cc.Sprite
+        weapon: cc.Sprite,
     },
-
     update (dt) {
         if(this.weaponCfg){
-            var fireMonster = cc.battleScene.monster_wave.getFireMonster(this);
-            if (fireMonster) {
-                var monsterPos = cc.v2(fireMonster.node.x, fireMonster.node.y);
+            this.flowMonster = cc.battleScene.monster_wave.getFireMonster(this);
+            if (this.flowMonster) {
+                var monsterPos = cc.v2(this.flowMonster.node.x, this.flowMonster.node.y);
                 var pos = cc.v2(this.node.x, this.node.y);
                 var dir = monsterPos.sub(pos);
                 var ang = Math.acos(dir.x/Math.sqrt(dir.x*dir.x + dir.y*dir.y))*(180/Math.PI);
-                if(dir.y < 0){
-                    this.weapon_node.angle = -ang+90;
-                }else{
-                    this.weapon_node.angle = ang+90;
+                if (dir.y < 0) {
+                    this.weapon_node.angle = -ang + 90;
+                } else {
+                    this.weapon_node.angle = ang + 90;
                 }
+                // 发射子弹
+                this.updateToFire(dt);
             }
+        }
+    },
+
+    updateToFire(dt){
+        this.fireTimer += dt;
+        if(this.fireTimer >= checkNum(this.weaponCfg.attSpeed)){
+            this.fireTimer = 0;
+            cc.battleScene.getBullet().initButtle(this, this.flowMonster);
         }
     },
 
@@ -29,6 +38,7 @@ cc.Class({
         this.weaponId = 0;
         this.weaponCfg = null;
         this.empty_node.active = false;
+        this.fireTimer = 0;
         this.onWeaponUnSel();
     },
 
@@ -71,6 +81,9 @@ cc.Class({
             self.weapon_node.active = true;
             self.sel_node.active = false;
             self.empty_node.active = false;
+        });
+        cc.loader.loadRes("battleImg/" + this.weaponCfg.buttleEffect, cc.SpriteFrame, function (err, spriteFrame) {
+            self.buttlePic = spriteFrame;
         });
     },
 

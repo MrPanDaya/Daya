@@ -578,6 +578,9 @@
     "weapon": {
       "__id__": 12
     },
+    "buttle_prefab": {
+      "__uuid__": "179f2bb5-1fe2-4c01-a193-3d8ed30b7d76"
+    },
     "_id": ""
   },
   {

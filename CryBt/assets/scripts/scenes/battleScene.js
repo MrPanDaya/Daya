@@ -8,13 +8,14 @@ cc.Class({
         born_effect: cc.Prefab,
         weapon_choose: cc.Prefab,
         crystal_prefab: cc.Prefab,
+        bullet_prefab: cc.Prefab,
     },
 
     onLoad () {
         cc.battleScene = this;
         this.road_node = this.node.getChildByName("road_node");
         this.monster_wave = this.node.getChildByName("monster_node").getComponent("monsterWave");
-        this.buttle_node = this.node.getChildByName("buttle_node");
+        this.bullet_node = this.node.getChildByName("bullet_node");
         this.weapon_node = this.node.getChildByName("weapon_node");
         this.monster_born_node = this.node.getChildByName("monster_born_node");
         this.weapon_tips = this.node.getChildByName("weapon_tips");
@@ -55,6 +56,8 @@ cc.Class({
         this.initMonsterWave();
         // 设置界面
         this.initBattleUI();
+        // 初始化子弹内存池
+        this.initBulletPool();
     },
 
     initRoad(){
@@ -120,6 +123,16 @@ cc.Class({
         this.monster_wave.startGame(this.mapConfig.roadGrid);
     },
 
+    initBulletPool(){
+        this.bulletPool = [];
+        for(var i = 0; i < 3; ++i){
+            var bulletNode = cc.instantiate(this.bullet_prefab);
+            bulletNode.active = false;
+            this.bullet_node.addChild(bulletNode);
+            this.bulletPool.push(bulletNode);
+        }
+    },
+
     initBattleUI(){
         this.battle_ui.crystal_num.string = this.mapConfig.startMoney;
         this.battle_ui.total_wave.string = Object.keys(this.mapConfig.monsterWave).length;
@@ -168,6 +181,21 @@ cc.Class({
         this.selWeapon = weapon;
         this.weapon_lvup.showLvupWeapon(this.selWeapon);
         this.hideWeaponTips();
+    },
+
+    getBullet(){
+        var bulletNode = null;
+        if(this.bulletPool.length > 0){
+            bulletNode = this.bulletPool.shift();
+        }else{
+            bulletNode = cc.instantiate(this.bullet_prefab);
+            cc.battleScene.bullet_node.addChild(bulletNode);
+        }
+        return bulletNode.getComponent("bulletAi");
+    },
+    backBullet(bulletNode){
+        bulletNode.active = false;
+        this.bulletPool.push(bulletNode);
     },
 
 });

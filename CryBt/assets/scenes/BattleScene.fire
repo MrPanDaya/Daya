@@ -743,7 +743,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "buttle_node",
+    "_name": "bullet_node",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -3463,6 +3463,9 @@
     },
     "crystal_prefab": {
       "__uuid__": "b6178eed-2808-493c-8d60-e9e16898a611"
+    },
+    "bullet_prefab": {
+      "__uuid__": "179f2bb5-1fe2-4c01-a193-3d8ed30b7d76"
     },
     "_id": "7dn6QcHWtD6730yLp3iTXu"
   }
