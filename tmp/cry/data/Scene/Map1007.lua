@@ -1,164 +1,61 @@
-SceneDataTable = {
-GameStartMoney = 805,
+SceneDataTable : {
+GameStartMoney : 805,
 }
-WeaponTable = {1021,1041,1051,1061}
-MonsterWaveTable = {
-[1] = {10701},
-[2] = {10702},
-[3] = {10702,10703},
-[4] = {10703,10704},
-[5] = {10704,10705},
-[6] = {10706,10707},
-[7] = {10707,10708},
-[8] = {10708,10709},
-[9] = {10709,10710},
-[10] = {10710,10711},
-[11] = {10712,10713},
-[12] = {10713,10714},
-[13] = {10714,10715},
-[14] = {10715,10716},
-[15] = {10717},
+WeaponTable : {1021,1041,1051,1061}
+MonsterWaveTable : {
+ 1 : [10701],
+ 2 : [10702],
+ 3 : [10702,10703],
+ 4 : [10703,10704],
+ 5 : [10704,10705],
+ 6 : [10706,10707],
+ 7 : [10707,10708],
+ 8 : [10708,10709],
+ 9 : [10709,10710],
+ 10 : [10710,10711],
+ 11 : [10712,10713],
+ 12 : [10713,10714],
+ 13 : [10714,10715],
+ 14 : [10715,10716],
+ 15 : [10717],
 }
-WeaponGridTable = { 
-[1] = {
-PosX = 3,
-PosY = 5,},
-[2] = {
-PosX = 3,
-PosY = 1,},
-[3] = {
-PosX = 5,
-PosY = 3,},
-[4] = {
-PosX = 7,
-PosY = 4,},
-[5] = {
-PosX = 8,
-PosY = 1,},
+WeaponGridTable : {
+ 1 : {posX : 3,posY : 5,},
+ 2 : {posX : 3,posY : 1,},
+ 3 : {posX : 5,posY : 3,},
+ 4 : {posX : 7,posY : 4,},
+ 5 : {posX : 8,posY : 1,},
 }
-RoadGridTable = { 
-[1] = {
-Assert = "L_0.PNG",
-PosX = 1,
-PosY = 4,},
-[2] = {
-Assert = "H_0.PNG",
-PosX = 2,
-PosY = 4,},
-[3] = {
-Assert = "H_0.PNG",
-PosX = 3,
-PosY = 4,},
-[4] = {
-Assert = "H_0.PNG",
-PosX = 4,
-PosY = 4,},
-[5] = {
-Assert = "R_D_0.PNG",
-PosX = 5,
-PosY = 4,},
-[6] = {
-Assert = "L_U_0.PNG",
-PosX = 5,
-PosY = 5,},
-[7] = {
-Assert = "H_0.PNG",
-PosX = 6,
-PosY = 5,},
-[8] = {
-Assert = "H_0.PNG",
-PosX = 7,
-PosY = 5,},
-[9] = {
-Assert = "H_0.PNG",
-PosX = 8,
-PosY = 5,},
-[10] = {
-Assert = "R_U_0.PNG",
-PosX = 9,
-PosY = 5,},
-[11] = {
-Assert = "V_0.PNG",
-PosX = 9,
-PosY = 4,},
-[12] = {
-Assert = "V_0.PNG",
-PosX = 9,
-PosY = 3,},
-[13] = {
-Assert = "R_D_0.PNG",
-PosX = 9,
-PosY = 2,},
-[14] = {
-Assert = "H_0.PNG",
-PosX = 8,
-PosY = 2,},
-[15] = {
-Assert = "H_0.PNG",
-PosX = 7,
-PosY = 2,},
-[16] = {
-Assert = "H_0.PNG",
-PosX = 6,
-PosY = 2,},
-[17] = {
-Assert = "H_0.PNG",
-PosX = 5,
-PosY = 2,},
-[18] = {
-Assert = "H_0.PNG",
-PosX = 4,
-PosY = 2,},
-[19] = {
-Assert = "H_0.PNG",
-PosX = 3,
-PosY = 2,},
-[20] = {
-Assert = "L_U_0.PNG",
-PosX = 2,
-PosY = 2,},
-[21] = {
-Assert = "V_0.PNG",
-PosX = 2,
-PosY = 1,},
-[22] = {
-Assert = "L_D_0.PNG",
-PosX = 2,
-PosY = 0,},
-[23] = {
-Assert = "H_0.PNG",
-PosX = 3,
-PosY = 0,},
-[24] = {
-Assert = "H_0.PNG",
-PosX = 4,
-PosY = 0,},
-[25] = {
-Assert = "H_0.PNG",
-PosX = 5,
-PosY = 0,},
-[26] = {
-Assert = "H_0.PNG",
-PosX = 6,
-PosY = 0,},
-[27] = {
-Assert = "H_0.PNG",
-PosX = 7,
-PosY = 0,},
-[28] = {
-Assert = "H_0.PNG",
-PosX = 8,
-PosY = 0,},
-[29] = {
-Assert = "H_0.PNG",
-PosX = 9,
-PosY = 0,},
-[30] = {
-Assert = "H_0.PNG",
-PosX = 10,
-PosY = 0,},
-[31] = {
-Assert = "R_0.PNG",
-PosX = 11,
-PosY = 0,},
+RoadGridTable : {
+ 1 : {img : "L_0", posX : 1,posY : 4,},
+ 2 : {img : "H_0", posX : 2,posY : 4,},
+ 3 : {img : "H_0", posX : 3,posY : 4,},
+ 4 : {img : "H_0", posX : 4,posY : 4,},
+ 5 : {img : "R_D_0", posX : 5,posY : 4,},
+ 6 : {img : "L_U_0", posX : 5,posY : 5,},
+ 7 : {img : "H_0", posX : 6,posY : 5,},
+ 8 : {img : "H_0", posX : 7,posY : 5,},
+ 9 : {img : "H_0", posX : 8,posY : 5,},
+ 10 : {img : "R_U_0", posX : 9,posY : 5,},
+ 11 : {img : "V_0", posX : 9,posY : 4,},
+ 12 : {img : "V_0", posX : 9,posY : 3,},
+ 13 : {img : "R_D_0", posX : 9,posY : 2,},
+ 14 : {img : "H_0", posX : 8,posY : 2,},
+ 15 : {img : "H_0", posX : 7,posY : 2,},
+ 16 : {img : "H_0", posX : 6,posY : 2,},
+ 17 : {img : "H_0", posX : 5,posY : 2,},
+ 18 : {img : "H_0", posX : 4,posY : 2,},
+ 19 : {img : "H_0", posX : 3,posY : 2,},
+ 20 : {img : "L_U_0", posX : 2,posY : 2,},
+ 21 : {img : "V_0", posX : 2,posY : 1,},
+ 22 : {img : "L_D_0", posX : 2,posY : 0,},
+ 23 : {img : "H_0", posX : 3,posY : 0,},
+ 24 : {img : "H_0", posX : 4,posY : 0,},
+ 25 : {img : "H_0", posX : 5,posY : 0,},
+ 26 : {img : "H_0", posX : 6,posY : 0,},
+ 27 : {img : "H_0", posX : 7,posY : 0,},
+ 28 : {img : "H_0", posX : 8,posY : 0,},
+ 29 : {img : "H_0", posX : 9,posY : 0,},
+ 30 : {img : "H_0", posX : 10,posY : 0,},
+ 31 : {img : "R_0", posX : 11,posY : 0,},
 }

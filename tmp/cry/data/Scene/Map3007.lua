@@ -1,156 +1,59 @@
-SceneDataTable = {
-GameStartMoney = 1030,
+SceneDataTable : {
+GameStartMoney : 1030,
 }
-WeaponTable = {1031,1051,1071}
-MonsterWaveTable = {
-[1] = {30701},
-[2] = {30702},
-[3] = {30702,30703},
-[4] = {30703,30704},
-[5] = {30704,30705},
-[6] = {30706,30707},
-[7] = {30707,30708},
-[8] = {30708,30709},
-[9] = {30709,30710},
-[10] = {30710,30711},
-[11] = {30712,30713},
-[12] = {30713,30714},
-[13] = {30714,30715},
-[14] = {30715,30716},
-[15] = {30717},
+WeaponTable : {1031,1051,1071}
+MonsterWaveTable : {
+ 1 : [30701],
+ 2 : [30702],
+ 3 : [30702,30703],
+ 4 : [30703,30704],
+ 5 : [30704,30705],
+ 6 : [30706,30707],
+ 7 : [30707,30708],
+ 8 : [30708,30709],
+ 9 : [30709,30710],
+ 10 : [30710,30711],
+ 11 : [30712,30713],
+ 12 : [30713,30714],
+ 13 : [30714,30715],
+ 14 : [30715,30716],
+ 15 : [30717],
 }
-WeaponGridTable = { 
-[1] = {
-PosX = 3,
-PosY = 5,},
-[2] = {
-PosX = 3,
-PosY = 2,},
-[3] = {
-PosX = 6,
-PosY = 4,},
-[4] = {
-PosX = 8,
-PosY = 5,},
-[5] = {
-PosX = 9,
-PosY = 3,},
+WeaponGridTable : {
+ 1 : {posX : 3, posY : 5,},
+ 2 : {posX : 3, posY : 2,},
+ 3 : {posX : 6, posY : 4,},
+ 4 : {posX : 8, posY : 5,},
+ 5 : {posX : 9, posY : 3,},
 }
-RoadGridTable = { 
-[1] = {
-Assert = "R_1.PNG",
-PosX = 5,
-PosY = 4,},
-[2] = {
-Assert = "L_U_1.PNG",
-PosX = 4,
-PosY = 4,},
-[3] = {
-Assert = "V_1.PNG",
-PosX = 4,
-PosY = 3,},
-[4] = {
-Assert = "V_1.PNG",
-PosX = 4,
-PosY = 2,},
-[5] = {
-Assert = "R_D_1.PNG",
-PosX = 4,
-PosY = 1,},
-[6] = {
-Assert = "H_1.PNG",
-PosX = 3,
-PosY = 1,},
-[7] = {
-Assert = "L_D_1.PNG",
-PosX = 2,
-PosY = 1,},
-[8] = {
-Assert = "V_1.PNG",
-PosX = 2,
-PosY = 2,},
-[9] = {
-Assert = "V_1.PNG",
-PosX = 2,
-PosY = 3,},
-[10] = {
-Assert = "V_1.PNG",
-PosX = 2,
-PosY = 4,},
-[11] = {
-Assert = "V_1.PNG",
-PosX = 2,
-PosY = 5,},
-[12] = {
-Assert = "L_U_1.PNG",
-PosX = 2,
-PosY = 6,},
-[13] = {
-Assert = "H_1.PNG",
-PosX = 3,
-PosY = 6,},
-[14] = {
-Assert = "H_1.PNG",
-PosX = 4,
-PosY = 6,},
-[15] = {
-Assert = "H_1.PNG",
-PosX = 5,
-PosY = 6,},
-[16] = {
-Assert = "H_1.PNG",
-PosX = 6,
-PosY = 6,},
-[17] = {
-Assert = "H_1.PNG",
-PosX = 7,
-PosY = 6,},
-[18] = {
-Assert = "H_1.PNG",
-PosX = 8,
-PosY = 6,},
-[19] = {
-Assert = "R_U_1.PNG",
-PosX = 9,
-PosY = 6,},
-[20] = {
-Assert = "L_D_1.PNG",
-PosX = 9,
-PosY = 5,},
-[21] = {
-Assert = "R_U_1.PNG",
-PosX = 10,
-PosY = 5,},
-[22] = {
-Assert = "V_1.PNG",
-PosX = 10,
-PosY = 4,},
-[23] = {
-Assert = "V_1.PNG",
-PosX = 10,
-PosY = 3,},
-[24] = {
-Assert = "R_D_1.PNG",
-PosX = 10,
-PosY = 2,},
-[25] = {
-Assert = "H_1.PNG",
-PosX = 9,
-PosY = 2,},
-[26] = {
-Assert = "H_1.PNG",
-PosX = 8,
-PosY = 2,},
-[27] = {
-Assert = "H_1.PNG",
-PosX = 7,
-PosY = 2,},
-[28] = {
-Assert = "L_D_1.PNG",
-PosX = 6,
-PosY = 2,},
-[29] = {
-Assert = "U_1.PNG",
-PosX = 6,
-PosY = 3,},
+RoadGridTable : {
+ 1 : {img : "R_1", posX : 5, posY : 4,},
+ 2 : {img : "L_U_1", posX : 4, posY : 4,},
+ 3 : {img : "V_1", posX : 4, posY : 3,},
+ 4 : {img : "V_1", posX : 4, posY : 2,},
+ 5 : {img : "R_D_1", posX : 4, posY : 1,},
+ 6 : {img : "H_1", posX : 3, posY : 1,},
+ 7 : {img : "L_D_1", posX : 2, posY : 1,},
+ 8 : {img : "V_1", posX : 2, posY : 2,},
+ 9 : {img : "V_1", posX : 2, posY : 3,},
+ 10 : {img : "V_1", posX : 2, posY : 4,},
+ 11 : {img : "V_1", posX : 2, posY : 5,},
+ 12 : {img : "L_U_1", posX : 2, posY : 6,},
+ 13 : {img : "H_1", posX : 3, posY : 6,},
+ 14 : {img : "H_1", posX : 4, posY : 6,},
+ 15 : {img : "H_1", posX : 5, posY : 6,},
+ 16 : {img : "H_1", posX : 6, posY : 6,},
+ 17 : {img : "H_1", posX : 7, posY : 6,},
+ 18 : {img : "H_1", posX : 8, posY : 6,},
+ 19 : {img : "R_U_1", posX : 9, posY : 6,},
+ 20 : {img : "L_D_1", posX : 9, posY : 5,},
+ 21 : {img : "R_U_1", posX : 10, posY : 5,},
+ 22 : {img : "V_1", posX : 10, posY : 4,},
+ 23 : {img : "V_1", posX : 10, posY : 3,},
+ 24 : {img : "R_D_1", posX : 10, posY : 2,},
+ 25 : {img : "H_1", posX : 9, posY : 2,},
+ 26 : {img : "H_1", posX : 8, posY : 2,},
+ 27 : {img : "H_1", posX : 7, posY : 2,},
+ 28 : {img : "L_D_1", posX : 6, posY : 2,},
+ 29 : {img : "U_1", posX : 6, posY : 3,},
 }
