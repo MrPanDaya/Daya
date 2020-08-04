@@ -14,6 +14,7 @@ cc.Class({
 
     onLoad () {
         cc.battleScene = this;
+        this.sceneId = 1000;
         this.road_node = this.node.getChildByName("road_node");
         this.monster_wave = this.node.getChildByName("monster_node").getComponent("monsterWave");
         this.bullet_node = this.node.getChildByName("bullet_node");
@@ -23,7 +24,7 @@ cc.Class({
         this.weapon_lvup = this.node.getChildByName("weapon_lvup").getComponent("lvup_weapon");
         this.battle_ui = this.node.getChildByName("ui_node").getComponent("battle_ui");
         this.initUserData();
-        this.initScene(1000);
+        this.initScene();
     },
 
     initUserData(){
@@ -39,14 +40,15 @@ cc.Class({
     // start () {},
     // update (dt) {},
 
-    initScene(sceneId){
+    initScene(){
         // 背景图片
         var self = this;
-        cc.loader.loadRes("bg/Back"+sceneId, cc.SpriteFrame, function (err, spriteFrame) {
+        var id = this.sceneId - (this.sceneId % 1000);
+        cc.loader.loadRes("bg/Back" + id, cc.SpriteFrame, function (err, spriteFrame) {
             self.bag_sprite.spriteFrame = spriteFrame;
         });
         // 地图配置
-        this.mapConfig = mapCfg[sceneId];
+        this.mapConfig = mapCfg[this.sceneId];
         // 道路
         this.initRoad();
         // 武器格子
@@ -65,6 +67,7 @@ cc.Class({
 
     initRoad(){
         var roadCfg = this.mapConfig.roadGrid;
+        this.road_node.removeAllChildren();
         for(var k in roadCfg){
             var gridCfg = roadCfg[k];
             var grid = cc.instantiate(this.road_grid);
@@ -97,6 +100,7 @@ cc.Class({
     initWeapon(){
         var weaponGridCfg = this.mapConfig.weaponGrid;
         this.weaponList = [];
+        this.weapon_node.removeAllChildren();
         for(var k in weaponGridCfg){
             var gridPos = weaponGridCfg[k];
             var weapon = cc.instantiate(this.weapon_prefab);
@@ -113,6 +117,7 @@ cc.Class({
         for(var i = 0, len = this.mapConfig.weapon.length; i < len; ++i){
             var weaponId = this.mapConfig.weapon[i];
             var weaponCfg = weaponCfgList[weaponId];
+            this.weapon_tips.removeAllChildren();
             if(weaponCfg){
                 var chooseWeapon = cc.instantiate(this.weapon_choose);
                 this.weapon_tips.addChild(chooseWeapon);
