@@ -14,7 +14,7 @@ cc.Class({
 
     onLoad () {
         cc.battleScene = this;
-        this.sceneId = 1000;
+        this.sceneId = cc.curSelMapId;
         this.road_node = this.node.getChildByName("road_node");
         this.monster_wave = this.node.getChildByName("monster_node").getComponent("monsterWave");
         this.bullet_node = this.node.getChildByName("bullet_node");
@@ -114,10 +114,10 @@ cc.Class({
     },
 
     initBuildWeaponList(){
+        this.weapon_tips.removeAllChildren();
         for(var i = 0, len = this.mapConfig.weapon.length; i < len; ++i){
             var weaponId = this.mapConfig.weapon[i];
             var weaponCfg = weaponCfgList[weaponId];
-            this.weapon_tips.removeAllChildren();
             if(weaponCfg){
                 var chooseWeapon = cc.instantiate(this.weapon_choose);
                 this.weapon_tips.addChild(chooseWeapon);
