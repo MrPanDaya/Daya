@@ -29,12 +29,10 @@ cc.Class({
             if(this.node.x == nexPos.x && this.node.y == nexPos.y){
                 this.nextRoadId ++;
                 if(this.nextRoadId >= Object.keys(this.roadCfg).length){
-                    this.stopMove = true;
-                    this.node.active = false;
-                    // 还有血量的话，继续下一波
-                    if(cc.battleScene.crystal.decBlood()){
-                        cc.battleScene.monster_wave.startNextWave();
-                    }
+                    this.monsterHp = 0;
+                    cc.battleScene.crystal.decBlood();
+                    cc.battleScene.onMonsterDeath();
+                    this.node.removeFromParent();
                 }
             }
         }
