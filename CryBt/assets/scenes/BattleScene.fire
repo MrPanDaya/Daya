@@ -195,7 +195,7 @@
       "array": [
         0,
         0,
-        419.1562805175781,
+        411.362060546875,
         0,
         0,
         0,
@@ -3643,8 +3643,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 147,
-      "height": 41
+      "width": 140,
+      "height": 33
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3699,7 +3699,7 @@
       "__uuid__": "8058120d-0c72-4624-90aa-51843ef07547"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 2,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -3918,8 +3918,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 145,
-      "height": 42
+      "width": 140,
+      "height": 33
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3974,7 +3974,7 @@
       "__uuid__": "54b3f5ae-113f-40f3-917d-7a0aaff082fa"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 2,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -4193,8 +4193,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 147,
-      "height": 42
+      "width": 140,
+      "height": 33
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4249,7 +4249,7 @@
       "__uuid__": "d16db898-d9b1-432c-b5f2-a39cf5b380da"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 2,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -6819,8 +6819,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 147,
-      "height": 42
+      "width": 140,
+      "height": 33
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6875,7 +6875,7 @@
       "__uuid__": "d16db898-d9b1-432c-b5f2-a39cf5b380da"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 2,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -7094,8 +7094,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 145,
-      "height": 42
+      "width": 140,
+      "height": 33
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7150,7 +7150,7 @@
       "__uuid__": "54b3f5ae-113f-40f3-917d-7a0aaff082fa"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 2,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
