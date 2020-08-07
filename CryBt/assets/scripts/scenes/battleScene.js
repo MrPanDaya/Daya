@@ -14,6 +14,7 @@ cc.Class({
 
     onLoad () {
         cc.battleScene = this;
+        cc.curSelMapId = 1000;
         this.sceneId = cc.curSelMapId;
         this.road_node = this.node.getChildByName("road_node");
         this.monster_wave = this.node.getChildByName("monster_node").getComponent("monsterWave");

@@ -8,6 +8,7 @@ cc.Class({
 
         one_speed: cc.Node,
         double_speed: cc.Node,
+        pause_node: cc.Node,
     },
 
     onLoad(){
@@ -17,13 +18,25 @@ cc.Class({
     },
 
     onBtnPause(){
-        console.log("onBtnPause");
+        this.pause_node.active = true;
     },
 
     onBtnSpeedChange(){
         this.bDoubleSpeed = !this.bDoubleSpeed;
         this.one_speed.active = !this.bDoubleSpeed;
         this.double_speed.active = this.bDoubleSpeed;
+    },
+
+    onBtnStartGame(){
+        this.pause_node.active = false;
+    },
+
+    onBtnRestart(){
+        this.pause_node.active = false;
+    },
+
+    onBtnSelMap(){
+        this.pause_node.active = false;
     },
 
 });
