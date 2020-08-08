@@ -8,6 +8,12 @@ cc.Class({
         weapon: cc.Sprite,
     },
     update (dt) {
+         this.updateWeapon(dt);
+        if(cc.gameDoubleSpeed)
+            this.updateWeapon(dt);
+    },
+
+    updateWeapon(dt){
         if(this.weaponCfg){
             this.fireTimer += dt;
             if(this.fireTimer >= checkNum(this.weaponCfg.attSpeed)){

@@ -15,6 +15,7 @@ cc.Class({
     },
 
     initGameEndUi(){
+        if(this.node.active) return;
         this.node.active = true;
         for(var i = 0; i < this.starList.length; ++i){
             this.starList[i].active = false;

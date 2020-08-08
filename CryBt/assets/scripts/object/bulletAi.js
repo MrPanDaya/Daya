@@ -1,12 +1,15 @@
 cc.Class({
     extends: cc.Component,
-
     properties: {
     },
-    onLoad(){
 
-    },
     update (dt) {
+        this.updateBullet(dt);
+        if(cc.gameDoubleSpeed)
+            this.updateBullet(dt);
+    },
+
+    updateBullet(dt){
         if(this.flowMonster && this.node.active){
             var monsterPos = cc.v2(this.flowMonster.node.x, this.flowMonster.node.y);
             var pos = cc.v2(this.node.x, this.node.y);

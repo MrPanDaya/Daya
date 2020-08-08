@@ -6,13 +6,23 @@ cc.Class({
         monsterPrefab : cc.Prefab,
     },
 
-    update (dt) {
-
+    update(dt){
+        if(this.monsterWaveCfg){
+            this.bornTimer += dt;
+            var timer = cc.gameDoubleSpeed ? 0.6 : 1.2;
+            if(this.bornTimer >= timer){
+                this.bornTimer = 0;
+                this.bornIndex ++;
+                var id = this.monsterList.length - this.bornIndex;
+                if(id >= 0) this.monsterList[id].startBorn(this.roadCfg);
+            }
+        }
     },
 
     initConfig(monsterWaveCfg){
         this.monsterWaveCfg = monsterWaveCfg;
         this.waveId = 0;
+        this.bornTimer = 0;
     },
 
     startGame(roadCfg){
@@ -22,13 +32,16 @@ cc.Class({
     },
 
     startNextWave(){
+        if(this.waveId > Object.keys(this.monsterWaveCfg).length) return;
         this.waveId += 1;
         var waveCfg = this.monsterWaveCfg[this.waveId - 1];
         if (!waveCfg) {
-            console.log("success the game end !");
+            cc.battleScene.onGameEnd();
             return;
         }
         cc.battleScene.setCurWave(this.waveId);
+
+        this.bornIndex = 0;
         this.monsterList = [];
         for (var i = waveCfg.length - 1; i >= 0; --i) {
             var monsterId = waveCfg[i];
@@ -41,14 +54,6 @@ cc.Class({
                 this.monsterList.push(monster);
             }
         }
-        var index = 0;
-        var len = this.monsterList.length;
-        var del = cc.delayTime(1.2);
-        var callFun = cc.callFunc(function () {
-            index++;
-            this.monsterList[len - index].startMove(this.roadCfg);
-        }.bind(this))
-        this.node.runAction(cc.sequence(del, callFun).repeat(this.monsterList.length));
     },
 
     getFireMonster(weapon){

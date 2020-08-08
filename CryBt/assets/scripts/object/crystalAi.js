@@ -27,14 +27,14 @@ cc.Class({
         this.node.runAction(cc.sequence(del, callFun).repeatForever());
     },
     decBlood(){
-        this.crystalHp -= 1;
-        if(this.crystalHp <= 0){
-            this.crystalHp = 0;
-            cc.battleScene.onGameEnd();
+        if(this.crystalHp > 0){
+            this.crystalHp -= 1;
+            if(this.crystalHp <= 0){
+                this.crystalHp = 0;
+                cc.battleScene.onGameEnd();
+            }
+            this.bloodSprite.spriteFrame = this.bloodPicList[this.crystalHp];
         }
-        this.bloodSprite.spriteFrame = this.bloodPicList[this.crystalHp];
-
-        return true;
         return this.crystalHp > 0;
     },
 });

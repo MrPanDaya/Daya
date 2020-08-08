@@ -13,7 +13,13 @@ cc.Class({
     },
     // start () {},
     update (dt) {
-        if(!this.stopMove && this.roadCfg){
+        this.updateMonster(dt);
+        if(cc.gameDoubleSpeed)
+            this.updateMonster(dt);
+    },
+
+    updateMonster(dt){
+        if(this.isBorn && this.roadCfg && this.monsterHp > 0){
             var nexPos = this.getNextPos();
             var dir = nexPos.sub(cc.v2(this.node.x, this.node.y));
             dir = dir.normalize();
@@ -28,7 +34,7 @@ cc.Class({
             }
             if(this.node.x == nexPos.x && this.node.y == nexPos.y){
                 this.nextRoadId ++;
-                if(this.nextRoadId >= Object.keys(this.roadCfg).length){
+                if(this.nextRoadId >= this.totalRoadCount){
                     this.monsterHp = 0;
                     cc.battleScene.crystal.decBlood();
                     cc.battleScene.onMonsterDeath();
@@ -37,6 +43,7 @@ cc.Class({
             }
         }
     },
+
     initMonster(monsterCfg){
         this.monsterNode.scale = this.oldScale * checkNum(monsterCfg.scale);
         this.monsterCfg = monsterCfg;
@@ -53,10 +60,11 @@ cc.Class({
             action.play("m_run", 0);
         });
     },
-    startMove(roadCfg){
+    startBorn(roadCfg){
         this.node.active = true;
         this.roadCfg = roadCfg;
-        this.stopMove = false;
+        this.totalRoadCount = Object.keys(this.roadCfg).length;
+        this.isBorn = true;
         this.nextRoadId = 0;
         this.node.x = (this.roadCfg[this.nextRoadId].posX - 6) * 64;
         this.node.y = (this.roadCfg[this.nextRoadId].posY - 3) * 64;
@@ -91,8 +99,13 @@ cc.Class({
         effect.active = true;
         effect.getComponent("attEffect").playBulletEffect(weaponCfg.attEffect);
     },
+
     getNextPos(){
-        return cc.v2((this.roadCfg[this.nextRoadId].posX - 6) * 64, (this.roadCfg[this.nextRoadId].posY - 3) * 64);
+        var index = this.nextRoadId;
+        if(this.nextRoadId >= this.totalRoadCount)
+            index = this.totalRoadCount - 1;
+        var nextPos = this.roadCfg[index];
+        return cc.v2((nextPos.posX - 6) * 64, (nextPos.posY - 3) * 64);
     },
 
 });

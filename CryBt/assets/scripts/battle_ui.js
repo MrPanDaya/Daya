@@ -12,27 +12,29 @@ cc.Class({
     },
 
     onLoad(){
-        this.bDoubleSpeed = false;
-        this.one_speed.active = !this.bDoubleSpeed;
-        this.double_speed.active = this.bDoubleSpeed;
+        this.one_speed.active = !cc.gameDoubleSpeed;
+        this.double_speed.active = cc.gameDoubleSpeed;
     },
 
     onBtnPause(){
         this.pause_node.active = true;
+        cc.battleScene.onGamePause();
     },
 
     onBtnSpeedChange(){
-        this.bDoubleSpeed = !this.bDoubleSpeed;
-        this.one_speed.active = !this.bDoubleSpeed;
-        this.double_speed.active = this.bDoubleSpeed;
+        cc.gameDoubleSpeed = !cc.gameDoubleSpeed;
+        this.one_speed.active = !cc.gameDoubleSpeed;
+        this.double_speed.active = cc.gameDoubleSpeed;
     },
 
     onBtnStartGame(){
         this.pause_node.active = false;
+        cc.battleScene.onGameResume();
     },
 
     onBtnRestart(){
         this.pause_node.active = false;
+        cc.battleScene.onGameRestart();
     },
 
     onBtnSelMap(){

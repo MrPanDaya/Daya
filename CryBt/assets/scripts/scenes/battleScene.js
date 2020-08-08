@@ -14,8 +14,6 @@ cc.Class({
 
     onLoad () {
         cc.battleScene = this;
-        cc.curSelMapId = 1000;
-        this.sceneId = cc.curSelMapId;
         this.road_node = this.node.getChildByName("road_node");
         this.monster_wave = this.node.getChildByName("monster_node").getComponent("monsterWave");
         this.bullet_node = this.node.getChildByName("bullet_node");
@@ -24,22 +22,38 @@ cc.Class({
         this.weapon_tips = this.node.getChildByName("weapon_tips");
         this.weapon_lvup = this.node.getChildByName("weapon_lvup").getComponent("lvup_weapon");
         this.battle_ui = this.node.getChildByName("ui_node").getComponent("battle_ui");
+        this.game_end_ui = this.battle_ui.node.getChildByName("game_end_node").getComponent("game_end_ui");
         this.initUserData();
         this.initScene();
     },
 
     initUserData(){
+        cc.curSelMapId = 1000;
+        this.sceneId = cc.curSelMapId;
+        cc.gameDoubleSpeed = false;
         this.data = {
             money: 500,
         }
     },
 
     onGameEnd(){
-        console.log("fail the game end!");
+        console.log("the game end!");
+        this.game_end_ui.initGameEndUi();
+        cc.director.pause();
     },
 
-    // start () {},
-    // update (dt) {},
+    onGamePause(){
+        cc.director.pause();
+    },
+
+    onGameRestart(){
+
+    },
+
+    onGameResume(){
+        if(cc.director.isPaused())
+            cc.director.resume();
+    },
 
     initScene(){
         // 背景图片
