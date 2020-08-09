@@ -21,6 +21,7 @@ cc.Class({
         if(this.node.active) return;
         this.node.active = true;
         var cryHp = cc.battleScene.crystal.crystalHp;
+        // 三星相关
         var starNum = this.celStar(cryHp);
         if(starNum > 0){
             setUnlockMapId(cc.curSelMapId);
@@ -30,10 +31,13 @@ cc.Class({
             this.starList[i].active = (i < starNum);
             this.starBgList[i].active = (i >= starNum);
         }
+        // 胜利/失败
         this.winPic.active = (cryHp > 0);
         this.btnNextMap.active = (cryHp > 0);
         this.losePic.active = (cryHp <= 0);
         this.btnRestart.active = (cryHp <= 0);
+        // 计算奖励
+
     },
 
     celStar(hp){
