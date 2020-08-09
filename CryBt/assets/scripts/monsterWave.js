@@ -7,6 +7,7 @@ cc.Class({
     },
 
     update(dt){
+        if(cc.isGameEnd) return;
         if(this.monsterWaveCfg){
             this.bornTimer += dt;
             var timer = cc.gameDoubleSpeed ? 0.6 : 1.2;
@@ -17,6 +18,13 @@ cc.Class({
                 if(id >= 0) this.monsterList[id].startBorn(this.roadCfg);
             }
         }
+    },
+
+    clearMonsterWave(){
+        this.bornIndex = 0;
+        this.monsterList = [];
+        this.initConfig(null);
+        this.node.removeAllChildren();
     },
 
     initConfig(monsterWaveCfg){

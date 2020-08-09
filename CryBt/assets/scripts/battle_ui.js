@@ -12,13 +12,21 @@ cc.Class({
     },
 
     onLoad(){
+       this.resetBattleUi();
+    },
+
+    resetBattleUi(mapConfig){
         this.one_speed.active = !cc.gameDoubleSpeed;
         this.double_speed.active = cc.gameDoubleSpeed;
+        if(mapConfig){
+            this.crystal_num.string = mapConfig.startMoney;
+            this.total_wave.string = Object.keys(mapConfig.monsterWave).length;
+        }
     },
 
     onBtnPause(){
         this.pause_node.active = true;
-        cc.battleScene.onGamePause();
+        cc.director.pause();
     },
 
     onBtnSpeedChange(){
@@ -29,16 +37,19 @@ cc.Class({
 
     onBtnStartGame(){
         this.pause_node.active = false;
-        cc.battleScene.onGameResume();
+        cc.director.resume();
     },
 
     onBtnRestart(){
         this.pause_node.active = false;
+        cc.director.resume();
         cc.battleScene.onGameRestart();
     },
 
     onBtnSelMap(){
         this.pause_node.active = false;
+        cc.director.resume();
+        cc.battleScene.onBackMenuScene();
     },
 
 });

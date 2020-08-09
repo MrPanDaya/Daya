@@ -8,6 +8,7 @@ cc.Class({
         weapon: cc.Sprite,
     },
     update (dt) {
+        if(cc.isGameEnd) return;
          this.updateWeapon(dt);
         if(cc.gameDoubleSpeed)
             this.updateWeapon(dt);

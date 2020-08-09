@@ -23,12 +23,15 @@ cc.Class({
         this.weapon_lvup = this.node.getChildByName("weapon_lvup").getComponent("lvup_weapon");
         this.battle_ui = this.node.getChildByName("ui_node").getComponent("battle_ui");
         this.game_end_ui = this.battle_ui.node.getChildByName("game_end_node").getComponent("game_end_ui");
-        this.initUserData();
-        this.initScene();
+        // 初始化子弹内存池
+        this.initBulletPool();
+        // 初始化子弹特效池
+        this.initBulletEffectPool();
+        // 开始游戏
+        this.onGameRestart();
     },
 
-    initUserData(){
-        cc.curSelMapId = 1000;
+    initBattleData(){
         this.sceneId = cc.curSelMapId;
         cc.gameDoubleSpeed = false;
         this.data = {
@@ -38,24 +41,34 @@ cc.Class({
 
     onGameEnd(){
         console.log("the game end!");
+        cc.isGameEnd = true;
         this.game_end_ui.initGameEndUi();
-        cc.director.pause();
-    },
-
-    onGamePause(){
-        cc.director.pause();
     },
 
     onGameRestart(){
-
+        this.clearScene();
+        this.initScene();
     },
 
-    onGameResume(){
-        if(cc.director.isPaused())
-            cc.director.resume();
+    onBackMenuScene(){
+        cc.director.preloadScene("MenuScene", function () {
+            cc.director.loadScene("MenuScene");
+        });
+    },
+
+    clearScene(){
+        this.initBattleData();
+        this.weaponList = [];
+        this.selWeapon = null;
+        this.onUnSelect();
+        this.monster_wave.clearMonsterWave();
+        this.road_node.removeAllChildren();
+        this.weapon_node.removeAllChildren();
+        this.weapon_tips.removeAllChildren();
     },
 
     initScene(){
+        cc.isGameEnd = false;
         // 背景图片
         var self = this;
         var id = this.sceneId - (this.sceneId % 1000);
@@ -74,15 +87,10 @@ cc.Class({
         this.initMonsterWave();
         // 设置界面
         this.initBattleUI();
-        // 初始化子弹内存池
-        this.initBulletPool();
-        // 初始化子弹特效池
-        this.initBulletEffectPool();
     },
 
     initRoad(){
         var roadCfg = this.mapConfig.roadGrid;
-        this.road_node.removeAllChildren();
         for(var k in roadCfg){
             var gridCfg = roadCfg[k];
             var grid = cc.instantiate(this.road_grid);
@@ -114,8 +122,6 @@ cc.Class({
 
     initWeapon(){
         var weaponGridCfg = this.mapConfig.weaponGrid;
-        this.weaponList = [];
-        this.weapon_node.removeAllChildren();
         for(var k in weaponGridCfg){
             var gridPos = weaponGridCfg[k];
             var weapon = cc.instantiate(this.weapon_prefab);
@@ -129,7 +135,6 @@ cc.Class({
     },
 
     initBuildWeaponList(){
-        this.weapon_tips.removeAllChildren();
         for(var i = 0, len = this.mapConfig.weapon.length; i < len; ++i){
             var weaponId = this.mapConfig.weapon[i];
             var weaponCfg = weaponCfgList[weaponId];
@@ -147,8 +152,7 @@ cc.Class({
     },
 
     initBattleUI(){
-        this.battle_ui.crystal_num.string = this.mapConfig.startMoney;
-        this.battle_ui.total_wave.string = Object.keys(this.mapConfig.monsterWave).length;
+        this.battle_ui.resetBattleUi(this.mapConfig);
     },
 
     setCurWave(waveId){

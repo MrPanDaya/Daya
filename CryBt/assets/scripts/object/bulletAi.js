@@ -4,6 +4,7 @@ cc.Class({
     },
 
     update (dt) {
+        if(cc.isGameEnd) return;
         this.updateBullet(dt);
         if(cc.gameDoubleSpeed)
             this.updateBullet(dt);

@@ -8,7 +8,7 @@ cc.Class({
     },
 
     initSelMapBtn(mapId){
-        this.selMapId = mapId;
+        this.selMapId = mapId + "";
         this.unLock = false;
         for(var i = 0; i < this.starNodeList.length; ++i){
             this.starNodeList[i].active = false;

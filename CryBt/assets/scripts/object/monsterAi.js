@@ -13,6 +13,7 @@ cc.Class({
     },
     // start () {},
     update (dt) {
+        if(cc.isGameEnd) return;
         this.updateMonster(dt);
         if(cc.gameDoubleSpeed)
             this.updateMonster(dt);

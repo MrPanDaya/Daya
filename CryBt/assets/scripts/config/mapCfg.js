@@ -1,6 +1,6 @@
 (function(){
     window.mapCfg = {
-        1000 : {
+        "1000" : {
             startMoney : 450,
             weapon : [1011, 1021],
             monsterWave : {
@@ -41,7 +41,7 @@
                 16 : {img : "R_0", posX : 12, posY : 2,},
             }
         },
-        1001 : {
+        "1001" : {
             startMoney : 360,
             weapon : [1011, 1021],
             monsterWave : {
@@ -84,7 +84,7 @@
                 17 : {img : "R_0", posX : 11, posY : 4,},
             }
         },
-        1002 : {
+        "1002" : {
             startMoney : 620,
             weapon : [1011,1021,1031],
             monsterWave : {
@@ -137,7 +137,7 @@
                 26 : {img : "R_0", posX : 11,posY : 4,},
             }
         },
-        1003 : {
+        "1003" : {
             startMoney : 450,
             weapon : [1021,1031],
             monsterWave : {
@@ -184,7 +184,7 @@
                 21 : {img : "R_0", posX : 11,posY : 1,},
             }
         },
-        1004 : {
+        "1004" : {
             startMoney : 705,
             weapon : [1011,1021,1031,1041],
             monsterWave : {
@@ -245,7 +245,7 @@
                 30 : {img : "R_0", posX : 11,posY : 0,},
             }
         },
-        1005 : {
+        "1005" : {
             startMoney : 680,
             weapon : [1011,1021,1041],
             monsterWave : {
@@ -315,7 +315,7 @@
                 39 : {img : "D_0", posX : 11,posY : 0,},
             }
         },
-        1006 : {
+        "1006" : {
             startMoney : 1005,
             weapon : [1011,1021,1031,1041,1051],
             monsterWave : {
@@ -372,7 +372,7 @@
                 25 : {img : "U_0", posX : 10,posY : 5,},
             }
         },
-        1007 : {
+        "1007" : {
             startMoney : 805,
             weapon : [1021,1041,1051,1061],
             monsterWave : {
@@ -433,7 +433,7 @@
                 30 : {img : "R_0", posX : 11,posY : 0,},
             }
         },
-        1008 : {
+        "1008" : {
             startMoney : 820,
             weapon : [1021,1041,1061,1071],
             monsterWave : {
@@ -492,7 +492,7 @@
                 28 : {img : "U_0", posX : 1,posY : 5,},
             }
         },
-        1009 : {
+        "1009" : {
             startMoney : 1050,
             weapon : [1031,1041,1051,1061,1071],
             monsterWave : {
@@ -548,7 +548,7 @@
                 25 : {img : "R_0", posX : 12,posY : 1,},
             }
         },
-        2000 : {
+        "2000" : {
             startMoney : 450,
             weapon : [1011,1021,1051],
             monsterWave : {
@@ -608,7 +608,7 @@
                 29 : {img : "R_0", posX : 11,posY : 1,},
             }
         },
-        2001 : {
+        "2001" : {
             startMoney : 680,
             weapon : [1011,1031,1041,1051],
             monsterWave : {
@@ -662,7 +662,7 @@
                 24 : {img : "L_0", posX : 2,posY : 2,},
             }
         },
-        2002 : {
+        "2002" : {
             startMoney : 820,
             weapon : [1011,1031,1041,1061,1071],
             monsterWave : {
@@ -727,7 +727,7 @@
                 29 : {img : "U_0", posX : 2, posY : 5,},
             }
         },
-        2003 : {
+        "2003" : {
             startMoney : 830,
             weapon : [1021,1031,1041,1051,1071],
             monsterWave : {
@@ -792,7 +792,7 @@
                 29 : {img : "D_0", posX : 2, posY : 3,},
             }
         },
-        2004 : {
+        "2004" : {
             startMoney : 650,
             weapon : [1021,1031,1051],
             monsterWave : {
@@ -847,7 +847,7 @@
                 24 : {img : "U_0", posX : 11, posY : 4,},
             }
         },
-        2005 : {
+        "2005" : {
             startMoney : 640,
             weapon : [1031,1051,1061],
             monsterWave : {
@@ -901,7 +901,7 @@
                 23 : {img : "R_0", posX : 11, posY : 5,},
             }
         },
-        2006 : {
+        "2006" : {
             startMoney : 1080,
             weapon : [1041,1071],
             monsterWave : {
@@ -955,7 +955,7 @@
                 23 : {img : "D_0", posX : 8, posY : 0,},
             }
         },
-        2007 : {
+        "2007" : {
             startMoney : 730,
             weapon : [1031,1041,1051],
             monsterWave : {
@@ -1012,7 +1012,7 @@
                 26 : {img : "R_0", posX : 12, posY : 4,},
             }
         },
-        2008 : {
+        "2008" : {
             startMoney : 760,
             weapon : [1011,1031,1061],
             monsterWave : {
@@ -1065,7 +1065,7 @@
                 22 : {img : "U_0", posX : 12, posY : 6,},
             }
         },
-        2009 : {
+        "2009" : {
             startMoney : 730,
             weapon : [1011,1031,1041,1051],
             monsterWave : {
@@ -1132,7 +1132,7 @@
                 30 : {img : "R_0", posX : 12, posY : 6,},
             }
         },
-        3000 : {
+        "3000" : {
             startMoney : 630,
             weapon : [1011,1021,1031],
             monsterWave : {
@@ -1176,7 +1176,7 @@
                 19 : {img : "R_1", posX : 12, posY : 4,},
             }
         },
-        3001 : {
+        "3001" : {
             startMoney : 570,
             weapon : [1021,1061,1071],
             monsterWave : {
@@ -1231,7 +1231,7 @@
                 24 : {img : "L_1", posX : 6, posY : 0,},
             }
         },
-        3002 : {
+        "3002" : {
             startMoney : 730,
             weapon : [1021,1041,1051],
             monsterWave : {
@@ -1275,7 +1275,7 @@
                 18 : {img : "R_1", posX : 12, posY : 4,},
             }
         },
-        3003 : {
+        "3003" : {
             startMoney : 730,
             weapon : [1021,1031,1041,1061],
             monsterWave : {
@@ -1331,7 +1331,7 @@
                 25 : {img : "U_1", posX : 11, posY : 6,},
             }
         },
-        3004 : {
+        "3004" : {
             startMoney : 730,
             weapon : [1011,1021,1031,1051,1061],
             monsterWave : {
@@ -1377,7 +1377,7 @@
                 20 : {img : "R_1", posX : 12, posY : 5,},
             }
         },
-        3005 : {
+        "3005" : {
             startMoney : 780,
             weapon : [1011,1051,1071],
             monsterWave : {
@@ -1431,7 +1431,7 @@
                 23 : {img : "R_1", posX : 11, posY : 4,},
             }
         },
-        3006 : {
+        "3006" : {
             startMoney : 1050,
             weapon : [1011,1041,1051,1061],
             monsterWave : {
@@ -1485,7 +1485,7 @@
                 23 : {img : "R_1", posX : 12, posY : 1,},
             }
         },
-        3007 : {
+        "3007" : {
             startMoney : 1030,
             weapon : [1031,1051,1071],
             monsterWave : {
@@ -1544,7 +1544,7 @@
                 28 : {img : "U_1", posX : 6, posY : 3,},
             }
         },
-        3008 : {
+        "3008" : {
             startMoney : 730,
             weapon : [1011,1021,1031,1051,1071],
             monsterWave : {
@@ -1602,7 +1602,7 @@
                 22 : {img : "D_1", posX : 9, posY : 0,},
             }
         },
-        3009 : {
+        "3009" : {
             startMoney : 730,
             weapon : [1011,1021,1031,1051,1061],
             monsterWave : {
@@ -1662,6 +1662,5 @@
                 23 : {img : "U_1", posX : 2, posY : 4,},
             }
         },
-
     }
 })();

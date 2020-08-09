@@ -10,6 +10,9 @@ cc.Class({
 
         winPic: cc.Node,
         losePic: cc.Node,
+        btnRestart: cc.Node,
+        btnNextMap: cc.Node,
+
         starList: [cc.Node],
         starBgList: [cc.Node],
     },
@@ -17,18 +20,57 @@ cc.Class({
     initGameEndUi(){
         if(this.node.active) return;
         this.node.active = true;
+        var cryHp = cc.battleScene.crystal.crystalHp;
+        var starNum = this.celStar(cryHp);
         for(var i = 0; i < this.starList.length; ++i){
-            this.starList[i].active = false;
-            this.starBgList[i].active = true;
+            this.starList[i].active = (i < starNum);
+            this.starBgList[i].active = (i >= starNum);
         }
+        this.winPic.active = (cryHp > 0);
+        this.btnNextMap.active = (cryHp > 0);
+        this.losePic.active = (cryHp <= 0);
+        this.btnRestart.active = (cryHp <= 0);
+    },
+
+    celStar(hp){
+        var star = 0;
+        if(hp > 0 && hp <= 2){
+            star = 1;
+        }else if(hp > 2 && hp <= 4){
+            star = 2;
+        }else if(hp >= 5){
+            star = 3;
+        }
+        return star;
     },
 
     onBtnRestart(){
-
+        this.node.active = false;
+        cc.battleScene.onGameRestart();
     },
 
     onBtnSelMap(){
+        this.node.active = false;
+        cc.battleScene.onBackMenuScene();
+    },
 
+    onBtnNextMap(){
+        var mapIndex = 0;
+        for(var k in mapCfg){
+            mapIndex ++;
+            if(k == cc.curSelMapId){
+                break;
+            }
+        }
+        var keyList = Object.keys(mapCfg);
+        if(mapIndex >= keyList.length){
+            console.log("已经是最后一关了！");
+            this.onBtnSelMap();
+            return;
+        }
+        cc.curSelMapId = keyList[mapIndex];
+        this.node.active = false;
+        cc.battleScene.onGameRestart();
     },
 
 });
