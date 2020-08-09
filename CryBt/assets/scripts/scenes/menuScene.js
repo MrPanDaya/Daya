@@ -10,7 +10,10 @@ cc.Class({
         selMapTipsPrefab: cc.Prefab,
     },
     onLoad () {
+        initLocalData();
         cc.menuScene = this;
+
+        this.tips_ui = this.node.getChildByName("tips_node").getComponent("tips_ui");
 
         this.selMapTips = cc.instantiate(this.selMapTipsPrefab);
         this.node.addChild(this.selMapTips);
@@ -41,5 +44,9 @@ cc.Class({
 
     onScorllEvent(){
         this.selMapTips.active = false;
+    },
+
+    showTips(tips){
+        this.tips_ui.showTips(tips);
     },
 });

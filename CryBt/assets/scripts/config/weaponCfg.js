@@ -1,7 +1,4 @@
 (function(){
-    window.userData = {
-
-    };
     window.weaponCfgList = {};
     window.initWeaponCfg = function(){
         var list = [

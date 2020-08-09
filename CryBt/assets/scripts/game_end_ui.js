@@ -22,6 +22,10 @@ cc.Class({
         this.node.active = true;
         var cryHp = cc.battleScene.crystal.crystalHp;
         var starNum = this.celStar(cryHp);
+        if(starNum > 0){
+            setUnlockMapId(cc.curSelMapId);
+            setMapStarNum(cc.curSelMapId, starNum);
+        }
         for(var i = 0; i < this.starList.length; ++i){
             this.starList[i].active = (i < starNum);
             this.starBgList[i].active = (i >= starNum);
@@ -64,8 +68,10 @@ cc.Class({
         }
         var keyList = Object.keys(mapCfg);
         if(mapIndex >= keyList.length){
-            console.log("已经是最后一关了！");
-            this.onBtnSelMap();
+            cc.battleScene.showTips("已经是最后一关了！");
+            this.node.runAction(cc.sequence(cc.delayTime(1), cc.callFunc(function () {
+                this.onBtnSelMap();
+            }.bind(this))));
             return;
         }
         cc.curSelMapId = keyList[mapIndex];

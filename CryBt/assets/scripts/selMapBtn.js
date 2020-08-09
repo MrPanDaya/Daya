@@ -9,15 +9,17 @@ cc.Class({
 
     initSelMapBtn(mapId){
         this.selMapId = mapId + "";
-        this.unLock = false;
-        for(var i = 0; i < this.starNodeList.length; ++i){
-            this.starNodeList[i].active = false;
-        }
+        this.unLock = (checkNum(mapId) <= checkNum(getUnlockMapId()));
+        this.lockPicNode.active = !this.unLock;
         this.btnSelMap.zoomScale = this.unLock ? 1.2 : 1;
+        var starNum = getMapStarNum(this.selMapId);
+        for(var i = 0; i < this.starNodeList.length; ++i){
+            this.starNodeList[i].active = (i < starNum);
+        }
     },
 
-    onBtnSelMap(e){
-        console.log(this.selMapId);
+    onBtnSelMap(){
+        // console.log(this.selMapId);
         var selMapTips = cc.menuScene.selMapTips;
         selMapTips.getComponent("selMapTips").initSelMap(this.selMapId);
         var worldPos = this.node.convertToWorldSpaceAR(cc.v2(0, 0));

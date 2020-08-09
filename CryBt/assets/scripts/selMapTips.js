@@ -4,9 +4,6 @@ cc.Class({
     properties: {
         selMapPic: cc.Sprite,
     },
-    // onLoad () {},
-    // start () {},
-    // update (dt) {},
 
     initSelMap(mapId){
         this.selMapId = mapId;
@@ -22,6 +19,10 @@ cc.Class({
     },
 
     onBtnEnterMap(){
+        if((checkNum(this.selMapId) > checkNum(getUnlockMapId()))){
+            cc.menuScene.showTips("未解锁该地图，暂不能进入！");
+            return;
+        }
         cc.curSelMapId = this.selMapId;
         cc.director.preloadScene("BattleScene", function () {
             cc.director.loadScene("BattleScene");
