@@ -1622,15 +1622,15 @@
       "ctor": "Float32Array",
       "array": [
         5,
-        0,
+        10,
         0,
         0,
         0,
         0,
         1,
-        1.5,
-        1.5,
-        1.5
+        2,
+        2,
+        2
       ]
     },
     "_eulerAngles": {
@@ -2318,16 +2318,16 @@
       "__type__": "TypedArray",
       "ctor": "Float32Array",
       "array": [
-        336.3999938964844,
-        -172.59999084472656,
+        325.79998779296875,
+        -179.6999969482422,
         0,
         0,
         0,
         0,
         1,
-        1.2000000476837158,
-        1.2000000476837158,
-        0
+        1.399999976158142,
+        1.399999976158142,
+        1
       ]
     },
     "_eulerAngles": {
@@ -2478,7 +2478,7 @@
     },
     "_enabled": true,
     "duration": 0.1,
-    "zoomScale": 1.2,
+    "zoomScale": 1.1,
     "clickEvents": [
       {
         "__id__": 58
@@ -2561,9 +2561,9 @@
     "_target": null,
     "_alignFlags": 36,
     "_left": 0,
-    "_right": 150,
+    "_right": 135,
     "_top": 0,
-    "_bottom": 140,
+    "_bottom": 125,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
