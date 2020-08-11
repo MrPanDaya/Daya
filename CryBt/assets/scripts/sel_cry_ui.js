@@ -2,7 +2,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-
+        changeCryNode: cc.Node,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -11,7 +11,7 @@ cc.Class({
     // update (dt) {},
 
     onBtnSelCrystal(){
-        console.log("onBtnSelCrystal");
+        this.changeCryNode.active = true;
     },
     onBtnGameSet(){
 
