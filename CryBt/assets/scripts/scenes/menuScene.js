@@ -13,6 +13,8 @@ cc.Class({
         initLocalData();
         cc.menuScene = this;
 
+        this.sel_cry_node = this.node.getChildByName("sel_cry_node");
+        this.sel_map_node = this.node.getChildByName("sel_map_node");
         this.tips_ui = this.node.getChildByName("tips_node").getComponent("tips_ui");
 
         this.selMapTips = cc.instantiate(this.selMapTipsPrefab);
@@ -44,6 +46,16 @@ cc.Class({
 
     onScorllEvent(){
         this.selMapTips.active = false;
+    },
+
+    onBtnBackToSelCry(){
+        this.sel_cry_node.active = true;
+        this.sel_map_node.active = false;
+    },
+
+    onBtnEnterSelMap(){
+        this.sel_cry_node.active = false;
+        this.sel_map_node.active = true;
     },
 
     showTips(tips){

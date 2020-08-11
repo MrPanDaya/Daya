@@ -19,6 +19,10 @@ cc.Class({
     },
 
     onBtnSelMap(){
+        if((checkNum(this.selMapId) > checkNum(getUnlockMapId()))){
+            cc.menuScene.showTips("该地图未解锁！");
+            return;
+        }
         // console.log(this.selMapId);
         var selMapTips = cc.menuScene.selMapTips;
         selMapTips.getComponent("selMapTips").initSelMap(this.selMapId);

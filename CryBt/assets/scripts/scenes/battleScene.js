@@ -53,7 +53,9 @@ cc.Class({
 
     onBackMenuScene(){
         cc.director.preloadScene("MenuScene", function () {
-            cc.director.loadScene("MenuScene");
+            cc.director.loadScene("MenuScene", function () {
+                cc.menuScene.onBtnEnterSelMap();
+            });
         });
     },
 

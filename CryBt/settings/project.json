@@ -7,8 +7,26 @@
       true
     ]
   ],
-  "excluded-modules": [],
-  "last-module-event-record-time": 0,
+  "excluded-modules": [
+    "DragonBones",
+    "Geom Utils",
+    "Mesh",
+    "MotionStreak",
+    "NodePool",
+    "Native Socket",
+    "Physics",
+    "PageView",
+    "PageViewIndicator",
+    "ParticleSystem",
+    "Spine Skeleton",
+    "Toggle",
+    "TiledMap",
+    "VideoPlayer",
+    "WebView",
+    "3D",
+    "3D Primitive"
+  ],
+  "last-module-event-record-time": 1597114982480,
   "design-resolution-width": 1280,
   "design-resolution-height": 720,
   "fit-width": false,

@@ -20,7 +20,7 @@ cc.Class({
 
     onBtnEnterMap(){
         if((checkNum(this.selMapId) > checkNum(getUnlockMapId()))){
-            cc.menuScene.showTips("未解锁该地图，暂不能进入！");
+            cc.menuScene.showTips("该地图未解锁，暂不能进入！");
             return;
         }
         cc.curSelMapId = this.selMapId;

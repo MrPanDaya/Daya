@@ -1,6 +1,6 @@
 {
   "ver": "2.3.3",
-  "uuid": "b7e591af-b115-4a19-8141-5e42bb705990",
+  "uuid": "9e8b34b0-81c3-43db-af25-6221b84f4921",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -9,10 +9,10 @@
   "packable": true,
   "platformSettings": {},
   "subMetas": {
-    "btnGameSet": {
+    "crystal1_1": {
       "ver": "1.0.4",
-      "uuid": "0632f232-7b2e-4bc9-aa4e-ea90877ada0b",
-      "rawTextureUuid": "b7e591af-b115-4a19-8141-5e42bb705990",
+      "uuid": "379d323a-f64a-4845-a09e-8bd06ba18fbc",
+      "rawTextureUuid": "9e8b34b0-81c3-43db-af25-6221b84f4921",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -20,10 +20,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 126,
-      "height": 116,
-      "rawWidth": 126,
-      "rawHeight": 116,
+      "width": 130,
+      "height": 199,
+      "rawWidth": 130,
+      "rawHeight": 199,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

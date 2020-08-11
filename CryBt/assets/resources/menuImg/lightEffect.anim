@@ -1,0 +1,79 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "lightEffect",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 10,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "paths": {
+      "lightEff0": {
+        "props": {
+          "angle": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 9.983333333333333,
+              "value": 360
+            }
+          ]
+        },
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 0,
+                "value": {
+                  "__uuid__": "da62102f-16c7-4bf3-990f-cb14926d94dd"
+                }
+              },
+              {
+                "frame": 9.983333333333333,
+                "value": {
+                  "__uuid__": "da62102f-16c7-4bf3-990f-cb14926d94dd"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "lightEff1": {
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 0,
+                "value": {
+                  "__uuid__": "ebbbb0a7-19e2-4fc3-902a-cc5c759d7cd5"
+                }
+              },
+              {
+                "frame": 9.983333333333333,
+                "value": {
+                  "__uuid__": "ebbbb0a7-19e2-4fc3-902a-cc5c759d7cd5"
+                }
+              }
+            ]
+          }
+        },
+        "props": {
+          "angle": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 9.983333333333333,
+              "value": -360
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}
