@@ -1,6 +1,6 @@
 {
   "ver": "2.3.3",
-  "uuid": "dac324fa-008b-4dda-854d-980690a10017",
+  "uuid": "358f83d4-7883-47b8-bb2a-afa75598fdd1",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -9,10 +9,10 @@
   "packable": true,
   "platformSettings": {},
   "subMetas": {
-    "crystal5_2": {
+    "crystal4_0": {
       "ver": "1.0.4",
-      "uuid": "f7dd4b0a-8620-4c50-b8e3-2cd2c0705ec1",
-      "rawTextureUuid": "dac324fa-008b-4dda-854d-980690a10017",
+      "uuid": "f3ff6f07-71b3-4084-87aa-9bc4d24203fd",
+      "rawTextureUuid": "358f83d4-7883-47b8-bb2a-afa75598fdd1",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

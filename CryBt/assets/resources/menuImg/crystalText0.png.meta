@@ -1,6 +1,6 @@
 {
   "ver": "2.3.3",
-  "uuid": "da8baf19-17b7-4601-8d23-4aedef631743",
+  "uuid": "ecaffed9-de77-4f13-8e21-544a19825d27",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -9,10 +9,10 @@
   "packable": true,
   "platformSettings": {},
   "subMetas": {
-    "crystal4_2": {
+    "crystalText0": {
       "ver": "1.0.4",
-      "uuid": "3a6f0b42-712e-4f49-acd8-e08ffcd3836b",
-      "rawTextureUuid": "da8baf19-17b7-4601-8d23-4aedef631743",
+      "uuid": "73215055-a68d-4ec1-9b54-660ca8b706ca",
+      "rawTextureUuid": "ecaffed9-de77-4f13-8e21-544a19825d27",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -20,10 +20,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 130,
-      "height": 160,
-      "rawWidth": 130,
-      "rawHeight": 160,
+      "width": 94,
+      "height": 22,
+      "rawWidth": 94,
+      "rawHeight": 22,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,
