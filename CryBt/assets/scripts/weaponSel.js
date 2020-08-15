@@ -23,7 +23,7 @@ cc.Class({
         this.costNode = this.node.getChildByName("cost");
         this.tmpColor = this.costNode.color;
         var self = this;
-        cc.loader.loadRes("battleImg/" + weaponCfg.normalBtn, cc.SpriteFrame, function (err, spriteFrame) {
+        cc.loader.loadRes("battleImg/" + weaponCfg.assertName, cc.SpriteFrame, function (err, spriteFrame) {
             self.node.getComponent(cc.Sprite).spriteFrame = spriteFrame;
             self.costNode.getComponent(cc.Label).string = weaponCfg.buildMoney;
         });
