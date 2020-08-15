@@ -12,12 +12,12 @@ cc.Class({
 
         cryCostLab: cc.Label,
         expCostLab: cc.Label,
+
+        changeCryNode: cc.Node,
     },
-    // onLoad () {},
-    // start () {},
-    // update (dt) {},
 
     initLvupUi(cryId){
+        this.selCryId = cryId;
         var self = this;
         cc.loader.loadRes("menuImg/crystal" + cryId + "_0", cc.SpriteFrame, function (err, spriteFrame) {
             self.pic0.spriteFrame = spriteFrame;
@@ -28,14 +28,46 @@ cc.Class({
             self.cryText1.spriteFrame = spriteFrame;
         });
 
-        this.attLab0.string = "+10%";
-        this.attLab1.string = "+15%";
+        this.resetCrystalData();
+    },
 
-        this.cryCostLab.string = "2/10";
-        this.expCostLab.string = "11/15";
+    resetCrystalData(){
+        var userCryData = getCrystalData(this.selCryId);
+        if(isCrystalMaxLv(this.selCryId, userCryData.lv)){
+            cc.menuScene.showTips("已是最高级!");
+        }
+        var curExp = userCryData.curExp;
+        var curBaseCryCount = LocalData.baseCryCount;
+        var cryAtt = getCrystalAtt(this.selCryId, userCryData.lv);
+        var cryNextAtt = getCrystalAtt(this.selCryId, userCryData.lv + 1);
+
+        this.attLab0.string = "+" + Math.floor(cryAtt.att * 100) +  "%";
+        this.attLab1.string = "+" + Math.floor(cryNextAtt.att * 100) +  "%";
+
+        this.cryCostLab.string = curBaseCryCount + "/" + cryNextAtt.baseCry;
+        this.expCostLab.string = curExp + "/" + cryNextAtt.exp;
     },
 
     onBtnClose(){
         this.node.active = false;
+    },
+
+    onBtnLvup(){
+        var result = setCrystalLvUp(this.selCryId);
+        var sTips = "升级成功!";
+        if(result === -1){
+            sTips = "该水晶未解锁!";
+        }else if(result === -2){
+            sTips = "已是最高级!";
+        }else if(result === -3){
+            sTips = "原水晶不足!";
+        }else if(result === -4){
+            sTips = "水晶经验不足!";
+        }
+        cc.menuScene.showTips(sTips);
+        if(result === 0){
+            this.resetCrystalData();
+            this.changeCryNode.getComponent("change_cry_ui").resetCrystalData();
+        }
     },
 });

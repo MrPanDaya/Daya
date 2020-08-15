@@ -18,8 +18,11 @@ cc.Class({
 
     onBtnSelCrystal(){
         this.changeCryNode.active = true;
+        this.changeCryNode.getComponent("change_cry_ui").resetCrystalData();
     },
     onBtnGameSet(){
-
+        addCrystalExp(LocalData.selCrystalId, 3400);
+        addBaseCryCout(500);
+        console.log("onBtnGameSet");
     },
 });

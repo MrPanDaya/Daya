@@ -37,7 +37,15 @@ cc.Class({
         this.losePic.active = (cryHp <= 0);
         this.btnRestart.active = (cryHp <= 0);
         // 计算奖励
-
+        var reward = getGameEndReward(cc.curSelMapId, starNum);
+        console.log("reward:", reward);
+        this.labExp.string = reward.exp;
+        this.labCry.string = reward.cry;
+        this.labExpExt.string = reward.starExp;
+        this.labCryExt.string = reward.starCry;
+        // 保存
+        LocalData.baseCryCount += (reward.cry + reward.starCry);
+        addCrystalExp(LocalData.selCrystalId, reward.exp + reward.starExp);
     },
 
     celStar(hp){
