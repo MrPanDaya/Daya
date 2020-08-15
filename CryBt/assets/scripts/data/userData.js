@@ -28,6 +28,10 @@
         if(LocalData.mapUnLockId >= mapList.length) return;
         if(checkNum(mapId) >= checkNum(getUnlockMapId())){
             LocalData.mapUnLockId += 1;
+            var reward = getMapUnlockReward(getUnlockMapId());
+            if(reward){
+                setCrystalUnlock(reward.crystalId);
+            }
             saveLocalData();
         }
     };
@@ -57,7 +61,7 @@
         if(cryId >= Object.keys(crystalCfg).length) return;
         var cryData = LocalData.crystalData["cry" + cryId];
         if(cryData && cryData.unlock === 1) return;
-        LocalData.crystalData["cry" + cryId].unlock = {lv: 0, curExp: 0, unlock: 1};
+        LocalData.crystalData["cry" + cryId] = {lv: 0, curExp: 0, unlock: 1};
         saveLocalData();
     };
     window.setCrystalLvUp = function (cryId){

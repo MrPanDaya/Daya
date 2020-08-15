@@ -120,7 +120,7 @@ cc.Class({
         this.crystalNode.x = (endGridCfg.posX - 6) * 64;
         this.crystalNode.y = (endGridCfg.posY - 3) * 64;
         this.crystal = this.crystalNode.getComponent("crystalAi");
-        this.crystal.initCrystal(1);
+        this.crystal.initCrystal(LocalData.selCrystalId);
     },
 
     initWeapon(){

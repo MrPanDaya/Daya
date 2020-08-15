@@ -5,6 +5,7 @@ cc.Class({
         lockPicNode: cc.Node,
         starNodeList: [cc.Node],
         btnSelMap: cc.Button,
+        cryUnlockObjEffect: cc.Prefab,
     },
 
     initSelMapBtn(mapId){
@@ -15,6 +16,12 @@ cc.Class({
         var starNum = getMapStarNum(this.selMapId);
         for(var i = 0; i < this.starNodeList.length; ++i){
             this.starNodeList[i].active = (i < starNum);
+        }
+        var unLockReward = getMapUnlockReward(this.selMapId);
+        if(unLockReward && !this.unLock){
+            this.cryUnlockEff = cc.instantiate(this.cryUnlockObjEffect);
+            this.node.addChild(this.cryUnlockEff);
+            this.cryUnlockEff.getComponent("crystalShow").initCrystalShow(unLockReward.crystalId);
         }
     },
 

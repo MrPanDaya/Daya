@@ -21,8 +21,10 @@ cc.Class({
         this.changeCryNode.getComponent("change_cry_ui").resetCrystalData();
     },
     onBtnGameSet(){
-        addCrystalExp(LocalData.selCrystalId, 3400);
-        addBaseCryCout(500);
+        // addCrystalExp(LocalData.selCrystalId, 3400);
+        // addBaseCryCout(500);
+
+        // setUnlockMapId(getUnlockMapId());
         console.log("onBtnGameSet");
     },
 });

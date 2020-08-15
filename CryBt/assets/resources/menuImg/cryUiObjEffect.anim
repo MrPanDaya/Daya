@@ -1,6 +1,6 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "btnMainClose",
+  "_name": "cryUiObjEffect",
   "_objFlags": 0,
   "_native": "",
   "_duration": 2,
@@ -8,8 +8,42 @@
   "speed": 1,
   "wrapMode": 2,
   "curveData": {
+    "props": {
+      "y": [
+        {
+          "frame": 0,
+          "value": 155
+        },
+        {
+          "frame": 1,
+          "value": 145
+        },
+        {
+          "frame": 2,
+          "value": 155
+        }
+      ]
+    },
     "paths": {
-      "pic_0": {
+      "obj_node/crystal/crystal_pic_1": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 1,
+              "value": 255
+            },
+            {
+              "frame": 2,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "obj_node/eff_bg/eff0": {
         "props": {
           "opacity": [
             {
@@ -23,13 +57,9 @@
           ]
         }
       },
-      "pic_1": {
+      "obj_node/eff_bg/eff1": {
         "props": {
           "opacity": [
-            {
-              "frame": 0,
-              "value": 0
-            },
             {
               "frame": 0.5,
               "value": 0
@@ -41,23 +71,15 @@
           ]
         }
       },
-      "pic_2": {
+      "obj_node/eff_bg/eff2": {
         "props": {
           "opacity": [
-            {
-              "frame": 0,
-              "value": 0
-            },
             {
               "frame": 1,
               "value": 0
             },
             {
               "frame": 1.5,
-              "value": 255
-            },
-            {
-              "frame": 2,
               "value": 255
             }
           ]

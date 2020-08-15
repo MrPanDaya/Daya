@@ -30,6 +30,9 @@ cc.Class({
         }
         this.onPageChange();
     },
+    start(){
+        this.crystalPage.setCurrentPageIndex(LocalData.selCrystalId);
+    },
     update (dt) {
         this.updateBtnLR(dt);
     },
@@ -61,15 +64,16 @@ cc.Class({
         if(userCryData){
             this.labLv.string = userCryData.lv;
             var attData = getCrystalAtt(this.selIndex, userCryData.lv);
+            var attDataNext = getCrystalAtt(this.selIndex, userCryData.lv + 1);
             this.labAtt.string = Math.floor(attData.att * 100) + "%";
 
             if(isCrystalMaxLv(this.selIndex, userCryData.lv)){
                 this.onProgressChange(1);
                 this.labExp.string = "MAX";
             }else{
-                var percent = userCryData.curExp / attData.exp;
+                var percent = userCryData.curExp / attDataNext.exp;
                 this.onProgressChange(percent);
-                this.labExp.string = userCryData.curExp + " / " + attData.exp;
+                this.labExp.string = userCryData.curExp + " / " + attDataNext.exp;
             }
         }
     },

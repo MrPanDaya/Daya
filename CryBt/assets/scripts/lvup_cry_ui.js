@@ -7,6 +7,7 @@ cc.Class({
         cryText0: cc.Sprite,
         cryText1: cc.Sprite,
 
+        cryLv: cc.Label,
         attLab0: cc.Label,
         attLab1: cc.Label,
 
@@ -36,6 +37,7 @@ cc.Class({
         if(isCrystalMaxLv(this.selCryId, userCryData.lv)){
             cc.menuScene.showTips("已是最高级!");
         }
+        this.cryLv.string = userCryData.lv;
         var curExp = userCryData.curExp;
         var curBaseCryCount = LocalData.baseCryCount;
         var cryAtt = getCrystalAtt(this.selCryId, userCryData.lv);

@@ -1,6 +1,6 @@
 {
   "ver": "2.3.3",
-  "uuid": "e96dc3d6-1f5e-43df-8959-bdae6f3902b6",
+  "uuid": "ed086f28-e7f4-41d3-be15-d085bc444436",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -9,10 +9,10 @@
   "packable": true,
   "platformSettings": {},
   "subMetas": {
-    "AniBackPic2": {
+    "unlockEff1": {
       "ver": "1.0.4",
-      "uuid": "2f4f6355-c860-474a-b594-1ba00147fb89",
-      "rawTextureUuid": "e96dc3d6-1f5e-43df-8959-bdae6f3902b6",
+      "uuid": "d43200ef-f378-43b1-8158-bcd902721c51",
+      "rawTextureUuid": "ed086f28-e7f4-41d3-be15-d085bc444436",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -20,10 +20,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 640,
-      "height": 720,
-      "rawWidth": 640,
-      "rawHeight": 720,
+      "width": 55,
+      "height": 20,
+      "rawWidth": 55,
+      "rawHeight": 20,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,
