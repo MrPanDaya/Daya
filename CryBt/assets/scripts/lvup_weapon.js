@@ -21,9 +21,19 @@ cc.Class({
         this.sWidth = this.node.width;
         this.sHeight = this.node.height;
         this.tmpColor = this.lvupText.node.color;
+        this.nextBuildMoney = 0;
+        this.totalMoney = 0;
+    },
+
+    update(dt){
+        if(this.totalMoney !== cc.battleScene.data.money){
+            this.totalMoney = cc.battleScene.data.money;
+            this.lvupText.node.color = this.totalMoney >= this.nextBuildMoney ? this.tmpColor : cc.color(255,100,50,255);
+        }
     },
 
     showLvupWeapon(selWeapon){
+        this.totalMoney = cc.battleScene.data.money;
         this.selWeapon = selWeapon;
         if(selWeapon){
             this.node.active = true;
@@ -35,10 +45,13 @@ cc.Class({
             this.node.active = true;
 
             this.btnLvup.interactable = !this.selWeapon.isMaxLevel();
-            this.lvupText.string = this.selWeapon.getNextLvCost();
             this.dropText.string = this.selWeapon.weaponCfg.dropMoney;
-
-            this.lvupText.color = cc.battleScene.data.money > 100 ? this.tmpColor : cc.color(255,0,0,255);
+            var nextCost = this.selWeapon.getNextLvCost();
+            this.lvupText.string = nextCost;
+            if(nextCost !== "MAX"){
+                this.nextBuildMoney = checkNum(nextCost);
+                this.lvupText.node.color = this.totalMoney >= this.nextBuildMoney ? this.tmpColor : cc.color(255,100,50,255);
+            }
         }
     },
 

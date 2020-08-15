@@ -46,6 +46,7 @@ cc.Class({
     },
 
     initMonster(monsterCfg){
+        this.monsterNode.active = true;
         this.monsterNode.scale = this.oldScale * checkNum(monsterCfg.scale);
         this.monsterCfg = monsterCfg;
         this.maxHp = checkNum(this.monsterCfg.maxHp);
@@ -74,10 +75,12 @@ cc.Class({
     onDeath(){
         this.roadCfg = null;
         cc.battleScene.onMonsterDeath();
-
+        cc.battleScene.changeBattlMoney(checkNum(this.monsterCfg.money))
         this.hpNode.active = false;
+        this.monsterNode.active = false;
         var deathAniNode = cc.instantiate(this.deathEff_prefab);
         this.node.addChild(deathAniNode);
+        deathAniNode.getChildByName("lab_money").getComponent(cc.Label).string = "+" + this.monsterCfg.money;
         var deathAni = deathAniNode.getComponent(cc.Animation);
         deathAni.on('finished', function () {
             this.node.removeFromParent();
@@ -85,6 +88,7 @@ cc.Class({
         deathAni.play("deathEffect", 0);
     },
     onAttected(weaponCfg){
+        if(this.monsterHp <= 0) return;
         this.hpNode.active = true;
         var att = checkNum(weaponCfg.att);
         this.monsterHp -= att;
@@ -99,6 +103,7 @@ cc.Class({
         this.node.addChild(effect);
         effect.active = true;
         effect.getComponent("attEffect").playBulletEffect(weaponCfg.attEffect);
+
     },
 
     getNextPos(){

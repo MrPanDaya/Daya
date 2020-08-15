@@ -19,9 +19,12 @@ cc.Class({
         this.one_speed.active = !cc.gameDoubleSpeed;
         this.double_speed.active = cc.gameDoubleSpeed;
         if(mapConfig){
-            this.crystal_num.string = mapConfig.startMoney;
             this.total_wave.string = Object.keys(mapConfig.monsterWave).length;
         }
+    },
+
+    updateMoney(money){
+        this.crystal_num.string = money;
     },
 
     onBtnPause(){

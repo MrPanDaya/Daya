@@ -36,7 +36,7 @@ cc.Class({
         this.sceneId = cc.curSelMapId;
         cc.gameDoubleSpeed = false;
         this.data = {
-            money: 500,
+            money: 0,
         }
     },
 
@@ -155,7 +155,14 @@ cc.Class({
     },
 
     initBattleUI(){
+        this.data.money = this.mapConfig.startMoney;
         this.battle_ui.resetBattleUi(this.mapConfig);
+        this.battle_ui.updateMoney(this.data.money);
+    },
+
+    changeBattlMoney(money){
+        this.data.money += money;
+        this.battle_ui.updateMoney(this.data.money);
     },
 
     setCurWave(waveId){

@@ -73,8 +73,17 @@ cc.Class({
 
     buildWeapon(weaponId){
         // console.log("build weapon:" + weaponId);
+        var weaponCfg = weaponCfgList[weaponId+""];
+        var buildMoney = checkNum(weaponCfg.buildMoney);
+        if(buildMoney > cc.battleScene.data.money){
+            cc.battleScene.showTips("能量不足!");
+            return;
+        }
+        // 扣除能力
+        cc.battleScene.changeBattlMoney(-buildMoney);
+
         this.weaponId = weaponId;
-        this.weaponCfg = weaponCfgList[weaponId+""];
+        this.weaponCfg = weaponCfg
         var self = this;
         cc.loader.loadRes("battleImg/" + this.weaponCfg.assertName, cc.SpriteFrame, function (err, spriteFrame) {
             self.weapon.spriteFrame = spriteFrame;
@@ -92,13 +101,13 @@ cc.Class({
 
     buildNextLevel() {
         if (!this.weaponCfg) return;
-        cc.battleScene.data.money -= 200;
         if(this.weaponCfg.nextLevelId !== "0"){
             this.buildWeapon(this.weaponCfg.nextLevelId);
         }
     },
 
     dropWeapon(){
+        cc.battleScene.changeBattlMoney(checkNum(this.weaponCfg.dropMoney));
         this.initWeapon();
     },
 
