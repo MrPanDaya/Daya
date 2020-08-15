@@ -28,7 +28,7 @@
         if(LocalData.mapUnLockId >= mapList.length) return;
         if(checkNum(mapId) >= checkNum(getUnlockMapId())){
             LocalData.mapUnLockId += 1;
-            var reward = getMapUnlockReward(getUnlockMapId());
+            var reward = getMapUnlockReward(mapId);
             if(reward){
                 setCrystalUnlock(reward.crystalId);
             }
