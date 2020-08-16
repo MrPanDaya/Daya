@@ -3,9 +3,11 @@ cc.Class({
     extends: cc.Component,
     properties: {
         deathEff_prefab: cc.Prefab,
+        dizzyEff_prefab: cc.Prefab,
         monsterNode: cc.Node,
         hpNode: cc.Node,
         hpPicNode: cc.Node,
+        decSpeedNode: cc.Node,
     },
     onLoad () {
         this.oldScale = this.monsterNode.scale;
@@ -21,12 +23,18 @@ cc.Class({
 
     updateMonster(dt){
         if(this.isBorn && this.roadCfg && this.monsterHp > 0){
+            // 眩晕停止移动
+            this.dizzyTimer -= dt;
+            this.dizzyTimer = Math.max(this.dizzyTimer, 0);
+            if(this.dizzyTimer > 0) return;
+            // 移动
+            this.dizzyEffect && (this.dizzyEffect.active = false);
             var nexPos = this.getNextPos();
             var dir = nexPos.sub(cc.v2(this.node.x, this.node.y));
             dir = dir.normalize();
             dir.mulSelf(dt * checkNum(this.monsterCfg.maxSpeed) * 64);
-            this.node.x += dir.x;
-            this.node.y += dir.y;
+            this.node.x += (dir.x * this.speedScale);
+            this.node.y += (dir.y * this.speedScale);
             if(dir.x > 0 && this.node.x >= nexPos.x || dir.x < 0 && this.node.x <= nexPos.x){
                 this.node.x = nexPos.x;
             }
@@ -71,13 +79,30 @@ cc.Class({
         this.node.x = (this.roadCfg[this.nextRoadId].posX - 6) * 64;
         this.node.y = (this.roadCfg[this.nextRoadId].posY - 3) * 64;
         this.nextRoadId ++;
+
+        // 水晶数据
+        this.crystalData = getCrystalAtt1(LocalData.selCrystalId);
+        // 眩晕水晶定时器
+        this.dizzyTimer = 0;
+        // 减速水晶
+        this.decSpeedNode.active = false;
+        this.speedScale = 1;
+        if(LocalData.selCrystalId === crystalType.DecSpeedBuff){
+            this.speedScale = (1 - this.crystalData.att);
+            if(this.speedScale < 1){
+                this.decSpeedNode.active = true;
+            }
+        }
     },
     onDeath(){
         this.roadCfg = null;
+        this.crystalData = null;
         cc.battleScene.onMonsterDeath();
         cc.battleScene.changeBattlMoney(checkNum(this.monsterCfg.money))
         this.hpNode.active = false;
         this.monsterNode.active = false;
+        this.decSpeedNode.active = false;
+        this.dizzyEffect && (this.dizzyEffect.active = false);
         var deathAniNode = cc.instantiate(this.deathEff_prefab);
         this.node.addChild(deathAniNode);
         deathAniNode.getChildByName("lab_money").getComponent(cc.Label).string = "+" + this.monsterCfg.money;
@@ -91,6 +116,12 @@ cc.Class({
         if(this.monsterHp <= 0) return;
         this.hpNode.active = true;
         var att = checkNum(weaponCfg.att);
+        // 攻击加成水晶
+        if(LocalData.selCrystalId === crystalType.AddPowerBuff){
+            att += (att * this.crystalData.att);
+        }else if(LocalData.selCrystalId === crystalType.DizzyMonBuff){
+            this.runDizzyAni();
+        }
         this.monsterHp -= att;
         if(this.monsterHp <= 0){
             this.monsterHp = 0;
@@ -104,6 +135,18 @@ cc.Class({
         effect.active = true;
         effect.getComponent("attEffect").playBulletEffect(weaponCfg.attEffect);
 
+    },
+
+    runDizzyAni(){
+        if(Math.round(Math.random()) <= this.crystalData.att){
+            this.dizzyTimer = 1;
+            if(!this.dizzyEffect){
+                this.dizzyEffect = cc.instantiate(this.dizzyEff_prefab);
+                this.node.addChild(this.dizzyEffect);
+            }
+            this.dizzyEffect.active = true;
+            this.dizzyEffect.getComponent(cc.Animation).play("dizzyEffect", 0);
+        }
     },
 
     getNextPos(){

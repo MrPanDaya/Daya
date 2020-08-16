@@ -6,6 +6,7 @@ cc.Class({
         sel_node: cc.Node,
         weapon_node: cc.Node,
         weapon: cc.Sprite,
+        add_power_node: cc.Node,
     },
     update (dt) {
         if(cc.isGameEnd) return;
@@ -82,6 +83,7 @@ cc.Class({
         // 扣除能力
         cc.battleScene.changeBattlMoney(-buildMoney);
 
+        this.add_power_node.active = (LocalData.selCrystalId === crystalType.AddPowerBuff);
         this.weaponId = weaponId;
         this.weaponCfg = weaponCfg
         var self = this;
