@@ -4,6 +4,7 @@ cc.Class({
     properties: {
         deathEff_prefab: cc.Prefab,
         dizzyEff_prefab: cc.Prefab,
+        cryAttEff_prefab: cc.Prefab,
         monsterNode: cc.Node,
         hpNode: cc.Node,
         hpPicNode: cc.Node,
@@ -41,7 +42,7 @@ cc.Class({
             if(dir.y > 0 && this.node.y >= nexPos.y || dir.y < 0 && this.node.y <= nexPos.y){
                 this.node.y = nexPos.y;
             }
-            if(this.node.x == nexPos.x && this.node.y == nexPos.y){
+            if(this.node.x === nexPos.x && this.node.y === nexPos.y){
                 this.nextRoadId ++;
                 if(this.nextRoadId >= this.totalRoadCount){
                     this.monsterHp = 0;
@@ -92,6 +93,11 @@ cc.Class({
             if(this.speedScale < 1){
                 this.decSpeedNode.active = true;
             }
+        }else if(LocalData.selCrystalId === crystalType.DecBornHpBuff){
+            this.hpNode.active = true;
+            var percent = (1 - this.crystalData.att);
+            this.monsterHp = Math.floor(this.maxHp * percent);
+            this.hpPicNode.scaleX = percent;
         }
     },
     onDeath(){
@@ -134,12 +140,37 @@ cc.Class({
         this.node.addChild(effect);
         effect.active = true;
         effect.getComponent("attEffect").playBulletEffect(weaponCfg.attEffect);
+    },
 
+    onAttectedByCrystal(){
+        if(this.monsterHp <= 0) return;
+        if(LocalData.selCrystalId === crystalType.AttackMonBuff && this.crystalData.att > 0){
+            this.hpNode.active = true;
+            if(!this.cryAttectEffect){
+                this.cryAttectEffect = cc.instantiate(this.cryAttEff_prefab);
+                this.node.addChild(this.cryAttectEffect);
+            }
+            this.cryAttectEffect.active = true;
+            var cryAttAni = this.cryAttectEffect.getComponent(cc.Animation);
+            cryAttAni.on('finished', function () {
+                this.cryAttectEffect.active = false;
+            }.bind(this));
+            cryAttAni.play("crystalAttEffect", 0);
+            // 扣血
+            var att = this.maxHp * this.crystalData.att;
+            this.monsterHp -= att;
+            if(this.monsterHp <= 0){
+                this.monsterHp = 0;
+                this.onDeath();
+            }
+            var percent = this.monsterHp/this.maxHp;
+            this.hpPicNode.scaleX = percent;
+        }
     },
 
     runDizzyAni(){
         if(Math.round(Math.random()) <= this.crystalData.att){
-            this.dizzyTimer = 1;
+            this.dizzyTimer = 0.6;  //0.6秒眩晕时间
             if(!this.dizzyEffect){
                 this.dizzyEffect = cc.instantiate(this.dizzyEff_prefab);
                 this.node.addChild(this.dizzyEffect);

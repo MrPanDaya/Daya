@@ -175,6 +175,7 @@ cc.Class({
                 this.weaponList[i].onWeaponUnSel();
             }
         }
+        this.crystal && this.crystal.onCrystalUnSel();
     },
 
     onUnSelect(){
@@ -184,6 +185,7 @@ cc.Class({
             this.selWeapon.onWeaponUnSel();
             this.selWeapon = null;
         }
+        this.crystal && this.crystal.onCrystalUnSel();
     },
 
     showWeaponTips(weapon){
