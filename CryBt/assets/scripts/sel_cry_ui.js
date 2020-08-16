@@ -4,6 +4,7 @@ cc.Class({
     properties: {
         changeCryNode: cc.Node,
         cryShowNode: cc.Node,
+        gameSetNode: cc.Node,
     },
 
     onLoad () {
@@ -21,6 +22,7 @@ cc.Class({
         this.changeCryNode.getComponent("change_cry_ui").resetCrystalData();
     },
     onBtnGameSet(){
+        this.gameSetNode.active = true;
         // addCrystalExp(LocalData.selCrystalId, 3400);
         // addBaseCryCout(500);
 
