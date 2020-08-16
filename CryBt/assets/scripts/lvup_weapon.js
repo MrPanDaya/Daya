@@ -28,7 +28,9 @@ cc.Class({
     update(dt){
         if(this.totalMoney !== cc.battleScene.data.money){
             this.totalMoney = cc.battleScene.data.money;
-            this.lvupText.node.color = this.totalMoney >= this.nextBuildMoney ? this.tmpColor : cc.color(255,100,50,255);
+            this.lvupText.node.color = this.tmpColor;
+            if(this.selWeapon && !this.selWeapon.isMaxLevel() && this.totalMoney < this.nextBuildMoney)
+                this.lvupText.node.color = cc.color(255,100,50,255);
         }
     },
 
@@ -48,9 +50,11 @@ cc.Class({
             this.dropText.string = this.selWeapon.weaponCfg.dropMoney;
             var nextCost = this.selWeapon.getNextLvCost();
             this.lvupText.string = nextCost;
-            if(nextCost !== "MAX"){
+            this.lvupText.node.color = this.tmpColor;
+            if(!this.selWeapon.isMaxLevel()){
                 this.nextBuildMoney = checkNum(nextCost);
-                this.lvupText.node.color = this.totalMoney >= this.nextBuildMoney ? this.tmpColor : cc.color(255,100,50,255);
+                if(this.totalMoney < this.nextBuildMoney)
+                    this.lvupText.node.color = cc.color(255,100,50,255);
             }
         }
     },
