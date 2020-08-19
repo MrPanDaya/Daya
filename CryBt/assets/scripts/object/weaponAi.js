@@ -16,24 +16,34 @@ cc.Class({
     },
 
     updateWeapon(dt){
-        if(this.weaponCfg){
-            this.fireTimer += dt;
-            if(this.fireTimer >= checkNum(this.weaponCfg.attSpeed)){
-                this.fireTimer = 0;
-                this.flowMonster = cc.battleScene.monster_wave.getFireMonster(this);
-                if (this.flowMonster) {
-                    var monsterPos = cc.v2(this.flowMonster.node.x, this.flowMonster.node.y);
-                    var pos = cc.v2(this.node.x, this.node.y);
-                    var dir = monsterPos.sub(pos);
-                    var ang = Math.acos(dir.x/Math.sqrt(dir.x*dir.x + dir.y*dir.y))*(180/Math.PI);
-                    if (dir.y < 0) {
-                        this.weapon.node.angle = -ang + 90;
-                    } else {
-                        this.weapon.node.angle = ang + 90;
-                    }
-                    // 发射子弹
-                    cc.battleScene.getBullet().initButtle(this, this.flowMonster);
+        if(!this.weaponCfg) return;
+
+        this.fireTimer += dt;
+        if(this.fireTimer >= checkNum(this.weaponCfg.attSpeed)){
+            this.fireTimer = 0;
+            this.flowMonster = cc.battleScene.monster_wave.getFireMonster(this);
+            if (this.flowMonster) {
+                var monsterPos = cc.v2(this.flowMonster.node.x, this.flowMonster.node.y);
+                var pos = cc.v2(this.node.x, this.node.y);
+                var dir = monsterPos.sub(pos);
+                var ang = Math.acos(dir.x/Math.sqrt(dir.x*dir.x + dir.y*dir.y))*(180/Math.PI);
+                if (dir.y < 0) {
+                    this.weapon.node.angle = -ang + 90;
+                } else {
+                    this.weapon.node.angle = ang + 90;
                 }
+                // 发射子弹
+                if(this.bulletType === bulletType.ray_line){
+                    if(!this.rayLineBullet){
+                        this.rayLineBullet = cc.battleScene.getBullet();
+                        this.rayLineBullet.initBullet(this, this.flowMonster);
+                    }
+                    this.rayLineBullet.updateFlowMonster(this.flowMonster);
+                }else{
+                    cc.battleScene.getBullet().initBullet(this, this.flowMonster);
+                }
+            }else{
+                if(this.rayLineBullet) this.rayLineBullet.node.active = false;
             }
         }
     },
@@ -41,9 +51,14 @@ cc.Class({
     initWeapon(){
         this.weaponId = 0;
         this.weaponCfg = null;
+        this.bulletType = 0;
         this.empty_node.active = false;
         this.fireTimer = 0;
         this.onWeaponUnSel();
+        if(this.rayLineBullet){
+            cc.battleScene.backBullet(this.rayLineBullet.node);
+            this.rayLineBullet = null;
+        }
     },
 
     onWeaponGirdSel(){
@@ -85,7 +100,8 @@ cc.Class({
 
         this.add_power_node.active = (LocalData.selCrystalId === crystalType.AddPowerBuff);
         this.weaponId = weaponId;
-        this.weaponCfg = weaponCfg
+        this.weaponCfg = weaponCfg;
+        this.bulletType = checkNum(this.weaponCfg.bulletType);
         var self = this;
         cc.loader.loadRes("battleImg/" + this.weaponCfg.assertName, cc.SpriteFrame, function (err, spriteFrame) {
             self.weapon.spriteFrame = spriteFrame;
@@ -96,8 +112,11 @@ cc.Class({
             self.sel_node.active = false;
             self.empty_node.active = false;
         });
-        cc.loader.loadRes("battleImg/" + this.weaponCfg.buttleEffect, cc.SpriteFrame, function (err, spriteFrame) {
-            self.buttlePic = spriteFrame;
+        cc.loader.loadRes("battleImg/" + this.weaponCfg.bulletEffect, cc.SpriteFrame, function (err, spriteFrame) {
+            self.bulletPic = spriteFrame;
+            if(self.rayLineBullet){
+                self.rayLineBullet.initBullet(self, null);
+            }
         });
     },
 
@@ -123,5 +142,11 @@ cc.Class({
             return nextLvCfg.buildMoney;
         }
         return "MAX";
+    },
+    onDestroy(){
+        if(this.rayLineBullet){
+            cc.battleScene.backBullet(this.rayLineBullet.node);
+            this.rayLineBullet = null;
+        }
     },
 });

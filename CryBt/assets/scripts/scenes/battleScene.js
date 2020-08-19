@@ -68,6 +68,11 @@ cc.Class({
         this.road_node.removeAllChildren();
         this.weapon_node.removeAllChildren();
         this.weapon_tips.removeAllChildren();
+        for(var i = 0; i < this.bulletTemp.length; ++i){
+            this.bulletTemp[i].active = false;
+            this.bulletPool.push(this.bulletTemp[i]);
+        }
+        this.bulletTemp = [];
     },
 
     initScene(){
@@ -218,7 +223,8 @@ cc.Class({
 
     initBulletPool(){
         this.bulletPool = [];
-        for(var i = 0; i < 3; ++i){
+        this.bulletTemp = [];
+        for(var i = 0; i < 10; ++i){
             var bulletNode = cc.instantiate(this.bullet_prefab);
             bulletNode.active = false;
             this.bullet_node.addChild(bulletNode);
@@ -233,11 +239,18 @@ cc.Class({
             bulletNode = cc.instantiate(this.bullet_prefab);
             cc.battleScene.bullet_node.addChild(bulletNode);
         }
+        this.bulletTemp.push(bulletNode);
         return bulletNode.getComponent("bulletAi");
     },
     backBullet(bulletNode){
         bulletNode.active = false;
         this.bulletPool.push(bulletNode);
+        for(var i = 0; i < this.bulletTemp.length; ++i){
+            if(this.bulletTemp[i] === bulletNode){
+                this.bulletTemp.splice(i, 1);
+                break;
+            }
+        }
     },
 
     initBulletEffectPool(){
