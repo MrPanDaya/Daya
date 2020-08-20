@@ -18,6 +18,8 @@ cc.Class({
     updateWeapon(dt){
         if(!this.weaponCfg) return;
 
+        this.updateRayCricleBullet(dt);
+
         this.fireTimer += dt;
         if(this.fireTimer >= checkNum(this.weaponCfg.attSpeed)){
             this.fireTimer = 0;
@@ -33,17 +35,34 @@ cc.Class({
                     this.weapon.node.angle = ang + 90;
                 }
                 // 发射子弹
-                if(this.bulletType === bulletType.ray_line){
-                    if(!this.rayLineBullet){
+                if(this.bulletType === bulletType.ray_line) {
+                    if (!this.rayLineBullet) {
                         this.rayLineBullet = cc.battleScene.getBullet();
                         this.rayLineBullet.initBullet(this, this.flowMonster);
                     }
-                    this.rayLineBullet.updateFlowMonster(this.flowMonster);
+                    this.rayLineBullet.updateRayLineBullet(this.flowMonster);
+                }
+                else if(this.bulletType === bulletType.ray_cricle){
+                    this.ryaCricleNum = 3;
+                    this.ryaCricleTimer = 0;
+                    this.criFlowMonster = this.flowMonster;
                 }else{
                     cc.battleScene.getBullet().initBullet(this, this.flowMonster);
                 }
             }else{
                 if(this.rayLineBullet) this.rayLineBullet.node.active = false;
+            }
+        }
+    },
+
+    updateRayCricleBullet(dt){
+        if(this.bulletType !== bulletType.ray_cricle) return;
+        if(this.ryaCricleNum > 0){
+            this.ryaCricleTimer += dt;
+            if(this.ryaCricleTimer > 0.05){
+                this.ryaCricleNum --;
+                this.ryaCricleTimer = 0;
+                this.criFlowMonster && cc.battleScene.getBullet().initBullet(this, this.criFlowMonster);
             }
         }
     },
@@ -54,6 +73,8 @@ cc.Class({
         this.bulletType = 0;
         this.empty_node.active = false;
         this.fireTimer = 0;
+        this.ryaCricleNum = 0;
+        this.ryaCricleTimer = 0;
         this.onWeaponUnSel();
         if(this.rayLineBullet){
             cc.battleScene.backBullet(this.rayLineBullet.node);
@@ -98,7 +119,11 @@ cc.Class({
         // 扣除能力
         cc.battleScene.changeBattlMoney(-buildMoney);
 
-        this.add_power_node.active = (LocalData.selCrystalId === crystalType.AddPowerBuff);
+        this.add_power_node.active = false;
+        if(LocalData.selCrystalId === crystalType.AddPowerBuff){
+            this.crystalData = getCrystalAtt1(LocalData.selCrystalId);
+            this.add_power_node.active = (this.crystalData.att > 0);
+        }
         this.weaponId = weaponId;
         this.weaponCfg = weaponCfg;
         this.bulletType = checkNum(this.weaponCfg.bulletType);

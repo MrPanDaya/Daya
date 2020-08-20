@@ -12,6 +12,9 @@ cc.Class({
 
     updateBullet(dt){
         if(this.flowMonster && this.node.active){
+            if(this.bulletType === bulletType.ray_cricle && this.node.scale < 1.2){
+                this.node.scale = Math.min(this.node.scale + 10*dt, 1.2);
+            }
             var monsterPos = cc.v2(this.flowMonster.node.x, this.flowMonster.node.y);
             var pos = cc.v2(this.node.x, this.node.y);
             var dir = monsterPos.sub(pos);
@@ -19,6 +22,7 @@ cc.Class({
                 this.node.angle = this.weapon.weapon.node.angle;
                 this.node.height = dir.mag() - 20;
             }else{
+                this.speed += (dt * this.addSpeed);
                 dir = dir.normalize();
                 dir.mulSelf(dt * this.speed * 64);
                 this.node.x += dir.x;
@@ -31,11 +35,17 @@ cc.Class({
                     this.node.y = monsterPos.y;
                 }
                 if(this.node.x == monsterPos.x && this.node.y == monsterPos.y){
-                    this.flowMonster.onAttected(this.weaponCfg);
+                    this.onAttectMonster();
                     cc.battleScene.backBullet(this.node);
                 }
             }
         }
+    },
+    // 激光射线的跟随
+    updateRayLineBullet(flowMonster){
+        this.node.active = true;
+        this.flowMonster = flowMonster;
+        this.flowMonster.onAttected(this.weaponCfg);
     },
 
     initBullet(weapon, flowMonster){
@@ -51,7 +61,12 @@ cc.Class({
         if(this.bulletType === bulletType.ray_line){
             this.node.anchorY = 1;
         }else{
-            this.node.anchorY = 0.5;
+            this.node.anchorY = 0.7;
+        }
+        if(this.bulletType === bulletType.ray_cricle){
+            this.node.scale = 0.5;
+        }else{
+            this.node.scale = 1;
         }
         this.node.x = weapon.node.x;
         this.node.y = weapon.node.y;
@@ -60,11 +75,14 @@ cc.Class({
         this.node.active = true;
     },
 
-    updateFlowMonster(flowMonster){
-        this.node.active = true;
-        this.flowMonster = flowMonster;
+    onAttectMonster(){
         this.flowMonster.onAttected(this.weaponCfg);
+        if(this.hitRadius > 0){
+            var monsterList = cc.battleScene.monster_wave.getFireMonsterList(this.flowMonster, this.hitRadius);
+            for(var i = 0, len = monsterList.length; i < len; ++i){
+                monsterList[i].onAttected(this.weaponCfg, true);
+            }
+        }
     },
-
 
 });

@@ -83,6 +83,24 @@ cc.Class({
         return selMonster;
     },
 
+    getFireMonsterList(flowMonster, hitRadius){
+        var monsterList = [];
+        if(flowMonster){
+            var flowPos = cc.v2(flowMonster.node.x, flowMonster.node.y);
+            for(var i = 0, len = this.monsterList.length; i < len; ++i) {
+                var monster = this.monsterList[i];
+                if(monster && monster !== flowMonster && monster.monsterHp > 0 && monster.node.active){
+                    var monsterPos = cc.v2(monster.node.x, monster.node.y);
+                    var dis = flowPos.sub(monsterPos).mag();
+                    if(dis <= hitRadius * 64){
+                        monsterList.push(monster);
+                    }
+                }
+            }
+        }
+        return monsterList;
+    },
+
     checkMonster(){
         var isAllDeath = true;
         for(var i = 0; i < this.monsterList.length; ++i){

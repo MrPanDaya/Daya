@@ -23,12 +23,6 @@ cc.Class({
     },
     onBtnGameSet(){
         this.gameSetNode.active = true;
-        // addCrystalExp(LocalData.selCrystalId, 3400);
-        // addBaseCryCout(500);
-
-        // setUnlockMapId(getUnlockMapId());
-
-        // setCrystalUnlock(4);
         console.log("onBtnGameSet");
     },
 });

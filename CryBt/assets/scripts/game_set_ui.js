@@ -20,12 +20,18 @@ cc.Class({
         this.isMusicMute = !this.isMusicMute;
         this.musicSelNode.active = !this.isMusicMute;
         this.musicUnSelNode.active = this.isMusicMute;
+
+        // setUnlockMapId(getUnlockMapId());
+        // setCrystalUnlock(4);
     },
 
     onBtnSound(){
         this.isPlaySound = !this.isPlaySound;
         this.soundSelNode.active = this.isPlaySound;
         this.soundUnSelNode.active = !this.isPlaySound;
+
+        // addCrystalExp(LocalData.selCrystalId, 3400);
+        // addBaseCryCout(500);
     },
 
     onBtnClose(){

@@ -118,15 +118,19 @@ cc.Class({
         }.bind(this));
         deathAni.play("deathEffect", 0);
     },
-    onAttected(weaponCfg){
+
+    onAttected(weaponCfg, bRadiusAtt){
         if(this.monsterHp <= 0) return;
         this.hpNode.active = true;
         var att = checkNum(weaponCfg.att);
+        var bulletAttExt = checkNum(weaponCfg.bulletAttExt);
+        if(bRadiusAtt) att *= bulletAttExt;
         // 攻击加成水晶
         if(LocalData.selCrystalId === crystalType.AddPowerBuff){
-            att += (att * this.crystalData.att);
+            att += (att * this.crystalData.att);;
         }else if(LocalData.selCrystalId === crystalType.DizzyMonBuff){
-            this.runDizzyAni();
+            var bulletEffExt = bRadiusAtt ? checkNum(weaponCfg.bulletEffExt) : 0;
+            this.runDizzyAni(bulletEffExt);
         }
         this.monsterHp -= att;
         if(this.monsterHp <= 0){
@@ -168,9 +172,10 @@ cc.Class({
         }
     },
 
-    runDizzyAni(){
-        if(Math.round(Math.random()) <= this.crystalData.att){
-            this.dizzyTimer = 0.6;  //0.6秒眩晕时间
+    runDizzyAni(bulletEffExt){
+        var result = bulletEffExt > 0 ? this.crystalData.att*bulletEffExt : this.crystalData.att;
+        if(Math.random() <= result){
+            this.dizzyTimer = bulletEffExt > 0 ? 0.4 : 0.6;  //0.6秒眩晕时间
             if(!this.dizzyEffect){
                 this.dizzyEffect = cc.instantiate(this.dizzyEff_prefab);
                 this.node.addChild(this.dizzyEffect);
