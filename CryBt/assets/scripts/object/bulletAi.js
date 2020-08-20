@@ -61,7 +61,7 @@ cc.Class({
         if(this.bulletType === bulletType.ray_line){
             this.node.anchorY = 1;
         }else{
-            this.node.anchorY = 0.7;
+            this.node.anchorY = 0.5;
         }
         if(this.bulletType === bulletType.ray_cricle){
             this.node.scale = 0.5;
