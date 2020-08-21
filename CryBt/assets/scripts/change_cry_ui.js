@@ -111,7 +111,7 @@ cc.Class({
                 cc.menuScene.showTips("请通关副本获得!");
                 cc.menuScene.onBtnEnterSelMap();
             }else{
-                cc.menuScene.showTips("请到星际看看吧!");
+                cc.menuScene.showTips("请到星际救援站看看吧!");
             }
         }
         this.onBtnClose();
