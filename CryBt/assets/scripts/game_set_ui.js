@@ -30,11 +30,17 @@ cc.Class({
         this.soundSelNode.active = this.isPlaySound;
         this.soundUnSelNode.active = !this.isPlaySound;
 
-        // addCrystalExp(LocalData.selCrystalId, 3400);
-        // addBaseCryCout(500);
+        addCrystalExp(LocalData.selCrystalId, 3400);
+        addBaseCryCout(500);
     },
 
     onBtnClose(){
         this.node.active = false;
+    },
+
+    onBtnExitGame(){
+        cc.director.preloadScene("LoginScene", function () {
+            cc.director.loadScene("LoginScene");
+        });
     },
 });
