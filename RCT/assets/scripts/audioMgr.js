@@ -1,14 +1,11 @@
-// Learn cc.Class:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+/*
+* 描述：封装的音效、背景音乐的接口
+* */
 (function () {
     window.audioMgr = {
+        /*
+        * 描述：初始化
+        * */
         init: function() {
             cc.soundId = {
                 move: "move",
@@ -32,6 +29,9 @@
             });
         },
 
+        /*
+        * 描述：播放背景音乐
+        * */
         playMainMenu: function() {
             if (!bPlayMainMenu) {
                 return;
@@ -55,6 +55,9 @@
             }
         },
 
+        /*
+        * 描述：停止背景音乐
+        * */
         stopMainMenu: function() {
             if (this.wx_music_ac) {
                 this.wx_music_ac.stop();
@@ -65,6 +68,11 @@
             }
         },
 
+        /*
+        * 描述：播放一个音效
+        * 参数：soundId 音效id
+        * 参数：bRoop 是否循环播放
+        * */
         playSound: function(soundId, bRoop) {
             if (!bPlaySound) {
                 return;
@@ -100,6 +108,10 @@
             }
         },
 
+        /*
+        * 描述：停止一个音效
+        * 参数：soundId 要终止的音效id
+        * */
         stopSound: function(soundId) {
             if (window.wx && window.wx.createInnerAudioContext && this.roopSound[soundId]) {
                 this.roopSound[soundId].stop();

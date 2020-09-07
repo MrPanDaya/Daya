@@ -1,3 +1,6 @@
+/*
+* 描述：主角赛车类
+* */
 cc.Class({
     extends: cc.Component,
 
@@ -6,7 +9,9 @@ cc.Class({
     },
 
     // LIFE-CYCLE CALLBACKS:
-
+    /*
+    * 描述：初始化赛车
+    * */
     onLoad() {
         cc.mainPlayer = this;
         this.startPlay = false;
@@ -22,6 +27,9 @@ cc.Class({
         this.initKeyEvent();
     },
 
+    /*
+    * 描述：赛车类的析构回调
+    * */
     onDestroy() {
         if(cc.sys.os === 'Windows'){
             cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
@@ -31,6 +39,9 @@ cc.Class({
     // start() {
     // },
 
+    /*
+    * 描述：刷新赛车
+    * */
     update(dt) {
         if(this.isBroken || !this.startPlay || cc.mainScene.pause){
             return;
@@ -51,6 +62,9 @@ cc.Class({
         this.onUpdateNitrogen(dt);
     },
 
+    /*
+    * 描述：更新氮气状态
+    * */
     onUpdateNitrogen(dt){
         if(this.ngTimer > 0){
             if(this.ngTimer <= 2){
@@ -69,7 +83,9 @@ cc.Class({
         }
     },
 
-    // 氮气加速
+    /*
+    * 描述：氮气加速
+    * */
     addSpeedByNitrogen(dt){
         // 加速到最大速度
         var dlSpeed = this.carCfg.addSpeedN*dt;
@@ -80,7 +96,9 @@ cc.Class({
         }
     },
 
-    // 氮气结束
+    /*
+    * 描述：氮气结束
+    * */
     decSpeedByNoNitrogen(dt){
         if(cc.carSpeed < this.carCfg.maxSpeed){
             var dlSpeed = this.carCfg.addSpeed*dt;
@@ -100,6 +118,9 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：开始游戏
+    * */
     onStartPlay(){
         this.startPlay = true;
         this.isBroken = false;
@@ -118,6 +139,10 @@ cc.Class({
         window.audioMgr.playSound(cc.soundId.move, true);
     },
 
+    /*
+    * 描述：初始化赛车
+    * 参数：id赛车的编号
+    * */
     initCar(id) {
         this.xPosList = [-260, -85, 85, 260];
         this.xPosIndex = 2;
@@ -141,6 +166,9 @@ cc.Class({
         });
     },
 
+    /*
+    * 描述：初始化按键事件
+    * */
     initKeyEvent(){
         // 重力操作
         // if (window.wx && wx.onAccelerometerChange) {
@@ -159,6 +187,9 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：按钮按下的回调
+    * */
     onKeyDown(event) {
         if(cc.mainScene.pause){
             return;
@@ -185,6 +216,9 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：赛车毁坏的回调
+    * */
     onCarBroken() {
         if(this.isBroken){
             return;
@@ -195,6 +229,9 @@ cc.Class({
         window.audioMgr.stopSound(cc.soundId.move);
     },
 
+    /*
+    * 描述：暂停或继续游戏
+    * */
     onCarPause(bPause){
         if(cc.mainScene.pause){
             window.audioMgr.stopSound(cc.soundId.move);
@@ -203,7 +240,9 @@ cc.Class({
         }
     },
 
-    // 氮气加速
+    /*
+    * 描述：氮气加速的回调
+    * */
     onUsedNitrogen() {
         if(this.isBroken){
             return;
@@ -214,6 +253,9 @@ cc.Class({
         this.ngTimer = this.carCfg.ngTimer;
     },
 
+    /*
+    * 描述：但其加速结束的回调
+    * */
     onNitrogenOver() {
         this.grassNode.active = false;
         this.effDun.active = false;
@@ -223,6 +265,10 @@ cc.Class({
         // cc.carSpeed = this.carCfg.maxSpeed;
     },
 
+    /*
+    * 描述：赛车Y方向上锚点的变化
+    * 参数：anchorY 锚点的Y位置
+    * */
     setAnchorY(anchorY){
         var lastAnchorY = this.node.anchorY;
         this.node.anchorY = anchorY;
@@ -234,6 +280,9 @@ cc.Class({
         this.boxCollider.apply();
     },
 
+    /*
+    * 描述：向左转
+    * */
     turnLeft() {
         if (this.xPosIndex <= 0 || this.isBroken || this.dir === -1) {
             return;
@@ -253,6 +302,9 @@ cc.Class({
         this.node.runAction(cc.rotateTo(this.carCfg.turnTime, -this.carCfg.carAng))
     },
 
+    /*
+    * 描述：向右转
+    * */
     turnRight() {
         if (this.xPosIndex >= 3 || this.isBroken || this.dir === 1) {
             return;
@@ -272,6 +324,9 @@ cc.Class({
         this.node.runAction(cc.rotateTo(this.carCfg.turnTime, this.carCfg.carAng))
     },
 
+    /*
+    * 描述：恢复初始位置
+    * */
     coverBack() {
         if (this.bRecover || this.isBroken) {
             return;
@@ -294,6 +349,9 @@ cc.Class({
         this.node.runAction(cc.sequence(rota, fun))
     },
 
+    /*
+    * 描述：与AI车开始碰撞的回调
+    * */
     onBeginContact(contact, sefCollider, otherCollider){
         if(this.ngTimer > 0){
             return;

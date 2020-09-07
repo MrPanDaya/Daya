@@ -1,3 +1,6 @@
+/*
+* 描述：赛车升级界面类
+* */
 cc.Class({
     extends: cc.Component,
 
@@ -12,15 +15,22 @@ cc.Class({
         btnLvup: cc.Node
     },
 
+    /*
+    * 描述：初始化
+    * */
     onLoad () {
         cc.uiLvlup = this;
         this.barMaxWidth = 320;
     },
 
-    start () {},
+    // start () {},
 
     // update (dt) {},
 
+    /*
+    * 描述：设置选中汽车的数据
+    * 参数：selId 选中汽车的id
+    * */
     setSelId(selId){
         this.selId = selId || 0;
         this.selLv = cc.LocalData.levelInfo['car' + this.selId] || 0;
@@ -29,6 +39,9 @@ cc.Class({
         this.updateLvupUI();
     },
 
+    /*
+    * 描述：刷新升级界面
+    * */
     updateLvupUI(){
         var lvupCfg = carLvUpCfg['car' + this.selId];
         this.btnLvup.active = (this.selLv < lvupCfg.lv);
@@ -53,9 +66,16 @@ cc.Class({
         this.maxNgTimeBar.getChildByName("cur_value").getComponent(cc.Label).string = this.carCfgCur.ngTimer;
     },
 
+    /*
+    * 描述：关闭设置界面的按钮
+    * */
     onClose(){
         this.node.active = false;
     },
+
+    /*
+    * 描述：升级按钮的回调
+    * */
     onLvlup(){
         var lvupCfg = carLvUpCfg['car' + this.selId];
         if(this.selLv >= lvupCfg.lv || cc.LocalData.totalMoney < lvupCfg.lvCost){

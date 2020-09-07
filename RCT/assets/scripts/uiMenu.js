@@ -1,21 +1,12 @@
-// Learn cc.Class:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-
+/*
+* 描述：游戏主界面类
+* */
 cc.Class({
     extends: cc.Component,
 
-    // LIFE-CYCLE CALLBACKS:
-    // onLoad () {},
-    // start () {},
-    // update (dt) {},
-
+    /*
+    * 描述：设置主界面的显示或隐藏
+    * */
     setVisible(bVisible){
         if(!this.startImg || !this.restartImg){
             var btnRestart = this.node.getChildByName("btn_restart");
@@ -28,7 +19,10 @@ cc.Class({
         }
         this.node.active = bVisible;
     },
-    
+
+    /*
+    * 描述：继续按钮的回调
+    * */
     onBtnContinue() {
         window.audioMgr.playSound(cc.soundId.btn);
         this.node.active = false;
@@ -47,10 +41,16 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：开始游戏按钮的回调
+    * */
     onBtnStartGame() {
         if(cc.mainScene) cc.mainScene.onBtnStartGame();
     },
 
+    /*
+    * 描述：推出游戏按钮的回调
+    * */
     onBtnExit(){
         var self = this
         cc.director.preloadScene("selRoleScene", function () {

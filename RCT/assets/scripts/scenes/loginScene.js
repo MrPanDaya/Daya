@@ -1,3 +1,6 @@
+/*
+* 描述：登录场景类
+* */
 cc.Class({
     extends: cc.Component,
 
@@ -7,11 +10,17 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
+    /*
+    * 描述：初始化
+    * */
     onLoad () {
         window.audioMgr.init();
         initWXEvent();
     },
 
+    /*
+    * 描述：开始
+    * */
     start () {
         this.startEffect0 = cc.find('Canvas/login_node/start_effect_0');
         this.startEffect0.opacity = 0;
@@ -21,6 +30,9 @@ cc.Class({
 
     // update (dt) {},
 
+    /*
+    * 描述：开始游戏按钮的点击回调
+    * */
     onBtnStartGame(){
         this.runStartEffect(function(){
             cc.director.preloadScene("selRoleScene", function () {
@@ -30,6 +42,9 @@ cc.Class({
         });
     },
 
+    /*
+    * 描述：播放开始按钮的动画
+    * */
     runStartEffect(callback){
         this.startEffect0.runAction(cc.fadeTo(0.2, 255));
         var callfun = cc.callFunc(function(){

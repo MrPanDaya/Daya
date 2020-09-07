@@ -1,13 +1,6 @@
-// Learn cc.Class:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-
+/*
+* 描述：游戏主场景类
+* */
 cc.Class({
     extends: cc.Component,
 
@@ -21,6 +14,9 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
+    /*
+    * 描述：初始化数据
+    * */
     onLoad() {
         cc.mainScene = this;
         this.maxScore = cc.LocalData.maxScore || 0;
@@ -74,6 +70,9 @@ cc.Class({
         this.initAiCar();
     },
 
+    /*
+    * 描述：开始
+    * */
     start() {
         if (cc.mainPlayer) {
             var selId = cc.LocalData.selectCar || 0;
@@ -87,6 +86,9 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：刷新场景
+    * */
     update(dt) {
         if (cc.carSpeed === undefined || this.pause) {
             return;
@@ -122,7 +124,9 @@ cc.Class({
         this.updateNitrogenCD(dt);
     },
 
-    // 难度升级
+    /*
+    * 描述：难度升级
+    * */
     checkAndHardLvUp(){
         if(this.hardLv >= 5){
             return;
@@ -141,10 +145,16 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：场景析构的回调
+    * */
     onDestroy() {
         window.audioMgr.stopMainMenu();
     },
 
+    /*
+    * 描述：开始游戏按钮的回调
+    * */
     onBtnStartGame() {
         window.audioMgr.playSound(cc.soundId.btn);
         window.audioMgr.playMainMenu();
@@ -185,6 +195,9 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：暂停游戏按钮的回调
+    * */
     onBtnPause() {
         window.audioMgr.playSound(cc.soundId.btn);
         if(cc.mainPlayer.isBroken){
@@ -202,20 +215,32 @@ cc.Class({
         cc.director.getPhysicsManager().enabled = false;
     },
 
+    /*
+    * 描述：显示游戏菜单按钮的回调
+    * */
     onBtnMenu(){
         window.audioMgr.playSound(cc.soundId.btn);
         var set_ui_node = cc.instantiate(this.setMenuPrefab);
         this.node.addChild(set_ui_node);
     },
 
+    /*
+    * 描述：赛车左转按钮的回调
+    * */
     onBtnTurnLeft(){
         cc.mainPlayer.turnLeft();
     },
 
+    /*
+    * 描述：赛车右转按钮的回调
+    * */
     onBtnTurnRight(){
         cc.mainPlayer.turnRight();
     },
 
+    /*
+    * 描述：使用氮气按钮的回调
+    * */
     onBtnNitrogen(){
         if(this.cdProgress.progress > 0){
             return;
@@ -226,6 +251,10 @@ cc.Class({
         this.ngCDTimer = ngTotalCDTimer;
         cc.mainPlayer && cc.mainPlayer.onUsedNitrogen();
     },
+
+    /*
+    * 描述：分享游戏按钮的回调
+    * */
     onBtnShare(){
         var args = {};
         args.title = "我突然想起小时候的黑白掌机";
@@ -233,6 +262,9 @@ cc.Class({
         shareByMiniGame(args);
     },
 
+    /*
+    * 描述：停止游戏按钮的回调
+    * */
     onGameStop(){
         if(cc.mainPlayer){ 
             cc.mainPlayer.onCarBroken();
@@ -260,6 +292,9 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：初始化AI车
+    * */
     initAiCar(){
         this.carNode = cc.find("Canvas/car_node");
         this.aiCarPool = new cc.NodePool();
@@ -269,11 +304,17 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：刷新AI车
+    * */
     updateAiCar(dt){
         this.updateAiCar0(dt);
         this.updateAiCar1(dt);
     },
 
+    /*
+    * 描述：刷新相同方向的AI车辆
+    * */
     updateAiCar0(dt){
         this.randCarTimer0 += dt;
         if(this.randCarTimer0 < (this.aiCarTimer - this.hardLv*0.1)){
@@ -292,6 +333,9 @@ cc.Class({
         aiCar.getComponent("aiCar").initAiCar(this, roadId);
     },
 
+    /*
+    * 描述：刷新不同方向的AI车辆
+    * */
     updateAiCar1(dt){
         this.randCarTimer1 += dt;
         if(this.randCarTimer1 < this.aiCarTimer){
@@ -310,6 +354,9 @@ cc.Class({
         aiCar.getComponent("aiCar").initAiCar(this, roadId);
     },
 
+    /*
+    * 描述：刷新氮气的CD
+    * */
     updateNitrogenCD(dt){
         if(this.cdProgress.progress <= 0){
             return;
@@ -319,6 +366,9 @@ cc.Class({
         this.cdProgress.progress = this.ngCDTimer/ngTotalCDTimer;
     },
 
+    /*
+    * 描述：播放氮气结束的动画
+    * */
     runNitrogenOverAction(){
         if(this.bNgOverAction){
             return;
@@ -331,6 +381,9 @@ cc.Class({
         this.btnNitrogen.runAction(cc.sequence(blink, endCall));
     },
 
+    /*
+    * 描述：回收AI车辆
+    * */
     removeAiCar(aiCar){
         if(!aiCar){
             return;

@@ -1,3 +1,6 @@
+/*
+* 描述：选车场景的类
+* */
 cc.Class({
     extends: cc.Component,
 
@@ -14,6 +17,9 @@ cc.Class({
         labCarName: cc.Label,
     },
 
+    /*
+    * 描述：初始化赛车
+    * */
     onLoad () {
         initLocalData();
         cc.selRoleScene = this;
@@ -56,6 +62,9 @@ cc.Class({
         this.onTotalMoneyChanged();
     },
 
+    /*
+    * 描述：开始
+    * */
     start () {
         var centerNode = cc.find("Canvas/center_node");
         this.centerPos = centerNode.convertToWorldSpaceAR(cc.v2(0,0));
@@ -67,12 +76,18 @@ cc.Class({
 
     // update (dt) {},
 
+    /*
+    * 描述：总金币发生变化的回调
+    * */
     onTotalMoneyChanged(){
         // 设置金币
         var goldNode = cc.find("Canvas/top_node/gold");
         goldNode.getComponent(cc.Label).string = cc.LocalData.totalMoney || "0";
     },
 
+    /*
+    * 描述：选赛车界面发生滚动的逻辑
+    * */
     carScoll() {
         for (var key in this.showList) {
             var node = this.showList[key];
@@ -106,6 +121,9 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：确定按钮的点击回调
+    * */
     onBtnOK() {
         var unLock = cc.LocalData.unLockInfo["car" + this.selId] || 0;
         if(unLock > 0) {
@@ -118,6 +136,9 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：解锁按钮的点击回调
+    * */
     onBtnUnlock(){
         var unLock = cc.LocalData.unLockInfo["car" + this.selId] || 0;
         if(unLock <= 0) {
@@ -137,6 +158,9 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：升级按钮的回调
+    * */
     onBtnLvlup(){
         if(this.lvlupNode){
             this.lvlupNode.active = true;
@@ -144,12 +168,18 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：菜单按钮的回调
+    * */
     onBtnMenu(){
         window.audioMgr.playSound(cc.soundId.btn);
         var set_ui_node = cc.instantiate(this.setMenuPrefab);
         this.node.addChild(set_ui_node);
     },
 
+    /*
+    * 描述：分享按钮的回调
+    * */
     onBtnShare(){
         var args = {};
         args.title = "这款赛车让我有点小时候的感觉";

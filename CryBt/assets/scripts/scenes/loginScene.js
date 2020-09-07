@@ -7,7 +7,9 @@ cc.Class({
     },
 
     // onLoad () {},
-    // start () {},
+    start () {
+        audioMgr.playMainMenu("menu0");
+    },
     // update (dt) {},
 
     onBtnStartGame(){

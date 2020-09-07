@@ -1,17 +1,13 @@
-// Learn cc.Class:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-
+/*
+* 描述：游戏结算界面类
+* */
 cc.Class({
     extends: cc.Component,
 
     // LIFE-CYCLE CALLBACKS:
+    /*
+    * 描述：结算界面初始化
+    * */
     onLoad () {
         if(!this.scoreNode){
             this.scoreNode = this.node.getChildByName("score_node");
@@ -33,6 +29,9 @@ cc.Class({
         }
     },
     // start () {},
+    /*
+    * 描述：刷新结算界面
+    * */
     update (dt) {
         if(this.startScoreAni){
             var totalScore = Math.floor(cc.mainScene.score);
@@ -54,6 +53,9 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：设置结算界面的显示或隐藏
+    * */
     setVisible(bVisible){
         this.node.active = bVisible;
         if(bVisible){
@@ -63,12 +65,18 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：继续游戏按钮的回调
+    * */
     onBtnContinue(){
         window.audioMgr.playSound(cc.soundId.btn);
         if(cc.mainScene) cc.mainScene.onBtnStartGame();
         this.node.active = false;
     },
 
+    /*
+    * 描述：推出游戏按钮的回调
+    * */
     onBtnExitGame(){
         var self = this
         cc.director.preloadScene("selRoleScene", function () {
@@ -79,6 +87,9 @@ cc.Class({
         });
     },
 
+    /*
+    * 描述：播放结算分数的动画
+    * */
     runScoreNodeAction(){
         this.curScore = 0;
         this.scoreNode.x = this.node.width;
@@ -91,6 +102,9 @@ cc.Class({
         this.scoreNode.runAction(cc.sequence(delay, move, endCall));
     },
 
+    /*
+    * 描述：播放金币的动画
+    * */
     runMoneyNodeAction(){
         this.curMoney = 0;
         this.moneyNode.x = this.node.width;
@@ -103,6 +117,9 @@ cc.Class({
         this.moneyNode.runAction(cc.sequence(delay, move, endCall));
     },
 
+    /*
+    * 描述：播放最高分数的动画
+    * */
     runBestNodeAction(){
         this.btnContinue.active = false;
         this.btnExit.active = false;

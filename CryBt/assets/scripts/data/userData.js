@@ -22,6 +22,75 @@
         }
     };
 
+    window.shareApp = function(params, callBack){
+        if(wx && wx.shareAppMessage){
+            var args = {};
+            if (params.title) {
+                args.title = params.title;
+            }
+            // 携带参数分享，带到 query 中
+            if (params.query) {
+                args.query = params.query;
+            }
+            // 如果有指定分享图片，按照 imgpath、imgurl 的顺序显示图片
+            // 如果没有指定，使用当前截屏
+            if (params.imgpath) {
+                args.imageUrl = params.imgpath;
+            } else if (params.imgurl) {
+                args.imageUrl = params.imgurl;
+            }
+            wx.shareAppMessage(args);
+        }
+    };
+
+    window.initWXEvent = function(){
+        if(!window.wx) return;
+        if(window.initWX) return;
+        window.initWX = true;
+        wx.onShow(function (opt) {
+
+        });
+
+        wx.onHide(function () {
+            if(cc.mainPlayer && cc.mainPlayer.startPlay){
+                cc.mainScene.onBtnPause();
+            }
+        });
+    };
+
+    /*
+        *描述: 截屏 参数单位为微信的canvas单位
+        *参数: x 起点x坐标
+        *参数: y 起点y坐标
+        *参数: w 宽度
+        *参数: h 高度
+        *参数: callback 截屏回调
+    */
+    window.captureScreen = function(x, y, w, h, callback){
+        if(!window.wx) return;
+        canvas.toTempFilePath({
+            x: x,
+            y: y,
+            width: w,
+            height: h,
+            destWidth: 500,
+            destHeight: 400,
+            complete:function(res) {
+                callback && callback(res);
+            },
+            fail:function(res){
+                console.log("ShareLogic.captureScreen failed:", res);
+                callback && callback(undefined, "截屏失败");
+            }
+        });
+    };
+
+    window.shareByMiniGame = function (params) {
+        if(!window.wx) return;
+        params.imageUrl = cc.url.raw('share.jpg');
+        wx.shareAppMessage(params);
+    };
+
     //=================================================================
     window.setUnlockMapId = function(mapId){
         var mapList = Object.keys(mapCfg);

@@ -1,9 +1,14 @@
+/*
+    * 描述：游戏本地数据及接口类
+    * */
 (function(){
     window.bPlayMainMenu = true;
     window.bPlaySound = true;
     window.ngTotalCDTimer = 15;
 
-    // 难度等级配置
+    /*
+    * 描述：难度等级配置
+    * */
     window.hardLvCfg = {
         0 : {
             posY: -250,
@@ -37,7 +42,9 @@
         },
     }
 
-    // 赛车配置
+    /*
+    * 描述：赛车配置
+    * */
     window.mainCarCfg = {
         car0 : {
             img: 'img/main_scene/car01',
@@ -137,7 +144,9 @@
         }
     };
 
-    // 赛车升级配置
+    /*
+    * 描述：赛车升级配置
+    * */
     window.carLvUpCfg = {
         car0 : {
             lv: 4,
@@ -195,7 +204,9 @@
         }
     };
 
-    // ai车配置
+    /*
+    * 描述：ai车配置配置
+    * */
     window.aiCarCfg = {
         car0 : {
             img: 'img/main_scene/ncar01',
@@ -279,6 +290,9 @@
         }
     };
 
+    /*
+    * 描述：初始化本地数据
+    * */
     window.initLocalData = function () {
         var defData = {
             selectCar : 0,
@@ -295,12 +309,20 @@
         saveLocalData();
     };
 
+    /*
+    * 描述：保存本地数据
+    * */
     window.saveLocalData = function () {
         if(cc.LocalData){
             LocalStorage.setObject("RctData", cc.LocalData);
         }
     };
 
+    /*
+    * 描述：根据等级获取汽车的配置
+    * 参数：selId 选中的汽车id
+    * 参数：lv 汽车等级
+    * */
     window.getCarCfgByLevel = function(selId, lv){
         var carCfg = mainCarCfg['car' + selId];
         var str = JSON.stringify(carCfg);
@@ -320,6 +342,11 @@
         return cfg;
     };
 
+    /*
+    * 描述：分享接口
+    * 参数：params 分享的参数
+    * 参数：callBack 分享的回调
+    * */
     window.shareApp = function(params, callBack){
         if(wx && wx.shareAppMessage){
             var args = {};
@@ -341,6 +368,9 @@
         }
     };
 
+    /*
+    * 描述：初始化微信小程序的事件
+    * */
     window.initWXEvent = function(){
         if(!window.wx) return;
         if(window.initWX) return;
@@ -385,6 +415,10 @@
         });
     };
 
+    /*
+    * 描述：分享至小游戏的接口
+    * 参数：params 分享的参数
+    * */
     window.shareByMiniGame = function (params) {
         params.imageUrl = cc.url.raw('share.jpg');
         wx.shareAppMessage(params);

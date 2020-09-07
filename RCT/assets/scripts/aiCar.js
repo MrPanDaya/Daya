@@ -1,13 +1,6 @@
-// Learn cc.Class:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-
+/*
+* 描述：AI车的类
+* */
 cc.Class({
     extends: cc.Component,
 
@@ -17,6 +10,9 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
+    /*
+    * 描述：初始化
+    * */
     onLoad () {
         this.node.y = 2000;
         this.offsetPosY = [-10,5,-5,10,-5,5];
@@ -26,6 +22,11 @@ cc.Class({
         this.boomNode.active = false;
     },
 
+    /*
+    * 描述：初始化AI车的数据
+    * 参数：target 目标场景
+    * 参数：roadIndex AI车出生的车道
+    * */
     initAiCar(target, roadIndex){
         if(!target){
             return;
@@ -80,7 +81,9 @@ cc.Class({
         // console.log("carId,roadId,speed : " + this.nIndex + " " + this.nRoadId + " " + this.speed);
     },
 
-
+    /*
+    * 描述：刷新AI车
+    * */
     update (dt) {
         if(cc.mainPlayer && cc.mainPlayer.isBroken || this.isBroken === true){
             this.clearTimer += dt;
@@ -106,6 +109,9 @@ cc.Class({
         }
     },
 
+    /*
+    * 描述：AI车与主角赛车发生碰撞的回调
+    * */
     onBeginContact(contact, sefCollider, otherCollider){
         this.isBroken = true;
     },
