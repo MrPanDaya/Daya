@@ -47,7 +47,7 @@ cc.Class({
             this.labCryExt.string = reward.starCry;
             // 保存
             LocalData.baseCryCount += (reward.cry + reward.starCry);
-            addCrystalExp(LocalData.selCrystalId, reward.exp + reward.starExp);
+            LocalData.baseExp += (reward.exp + reward.starExp);
         }
     },
 

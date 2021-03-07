@@ -6,6 +6,7 @@
             mapUnLockId : 0,
             mapStar:{},
 
+            baseExp: 0,
             baseCryCount: 0,
             selCrystalId: 0,
             crystalData: {
@@ -141,18 +142,16 @@
         var needBaseCry = cryCfg.attList[cryData.lv].baseCry;
         var needExp = cryCfg.attList[cryData.lv].exp;
         if(needBaseCry > LocalData.baseCryCount) return -3;
-        if(needExp > cryData.curExp) return -4;
+        if(needExp > LocalData.baseExp) return -4;
         // 升级
         LocalData.crystalData["cry" + cryId].lv += 1;
-        LocalData.crystalData["cry" + cryId].curExp -= needExp;
         LocalData.baseCryCount -= needBaseCry;
+        LocalData.baseExp -= needExp;
         saveLocalData();
         return 0;
     };
-    window.addCrystalExp = function (cryId, exp){
-        var cryData = LocalData.crystalData["cry" + cryId];
-        if(!cryData || cryData.unlock !== 1) return;
-        LocalData.crystalData["cry" + cryId].curExp += exp;
+    window.addCrystalExp = function (exp){
+        LocalData.baseExp += exp;
         saveLocalData();
     };
     window.addBaseCryCout = function (count){

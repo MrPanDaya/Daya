@@ -71,9 +71,9 @@ cc.Class({
                 this.onProgressChange(1);
                 this.labExp.string = "MAX";
             }else{
-                var percent = userCryData.curExp / attDataNext.exp;
+                var percent = LocalData.baseExp / attDataNext.exp;
                 this.onProgressChange(percent);
-                this.labExp.string = userCryData.curExp + " / " + attDataNext.exp;
+                this.labExp.string = LocalData.baseExp + " / " + attDataNext.exp;
             }
         }
     },

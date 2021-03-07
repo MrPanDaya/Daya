@@ -38,7 +38,7 @@ cc.Class({
             cc.menuScene.showTips("已是最高级!");
         }
         this.cryLv.string = userCryData.lv;
-        var curExp = userCryData.curExp;
+        var curExp = LocalData.baseExp;
         var curBaseCryCount = LocalData.baseCryCount;
         var cryAtt = getCrystalAtt(this.selCryId, userCryData.lv);
         var cryNextAtt = getCrystalAtt(this.selCryId, userCryData.lv + 1);

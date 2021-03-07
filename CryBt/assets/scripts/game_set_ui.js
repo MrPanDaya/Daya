@@ -30,7 +30,8 @@ cc.Class({
         this.soundSelNode.active = this.isPlaySound;
         this.soundUnSelNode.active = !this.isPlaySound;
 
-        addCrystalExp(LocalData.selCrystalId, 3400);
+        //todo test
+        addCrystalExp(3400);
         addBaseCryCout(500);
     },
 
