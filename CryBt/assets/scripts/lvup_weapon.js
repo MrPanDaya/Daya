@@ -60,6 +60,7 @@ cc.Class({
     },
 
     onBtnLvup(){
+        window.audioMgr.playSound(cc.soundId.btn);
         if(this.selWeapon){
             this.selWeapon.buildNextLevel();
         }
@@ -67,6 +68,8 @@ cc.Class({
     },
 
     onBtnDrop(){
+        //todo 设置一个获得金币的音效
+        window.audioMgr.playSound(cc.soundId.btn);
         if(this.selWeapon){
             this.selWeapon.dropWeapon();
         }

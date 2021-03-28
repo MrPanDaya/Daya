@@ -41,7 +41,9 @@ cc.Class({
             selBtn3.getComponent("selMapBtn").initSelMapBtn(3000 + i);
         }
     },
-    start () {},
+    start () {
+        audioMgr.playMainMenu("menu3");
+    },
     // update (dt) {},
 
     onScorllEvent(){
@@ -49,11 +51,13 @@ cc.Class({
     },
 
     onBtnBackToSelCry(){
+        window.audioMgr.playSound(cc.soundId.btn);
         this.sel_cry_node.active = true;
         this.sel_map_node.active = false;
     },
 
     onBtnEnterSelMap(){
+        window.audioMgr.playSound(cc.soundId.btn);
         this.sel_cry_node.active = false;
         this.sel_map_node.active = true;
     },

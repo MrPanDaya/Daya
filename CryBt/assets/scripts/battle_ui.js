@@ -28,28 +28,33 @@ cc.Class({
     },
 
     onBtnPause(){
+        window.audioMgr.playSound(cc.soundId.btn2);
         this.pause_node.active = true;
         cc.director.pause();
     },
 
     onBtnSpeedChange(){
+        window.audioMgr.playSound(cc.soundId.btn);
         cc.gameDoubleSpeed = !cc.gameDoubleSpeed;
         this.one_speed.active = !cc.gameDoubleSpeed;
         this.double_speed.active = cc.gameDoubleSpeed;
     },
 
     onBtnStartGame(){
+        window.audioMgr.playSound(cc.soundId.btn);
         this.pause_node.active = false;
         cc.director.resume();
     },
 
     onBtnRestart(){
+        window.audioMgr.playSound(cc.soundId.btn);
         this.pause_node.active = false;
         cc.director.resume();
         cc.battleScene.onGameRestart();
     },
 
     onBtnSelMap(){
+        window.audioMgr.playSound(cc.soundId.btn2);
         this.pause_node.active = false;
         cc.director.resume();
         cc.battleScene.onBackMenuScene();

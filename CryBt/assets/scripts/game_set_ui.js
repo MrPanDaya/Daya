@@ -17,6 +17,7 @@ cc.Class({
     // start () {},
     // update (dt) {},
     onBtnMusic(){
+        window.audioMgr.playSound(cc.soundId.btn2);
         this.isMusicMute = !this.isMusicMute;
         this.musicSelNode.active = !this.isMusicMute;
         this.musicUnSelNode.active = this.isMusicMute;
@@ -26,6 +27,7 @@ cc.Class({
     },
 
     onBtnSound(){
+        window.audioMgr.playSound(cc.soundId.btn2);
         this.isPlaySound = !this.isPlaySound;
         this.soundSelNode.active = this.isPlaySound;
         this.soundUnSelNode.active = !this.isPlaySound;
@@ -36,10 +38,12 @@ cc.Class({
     },
 
     onBtnClose(){
+        window.audioMgr.playSound(cc.soundId.btn2);
         this.node.active = false;
     },
 
     onBtnExitGame(){
+        window.audioMgr.playSound(cc.soundId.btn);
         cc.director.preloadScene("LoginScene", function () {
             cc.director.loadScene("LoginScene");
         });

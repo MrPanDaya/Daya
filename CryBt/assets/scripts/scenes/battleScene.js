@@ -32,6 +32,14 @@ cc.Class({
         this.onGameRestart();
     },
 
+    start () {
+        var music = "menu1";
+        if (this.sceneId % 2 === 0 ){
+            music = "menu2";
+        }
+        audioMgr.playMainMenu(music);
+    },
+
     initBattleData(){
         this.sceneId = cc.curSelMapId;
         cc.gameDoubleSpeed = false;
@@ -175,6 +183,7 @@ cc.Class({
     },
 
     onWeaponSelected(grid){
+        window.audioMgr.playSound(cc.soundId.btn);
         for(var i = 0, len = this.weaponList.length; i < len; ++i){
             if(this.weaponList[i] != grid){
                 this.weaponList[i].onWeaponUnSel();

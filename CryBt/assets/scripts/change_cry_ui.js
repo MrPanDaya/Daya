@@ -78,14 +78,17 @@ cc.Class({
         }
     },
     onBtnClose(){
+        window.audioMgr.playSound(cc.soundId.btn2);
         this.node.active = false;
     },
     onBtnLeft() {
+        window.audioMgr.playSound(cc.soundId.btn);
         if (this.selIndex > 0) {
             this.crystalPage.scrollToPage(this.selIndex - 1, 0.5);
         }
     },
     onBtnRight() {
+        window.audioMgr.playSound(cc.soundId.btn);
         if (this.selIndex < 4) {
             this.crystalPage.scrollToPage(this.selIndex + 1, 0.5);
         }
@@ -102,6 +105,7 @@ cc.Class({
         this.resetCrystalData();
     },
     onBtnSelect(){
+        window.audioMgr.playSound(cc.soundId.btn2);
         var userCryData = getCrystalData(this.selIndex);
         if (userCryData.unlock === 1) {
             LocalData.selCrystalId = this.selIndex;
@@ -117,6 +121,7 @@ cc.Class({
         this.onBtnClose();
     },
     onBtnLvUp(){
+        window.audioMgr.playSound(cc.soundId.btn);
         var userCryData = getCrystalData(this.selIndex);
         if(isCrystalMaxLv(this.selIndex, userCryData.lv)){
             cc.menuScene.showTips("已是最高级!");

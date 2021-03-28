@@ -51,10 +51,12 @@ cc.Class({
     },
 
     onBtnClose(){
+        window.audioMgr.playSound(cc.soundId.btn2);
         this.node.active = false;
     },
 
     onBtnLvup(){
+        window.audioMgr.playSound(cc.soundId.btn);
         var result = setCrystalLvUp(this.selCryId);
         var sTips = "升级成功!";
         if(result === -1){

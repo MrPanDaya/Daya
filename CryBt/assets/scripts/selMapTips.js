@@ -15,10 +15,12 @@ cc.Class({
     },
 
     onBtnClose(){
+        window.audioMgr.playSound(cc.soundId.btn);
         this.node.active = false;
     },
 
     onBtnEnterMap(){
+        window.audioMgr.playSound(cc.soundId.btn);
         if((checkNum(this.selMapId) > checkNum(getUnlockMapId()))){
             cc.menuScene.showTips("该地图未解锁，暂不能进入！");
             return;

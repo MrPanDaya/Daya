@@ -1,32 +1,31 @@
 (function () {
+    window.bPlayMainMenu = true;
+    window.bPlaySound = true;
     window.audioMgr = {
         init: function() {
             cc.soundId = {
-                move: "move",
-                broken: "broken",
-                brake: "brake",
-                nitrogn: "nitrogn",
-                pass: "pass",
                 btn: "btn",
-                boom: "boom",
+                btn2: "btn2",
             }
             this.audioList = {};
             this.volume = 0.5;
             this.roopSound = {};
+            for(var k in cc.soundId){
+                this.loadSound("sound/" + cc.soundId[k], k)
+            }
+        },
+
+        loadSound: function(url, key) {
             var self = this;
-            cc.loader.loadResDir("sound", function (err, assets) {
-                for (var key in assets) {
-                    var soundRes = assets[key];
-                    self.audioList[soundRes.name] = soundRes;
-                }
-                self.mainMenu = self.audioList["menu1"];
-            });
+            cc.loader.loadRes(url, function (err, resource) {
+                self.audioList[key] = resource;
+            })
         },
 
         playMainMenu: function(musicName) {
-            // if (!bPlayMainMenu) {
-            //     return;
-            // }
+            if (!bPlayMainMenu) {
+                return;
+            }
                          
             audioMgr.stopMainMenu();
             var self = this;
@@ -48,7 +47,6 @@
             });
 
         },
-
         stopMainMenu: function() {
             if (this.wx_music_ac) {
                 this.wx_music_ac.stop();
@@ -57,6 +55,13 @@
             } else {
                 this.mainMenu && cc.audioEngine.stopMusic();
             }
+        },
+
+        loadBattleSounds: function(){
+
+        },
+        releaseBattleSounds: function(){
+
         },
 
         playSound: function(soundId, bRoop) {

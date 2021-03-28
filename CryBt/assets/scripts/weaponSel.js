@@ -30,6 +30,7 @@ cc.Class({
     },
 
     onSelected(){
+        window.audioMgr.playSound(cc.soundId.btn2);
         // console.log("build " + this.weaponCfg.id);
         cc.battleScene.buildWeapon(this.weaponCfg.id);
         cc.battleScene.hideWeaponTips();
