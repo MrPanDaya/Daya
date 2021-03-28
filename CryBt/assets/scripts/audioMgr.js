@@ -7,6 +7,8 @@
                 btn: "btn",
                 btn2: "btn2",
             }
+            window.bPlayMainMenu = LocalStorage.getBool("muteMusic", true)
+            window.bPlaySound = LocalStorage.getBool("muteSound", true)
             this.audioList = {};
             this.volume = 0.5;
             this.roopSound = {};
@@ -23,13 +25,20 @@
         },
 
         playMainMenu: function(musicName) {
+            if (musicName !== undefined && musicName.length > 0){
+                this.menuUrl = "sound/" + musicName
+            }
+
             if (!bPlayMainMenu) {
                 return;
             }
                          
             audioMgr.stopMainMenu();
+            if (this.menuUrl === undefined || this.menuUrl.length === 0){
+                return
+            }
             var self = this;
-            cc.loader.loadRes("sound/" + musicName, function (err, clip) {
+            cc.loader.loadRes(this.menuUrl, function (err, clip) {
                 if (err) {
                     cc.error(err);
                     return;
