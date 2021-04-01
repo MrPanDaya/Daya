@@ -13,7 +13,6 @@ cc.Class({
     },
 
     onLoad () {
-        audioMgr.loadBattleSounds()
         cc.battleScene = this;
         this.road_node = this.node.getChildByName("road_node");
         this.monster_wave = this.node.getChildByName("monster_node").getComponent("monsterWave");
@@ -45,7 +44,7 @@ cc.Class({
     },
 
     onDestroy() {
-        audioMgr.releaseBattleSounds()
+        cc.audioEngine.clearAllPlayingEffects()
     },
 
     initBattleData(){
@@ -63,6 +62,7 @@ cc.Class({
     },
 
     onGameRestart(){
+        cc.audioEngine.playEffect("battle/readygo")
         this.clearScene();
         this.initScene();
     },
@@ -223,8 +223,8 @@ cc.Class({
     },
 
     buildWeapon(weaponId){
-        if(this.selWeapon){
-            this.selWeapon.buildWeapon(weaponId);
+        if(this.selWeapon && this.selWeapon.buildWeapon(weaponId)){
+            cc.audioEngine.playEffect("battle/buyitem");
         }
     },
 

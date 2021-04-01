@@ -54,9 +54,11 @@ cc.Class({
     },
     decBlood(){
         if(this.crystalHp > 0){
+            cc.audioEngine.playEffect("battle/crash")
             this.crystalHp -= 1;
             if(this.crystalHp <= 0){
                 this.crystalHp = 0;
+                cc.audioEngine.playEffect("battle/gameover")
                 cc.battleScene.onGameEnd();
             }
             this.bloodSprite.spriteFrame = this.bloodPicList[this.crystalHp];

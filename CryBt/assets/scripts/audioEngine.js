@@ -2,6 +2,8 @@
 (function () {
     var effectMuted = false; // 音效静音
     var musicMuted = false; // 背景音乐静音
+    var effectVolume = 0.5;
+    var musicVolume = 1;
 
     cc.audioEngine.lastMusicFilename = "";
     cc.audioEngine.playingMusic = false;
@@ -85,6 +87,7 @@
             }
             cc.audioEngine._lastMusicAsset = clip;
             oldPlayMusic(clip, true, 0.5);
+            cc.audioEngine.setMusicVolume(musicVolume)
         });
     }
 
@@ -129,6 +132,7 @@
     cc.audioEngine.playEffectImpl = function (filename, loop) {
         if (effectMuted) return;
         filename = "sound/" + filename;
+        console.log("loadAudioClip:"+filename)
         loadAudioClip(filename, function (err, clip) {
             if (err) {
                 cc.error(err);
@@ -172,6 +176,8 @@
                 }
                 playingEffectInfo[filename].ids.push(audioID);
             }
+
+            cc.audioEngine.setVolume(audioID, effectVolume)
         });
     }
 
@@ -221,6 +227,18 @@
 
         cc.audioEngine.uncacheAll();
         effectMap = {};
+    }
+
+    cc.audioEngine.clearAllPlayingEffects = function() {
+        for (var key in playingEffectInfo) {
+            var info = playingEffectInfo[key]
+            if(!info) continue;
+            info.clip.decRef()
+            if(info.clip.refCount === 0){
+                cc.audioEngine.uncache(info.clip)
+                delete  playingEffectInfo[key]
+            }
+        }
     }
 
     cc.audioEngine.setHoldingEffects = function(filePaths) {

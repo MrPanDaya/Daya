@@ -47,6 +47,11 @@ cc.Class({
             cc.battleScene.onGameEnd();
             return;
         }
+
+        var soundId = Math.floor(Math.random()*1000) % 10 + 1;
+        console.log("play sound monster" + soundId)
+        cc.audioEngine.playEffect("battle/monster" + soundId);
+
         cc.battleScene.setCurWave(this.waveId);
 
         this.bornIndex = 0;

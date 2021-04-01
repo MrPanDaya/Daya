@@ -117,6 +117,11 @@ cc.Class({
             this.node.removeFromParent();
         }.bind(this));
         deathAni.play("deathEffect", 0);
+        if (Math.random() < 0.3){
+            var soundId = Math.floor(Math.random()*1000) % 5 + 1;
+            console.log("play sound death" + soundId)
+            cc.audioEngine.playEffect("battle/death" + soundId);
+        }
     },
 
     onAttected(weaponCfg, bRadiusAtt){

@@ -35,6 +35,7 @@ cc.Class({
                     this.weapon.node.angle = ang + 90;
                 }
                 // 发射子弹
+                cc.audioEngine.playEffect("battle/"+this.weaponCfg.sound)
                 if(this.bulletType === bulletType.ray_line) {
                     if (!this.rayLineBullet) {
                         this.rayLineBullet = cc.battleScene.getBullet();
@@ -114,7 +115,7 @@ cc.Class({
         var buildMoney = checkNum(weaponCfg.buildMoney);
         if(buildMoney > cc.battleScene.data.money){
             cc.battleScene.showTips("能量不足!");
-            return;
+            return false;
         }
         // 扣除能力
         cc.battleScene.changeBattlMoney(-buildMoney);
@@ -143,16 +144,20 @@ cc.Class({
                 self.rayLineBullet.initBullet(self, null);
             }
         });
+        return true
     },
 
     buildNextLevel() {
         if (!this.weaponCfg) return;
         if(this.weaponCfg.nextLevelId !== "0"){
-            this.buildWeapon(this.weaponCfg.nextLevelId);
+            if(this.buildWeapon(this.weaponCfg.nextLevelId)){
+                cc.audioEngine.playEffect("battle/upgrade")
+            }
         }
     },
 
     dropWeapon(){
+        cc.audioEngine.playEffect("battle/towersell")
         cc.battleScene.changeBattlMoney(checkNum(this.weaponCfg.dropMoney));
         this.initWeapon();
     },
