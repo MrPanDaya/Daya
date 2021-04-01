@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.5",
   "uuid": "06637e90-aebf-4d9e-8d2f-e1db79d333f8",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 146,
+  "height": 125,
   "platformSettings": {},
   "subMetas": {
     "selMapBtn": {

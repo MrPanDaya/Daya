@@ -9,8 +9,8 @@ cc.Class({
         soundUnSelNode: cc.Node,
     },
     onLoad () {
-        this.setMusicBtnSelect(window.bPlayMainMenu)
-        this.setSoundBtnSelect(window.bPlaySound)
+        this.setMusicBtnSelect(!cc.audioEngine.getMusicMuted())
+        this.setSoundBtnSelect(!cc.audioEngine.getEffectMuted())
     },
     // start () {},
     // update (dt) {},
@@ -24,38 +24,32 @@ cc.Class({
     },
 
     onBtnMusic(){
-        window.audioMgr.playSound(cc.soundId.btn2);
-        window.bPlayMainMenu = !window.bPlayMainMenu;
-        LocalStorage.setBool("muteMusic", window.bPlayMainMenu)
-        this.setMusicBtnSelect(window.bPlayMainMenu)
-        if(!window.bPlayMainMenu){
-            window.audioMgr.stopMainMenu();
-        }else {
-            window.audioMgr.playMainMenu();
-        }
+        cc.audioEngine.playEffect("btn2");
+        var musicMuted = !cc.audioEngine.getMusicMuted()
+        this.setMusicBtnSelect(!musicMuted)
+        cc.audioEngine.setMusicMuted(musicMuted)
         // // todo test
         // setUnlockMapId(getUnlockMapId());
         // setCrystalUnlock(4);
     },
 
     onBtnSound(){
-        window.audioMgr.playSound(cc.soundId.btn2);
-        window.bPlaySound = !window.bPlaySound;
-        LocalStorage.setBool("muteSound", window.bPlaySound)
-        this.setSoundBtnSelect(window.bPlaySound)
-
+        cc.audioEngine.playEffect("btn2");
+        var soundMuted = !cc.audioEngine.getEffectMuted()
+        this.setSoundBtnSelect(!soundMuted)
+        cc.audioEngine.setEffectMuted(soundMuted)
         // //todo test
         // addCrystalExp(3400);
         // addBaseCryCout(500);
     },
 
     onBtnClose(){
-        window.audioMgr.playSound(cc.soundId.btn2);
+        cc.audioEngine.playEffect("btn2");
         this.node.active = false;
     },
 
     onBtnExitGame(){
-        window.audioMgr.playSound(cc.soundId.btn);
+        cc.audioEngine.playEffect("btn");
         cc.director.preloadScene("LoginScene", function () {
             cc.director.loadScene("LoginScene");
         });

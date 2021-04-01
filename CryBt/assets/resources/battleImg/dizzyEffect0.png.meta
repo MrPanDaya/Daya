@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.5",
   "uuid": "98913c11-8a6e-4ead-bdc0-5e0015a0ff56",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 128,
+  "height": 128,
   "platformSettings": {},
   "subMetas": {
     "dizzyEffect0": {

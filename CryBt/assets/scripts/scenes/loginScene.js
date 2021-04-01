@@ -6,15 +6,21 @@ cc.Class({
 
     },
 
-    // onLoad () {},
-    start () {
-        audioMgr.init()
-        audioMgr.playMainMenu("menu0");
+    onLoad () {
+        cc.audioEngine.start();
+        cc.audioEngine.setHoldingEffects([
+            "btn", "btn2"
+        ]);
     },
-    // update (dt) {},
+    start () {
+        cc.audioEngine.playMusic("menu0")
+    },
+    update (dt) {
+        cc.audioEngine.updateEffect();
+    },
 
     onBtnStartGame(){
-        window.audioMgr.playSound(cc.soundId.btn);
+        cc.audioEngine.playEffect("btn")
         cc.director.preloadScene("MenuScene", function () {
             cc.director.loadScene("MenuScene");
         });

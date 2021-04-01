@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.5",
   "uuid": "172d7eeb-bc1f-4588-ba38-feda48f5ae96",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 1280,
+  "height": 720,
   "platformSettings": {},
   "subMetas": {
     "Back2000": {

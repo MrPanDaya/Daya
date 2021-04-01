@@ -26,7 +26,7 @@ cc.Class({
     },
 
     onBtnSelMap(){
-        window.audioMgr.playSound(cc.soundId.btn2);
+        cc.audioEngine.playEffect("btn2");
         if((checkNum(this.selMapId) > checkNum(getUnlockMapId()))){
             cc.menuScene.showTips("该地图未解锁！");
             return;

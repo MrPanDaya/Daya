@@ -64,19 +64,19 @@ cc.Class({
     },
 
     onBtnRestart(){
-        window.audioMgr.playSound(cc.soundId.btn);
+        cc.audioEngine.playEffect("btn");
         this.node.active = false;
         cc.battleScene.onGameRestart();
     },
 
     onBtnSelMap(){
-        window.audioMgr.playSound(cc.soundId.btn2);
+        cc.audioEngine.playEffect("btn2");
         this.node.active = false;
         cc.battleScene.onBackMenuScene();
     },
 
     onBtnNextMap(){
-        window.audioMgr.playSound(cc.soundId.btn);
+        cc.audioEngine.playEffect("btn");
         var mapIndex = 0;
         for(var k in mapCfg){
             mapIndex ++;

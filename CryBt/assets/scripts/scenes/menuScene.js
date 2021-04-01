@@ -42,22 +42,24 @@ cc.Class({
         }
     },
     start () {
-        audioMgr.playMainMenu("menu3");
+        cc.audioEngine.playMusic("menu3")
     },
-    // update (dt) {},
+    update (dt) {
+        cc.audioEngine.updateEffect();
+    },
 
     onScorllEvent(){
         this.selMapTips.active = false;
     },
 
     onBtnBackToSelCry(){
-        window.audioMgr.playSound(cc.soundId.btn);
+        cc.audioEngine.playEffect("btn")
         this.sel_cry_node.active = true;
         this.sel_map_node.active = false;
     },
 
     onBtnEnterSelMap(){
-        window.audioMgr.playSound(cc.soundId.btn);
+        cc.audioEngine.playEffect("btn")
         this.sel_cry_node.active = false;
         this.sel_map_node.active = true;
     },

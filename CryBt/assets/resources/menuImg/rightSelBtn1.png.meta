@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.5",
   "uuid": "c6ebed47-505b-40cf-98ff-aa016ad5db23",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 48,
+  "height": 65,
   "platformSettings": {},
   "subMetas": {
     "rightSelBtn1": {

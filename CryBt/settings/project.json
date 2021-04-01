@@ -22,7 +22,11 @@
     "VideoPlayer",
     "WebView",
     "3D",
-    "3D Primitive"
+    "3D Primitive",
+    "3D Physics/cannon.js",
+    "3D Physics/Builtin",
+    "3D Particle",
+    "SafeArea"
   ],
   "last-module-event-record-time": 1616919812522,
   "design-resolution-width": 1280,
@@ -47,5 +51,8 @@
       "enable": false
     }
   },
-  "start-scene": "ffa633c1-1197-4c80-8179-bf12081593aa"
+  "start-scene": "ffa633c1-1197-4c80-8179-bf12081593aa",
+  "migrate-history": [
+    "cloud-function"
+  ]
 }

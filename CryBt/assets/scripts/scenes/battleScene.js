@@ -13,6 +13,7 @@ cc.Class({
     },
 
     onLoad () {
+        audioMgr.loadBattleSounds()
         cc.battleScene = this;
         this.road_node = this.node.getChildByName("road_node");
         this.monster_wave = this.node.getChildByName("monster_node").getComponent("monsterWave");
@@ -37,7 +38,14 @@ cc.Class({
         if (this.sceneId % 2 === 0 ){
             music = "menu2";
         }
-        audioMgr.playMainMenu(music);
+        cc.audioEngine.playMusic(music)
+    },
+    update (dt) {
+        cc.audioEngine.updateEffect();
+    },
+
+    onDestroy() {
+        audioMgr.releaseBattleSounds()
     },
 
     initBattleData(){
@@ -183,7 +191,7 @@ cc.Class({
     },
 
     onWeaponSelected(grid){
-        window.audioMgr.playSound(cc.soundId.btn);
+        cc.audioEngine.playEffect("btn")
         for(var i = 0, len = this.weaponList.length; i < len; ++i){
             if(this.weaponList[i] != grid){
                 this.weaponList[i].onWeaponUnSel();
