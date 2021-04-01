@@ -24,6 +24,7 @@ cc.Class({
         this.battle_ui = this.node.getChildByName("ui_node").getComponent("battle_ui");
         this.game_end_ui = this.battle_ui.node.getChildByName("game_end_node").getComponent("game_end_ui");
         this.tips_ui = this.node.getChildByName("tips_node").getComponent("tips_ui");
+
         // 初始化子弹内存池
         this.initBulletPool();
         // 初始化子弹特效池

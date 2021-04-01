@@ -47,10 +47,12 @@ cc.Class({
             cc.battleScene.onGameEnd();
             return;
         }
-
-        var soundId = Math.floor(Math.random()*1000) % 10 + 1;
-        console.log("play sound monster" + soundId)
-        cc.audioEngine.playEffect("battle/monster" + soundId);
+        // 延迟2秒播放
+        this.node.runAction(cc.sequence(cc.delayTime(2), cc.callFunc(function () {
+            var soundId = Math.floor(Math.random()*1000) % 10 + 1;
+            // console.log("play sound monster" + soundId)
+            cc.audioEngine.playEffect("battle/monster" + soundId);
+        }.bind(this))));
 
         cc.battleScene.setCurWave(this.waveId);
 

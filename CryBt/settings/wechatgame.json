@@ -2,7 +2,7 @@
   "appid": "wx4addc9c696a582a8",
   "orientation": "landscape",
   "separate_engine": false,
-  "REMOTE_SERVER_ROOT": "http://127.0.0.1:3000/CryBt/",
+  "REMOTE_SERVER_ROOT": "",
   "subContext": "",
   "startSceneAssetBundle": false
 }

@@ -13,6 +13,13 @@ cc.Class({
 
     onLoad(){
        this.resetBattleUi();
+        if(window.wx){
+            var upNode = this.node.getChildByName("up_node");
+            var bpWidget = upNode.getChildByName("btn_pause").getComponent(cc.Widget);
+            bpWidget.right += 100
+            var bsWidget = upNode.getChildByName("btn_speed").getComponent(cc.Widget);
+            bsWidget.right += 80
+        }
     },
 
     resetBattleUi(mapConfig){

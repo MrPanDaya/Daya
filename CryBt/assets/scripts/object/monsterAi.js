@@ -117,9 +117,12 @@ cc.Class({
             this.node.removeFromParent();
         }.bind(this));
         deathAni.play("deathEffect", 0);
-        if (Math.random() < 0.3){
+        // 播放加金币的音效
+        cc.audioEngine.playEffect("battle/addmoney");
+        // 一定概率会播放死亡音效
+        if (Math.random() < 0.2){
             var soundId = Math.floor(Math.random()*1000) % 5 + 1;
-            console.log("play sound death" + soundId)
+            // console.log("play sound death" + soundId)
             cc.audioEngine.playEffect("battle/death" + soundId);
         }
     },

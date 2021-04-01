@@ -132,7 +132,7 @@
     cc.audioEngine.playEffectImpl = function (filename, loop) {
         if (effectMuted) return;
         filename = "sound/" + filename;
-        console.log("loadAudioClip:"+filename)
+        // console.log("loadAudioClip:"+filename)
         loadAudioClip(filename, function (err, clip) {
             if (err) {
                 cc.error(err);
