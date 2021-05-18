@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.5",
   "uuid": "7d2c2a69-5cec-4814-a5b2-f4c3cc2b815a",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 46,
+  "height": 56,
   "platformSettings": {},
   "subMetas": {
     "crystalIcon": {

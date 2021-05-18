@@ -13,6 +13,13 @@ cc.Class({
 
     onLoad(){
        this.resetBattleUi();
+        if(window.wx){
+            var upNode = this.node.getChildByName("up_node");
+            var bpWidget = upNode.getChildByName("btn_pause").getComponent(cc.Widget);
+            bpWidget.right += 100
+            var bsWidget = upNode.getChildByName("btn_speed").getComponent(cc.Widget);
+            bsWidget.right += 80
+        }
     },
 
     resetBattleUi(mapConfig){
@@ -28,28 +35,33 @@ cc.Class({
     },
 
     onBtnPause(){
+        cc.audioEngine.playEffect("btn2");
         this.pause_node.active = true;
         cc.director.pause();
     },
 
     onBtnSpeedChange(){
+        cc.audioEngine.playEffect("btn");
         cc.gameDoubleSpeed = !cc.gameDoubleSpeed;
         this.one_speed.active = !cc.gameDoubleSpeed;
         this.double_speed.active = cc.gameDoubleSpeed;
     },
 
     onBtnStartGame(){
+        cc.audioEngine.playEffect("btn");
         this.pause_node.active = false;
         cc.director.resume();
     },
 
     onBtnRestart(){
+        cc.audioEngine.playEffect("btn");
         this.pause_node.active = false;
         cc.director.resume();
         cc.battleScene.onGameRestart();
     },
 
     onBtnSelMap(){
+        cc.audioEngine.playEffect("btn2");
         this.pause_node.active = false;
         cc.director.resume();
         cc.battleScene.onBackMenuScene();

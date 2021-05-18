@@ -18,10 +18,12 @@ cc.Class({
     },
 
     onBtnSelCrystal(){
+        cc.audioEngine.playEffect("btn");
         this.changeCryNode.active = true;
         this.changeCryNode.getComponent("change_cry_ui").resetCrystalData();
     },
     onBtnGameSet(){
+        cc.audioEngine.playEffect("btn2");
         this.gameSetNode.active = true;
         console.log("onBtnGameSet");
     },

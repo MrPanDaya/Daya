@@ -41,19 +41,25 @@ cc.Class({
             selBtn3.getComponent("selMapBtn").initSelMapBtn(3000 + i);
         }
     },
-    start () {},
-    // update (dt) {},
+    start () {
+        cc.audioEngine.playMusic("menu3")
+    },
+    update (dt) {
+        cc.audioEngine.updateEffect();
+    },
 
     onScorllEvent(){
         this.selMapTips.active = false;
     },
 
     onBtnBackToSelCry(){
+        cc.audioEngine.playEffect("btn")
         this.sel_cry_node.active = true;
         this.sel_map_node.active = false;
     },
 
     onBtnEnterSelMap(){
+        cc.audioEngine.playEffect("btn")
         this.sel_cry_node.active = false;
         this.sel_map_node.active = true;
     },

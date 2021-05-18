@@ -70,6 +70,7 @@ cc.Class({
     * 描述：关闭设置界面的按钮
     * */
     onClose(){
+        window.audioMgr.playSound(cc.soundId.btn);
         this.node.active = false;
     },
 
@@ -77,6 +78,7 @@ cc.Class({
     * 描述：升级按钮的回调
     * */
     onLvlup(){
+        window.audioMgr.playSound(cc.soundId.btn);
         var lvupCfg = carLvUpCfg['car' + this.selId];
         if(this.selLv >= lvupCfg.lv || cc.LocalData.totalMoney < lvupCfg.lvCost){
             return;

@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.5",
   "uuid": "275d212e-5086-44da-b6b9-a98d607dd883",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 144,
+  "height": 46,
   "platformSettings": {},
   "subMetas": {
     "BtnSelCry": {

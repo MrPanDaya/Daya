@@ -140,6 +140,7 @@ cc.Class({
     * 描述：解锁按钮的点击回调
     * */
     onBtnUnlock(){
+        window.audioMgr.playSound(cc.soundId.btn);
         var unLock = cc.LocalData.unLockInfo["car" + this.selId] || 0;
         if(unLock <= 0) {
             var carCfg = mainCarCfg['car' + this.selId];
@@ -162,6 +163,7 @@ cc.Class({
     * 描述：升级按钮的回调
     * */
     onBtnLvlup(){
+        window.audioMgr.playSound(cc.soundId.btn);
         if(this.lvlupNode){
             this.lvlupNode.active = true;
             cc.uiLvlup.setSelId(this.selId);

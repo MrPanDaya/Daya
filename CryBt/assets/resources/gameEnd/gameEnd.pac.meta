@@ -1,9 +1,9 @@
 {
-  "ver": "1.2.0",
-  "uuid": "f84715a1-944c-45da-a094-051a1f9a5c7d",
+  "ver": "1.2.1",
+  "uuid": "4d2f4e56-0631-4d4d-862e-814f6e05d2a6",
   "maxWidth": 1024,
   "maxHeight": 1024,
-  "padding": 1,
+  "padding": 2,
   "allowRotation": true,
   "forceSquared": false,
   "powerOfTwo": false,

@@ -24,12 +24,28 @@ cc.Class({
         this.battle_ui = this.node.getChildByName("ui_node").getComponent("battle_ui");
         this.game_end_ui = this.battle_ui.node.getChildByName("game_end_node").getComponent("game_end_ui");
         this.tips_ui = this.node.getChildByName("tips_node").getComponent("tips_ui");
+
         // 初始化子弹内存池
         this.initBulletPool();
         // 初始化子弹特效池
         this.initBulletEffectPool();
         // 开始游戏
         this.onGameRestart();
+    },
+
+    start () {
+        var music = "menu1";
+        if (this.sceneId % 2 === 0 ){
+            music = "menu2";
+        }
+        cc.audioEngine.playMusic(music)
+    },
+    update (dt) {
+        cc.audioEngine.updateEffect();
+    },
+
+    onDestroy() {
+        cc.audioEngine.clearAllPlayingEffects()
     },
 
     initBattleData(){
@@ -47,6 +63,7 @@ cc.Class({
     },
 
     onGameRestart(){
+        cc.audioEngine.playEffect("battle/readygo")
         this.clearScene();
         this.initScene();
     },
@@ -175,6 +192,7 @@ cc.Class({
     },
 
     onWeaponSelected(grid){
+        cc.audioEngine.playEffect("btn")
         for(var i = 0, len = this.weaponList.length; i < len; ++i){
             if(this.weaponList[i] != grid){
                 this.weaponList[i].onWeaponUnSel();
@@ -206,8 +224,8 @@ cc.Class({
     },
 
     buildWeapon(weaponId){
-        if(this.selWeapon){
-            this.selWeapon.buildWeapon(weaponId);
+        if(this.selWeapon && this.selWeapon.buildWeapon(weaponId)){
+            cc.audioEngine.playEffect("battle/buyitem");
         }
     },
 

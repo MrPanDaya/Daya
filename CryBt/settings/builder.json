@@ -1,7 +1,7 @@
 {
   "title": "CryBt",
   "packageName": "",
-  "startScene": "7a346d03-4c95-4474-aca8-3ba98da98b8b",
+  "startScene": "ffa633c1-1197-4c80-8179-bf12081593aa",
   "excludeScenes": [],
   "includeSDKBox": false,
   "orientation": {
@@ -21,15 +21,25 @@
   "zipCompressJs": true,
   "fb-instant-games": {},
   "android": {
-    "packageName": ""
+    "packageName": "",
+    "REMOTE_SERVER_ROOT": ""
   },
   "ios": {
-    "packageName": ""
+    "packageName": "",
+    "REMOTE_SERVER_ROOT": "",
+    "ios_enable_jit": true
   },
   "mac": {
-    "packageName": ""
+    "packageName": "",
+    "REMOTE_SERVER_ROOT": "",
+    "width": 1280,
+    "height": 720
   },
-  "win32": {},
+  "win32": {
+    "REMOTE_SERVER_ROOT": "",
+    "width": 1280,
+    "height": 720
+  },
   "android-instant": {
     "REMOTE_SERVER_ROOT": "",
     "host": "",
@@ -39,5 +49,12 @@
     "scheme": "https",
     "skipRecord": false
   },
-  "appBundle": false
+  "appBundle": false,
+  "mainCompressionType": "merge_all_json",
+  "mainIsRemote": false,
+  "nativeMd5Cache": true,
+  "agreements": {
+    "20200904180755": false,
+    "20200904180716": false
+  }
 }

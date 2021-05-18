@@ -51,10 +51,12 @@ cc.Class({
     },
 
     onBtnClose(){
+        cc.audioEngine.playEffect("btn2");
         this.node.active = false;
     },
 
     onBtnLvup(){
+        cc.audioEngine.playEffect("btn");
         var result = setCrystalLvUp(this.selCryId);
         var sTips = "升级成功!";
         if(result === -1){

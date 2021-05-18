@@ -9,37 +9,47 @@ cc.Class({
         soundUnSelNode: cc.Node,
     },
     onLoad () {
-        this.isMusicMute = true;
-        this.isPlaySound = true;
-        this.onBtnMusic();
-        this.onBtnSound();
+        this.setMusicBtnSelect(!cc.audioEngine.getMusicMuted())
+        this.setSoundBtnSelect(!cc.audioEngine.getEffectMuted())
     },
     // start () {},
     // update (dt) {},
-    onBtnMusic(){
-        this.isMusicMute = !this.isMusicMute;
-        this.musicSelNode.active = !this.isMusicMute;
-        this.musicUnSelNode.active = this.isMusicMute;
+    setMusicBtnSelect(bSelect){
+        this.musicSelNode.active = bSelect;
+        this.musicUnSelNode.active = !bSelect;
+    },
+    setSoundBtnSelect(bSelect){
+        this.soundSelNode.active = bSelect;
+        this.soundUnSelNode.active = !bSelect;
+    },
 
+    onBtnMusic(){
+        cc.audioEngine.playEffect("btn2");
+        var musicMuted = !cc.audioEngine.getMusicMuted()
+        this.setMusicBtnSelect(!musicMuted)
+        cc.audioEngine.setMusicMuted(musicMuted)
+        // // todo test
         // setUnlockMapId(getUnlockMapId());
         // setCrystalUnlock(4);
     },
 
     onBtnSound(){
-        this.isPlaySound = !this.isPlaySound;
-        this.soundSelNode.active = this.isPlaySound;
-        this.soundUnSelNode.active = !this.isPlaySound;
-
-        //todo test
-        addCrystalExp(3400);
-        addBaseCryCout(500);
+        cc.audioEngine.playEffect("btn2");
+        var soundMuted = !cc.audioEngine.getEffectMuted()
+        this.setSoundBtnSelect(!soundMuted)
+        cc.audioEngine.setEffectMuted(soundMuted)
+        // //todo test
+        // addCrystalExp(3400);
+        // addBaseCryCout(500);
     },
 
     onBtnClose(){
+        cc.audioEngine.playEffect("btn2");
         this.node.active = false;
     },
 
     onBtnExitGame(){
+        cc.audioEngine.playEffect("btn");
         cc.director.preloadScene("LoginScene", function () {
             cc.director.loadScene("LoginScene");
         });
