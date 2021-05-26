@@ -116,15 +116,6 @@ class PackAPK(object):
         versionStr = versionStr.replace(" ", "")
         print('version: ' + versionStr)
 
-        # 获取 BRAND
-        pattern = re.compile(r'window\.BRAND[ \t]*=[ \t]*(\d)')  # 查找数字
-        tb = pattern.findall(content)
-        excludeBrand = 'jixiang'
-        if tb and tb[0] == '1':
-            # 是吉祥
-            excludeBrand = 'weile'
-        print('exclude brand: ' + excludeBrand)
-
         # 获得微信id wxappid: "wx31fa4358d97a7923"
         pattern = re.compile(r'wxappid[ \t]*:[ \t]*\"(.*)\"')
         tb = pattern.findall(content)
@@ -144,20 +135,13 @@ class PackAPK(object):
         packArgs['zipDir'] = 'minigame'
         packArgs['minigame'] = True
         packArgs['mergeJson'] = True
-        packArgs['excludeBrand'] = excludeBrand
         packArgs['wxid'] = wxid
-        packArgs['isQQ'] = self.is_qq
         # packArgs['currentChannel'] = currentChannel
 
         file___ = os.path.split(__file__)[0]
         packArgs['mod_file_path'] = file___
 
         genResMiniGame.start(versionStr, self.proj_parth, dst, packArgs)
-
-        # s1 = utils.flat_path('./pack_temp/mainPackage/')
-        # s2 = utils.flat_path('./project/internal/')
-        # genInternal.start(s1, s2)
-
 
 if __name__ == "__main__":
     from argparse import ArgumentParser

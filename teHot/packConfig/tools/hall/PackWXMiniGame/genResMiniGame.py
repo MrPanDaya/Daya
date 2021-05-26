@@ -214,26 +214,13 @@ def isShaderJson(fullPath):
 
     return False
 
-def shouldExcludeJson(fName, excludeBrand):
-    if not ConfigMap.has_key(fName):
-        return False
-
-    readablePath = ConfigMap[fName]
-    readablePath.replace("\\", "/")
-    checkStr = 'resources/common/configs_' + excludeBrand
-    if readablePath.find(checkStr) >= 0:
-        return True
-
-    return False
-
-def mergeJson(srcDir, dstDir, genPath, excludeBrand):  # 合并json
+def mergeJson(srcDir, dstDir, genPath):  # 合并json
     typeMap = type({})
     typeList = type([])
     spriteFrameTotal = 0
     audioClipTotal = 0
     spriteAtlasTotal = 0
     otherCount = 0
-    otherBrandCount = 0
 
     listTotal = 0
     mergeTb_Single = {}
@@ -253,10 +240,6 @@ def mergeJson(srcDir, dstDir, genPath, excludeBrand):  # 合并json
                 continue
 
             if parent.find("internal") != -1:
-                continue
-
-            if shouldExcludeJson(f, excludeBrand):
-                otherBrandCount += 1
                 continue
 
             total += 1
@@ -306,7 +289,6 @@ def mergeJson(srcDir, dstDir, genPath, excludeBrand):  # 合并json
                     continue
             moveFileTo(full_path, dstDir + '/' + relPath)
 
-    print("otherBrandCount:%s" % otherBrandCount)
     print("spriteFrameTotal:%s" % spriteFrameTotal)
     print("audioClipTotal:%s" % audioClipTotal)
     print("spriteAtlasTotal:%s" % spriteAtlasTotal)
@@ -331,8 +313,6 @@ def modify_proj_cfg(filePath, projName, packArgs):
 
     info['appid'] = packArgs['wxid']
     info['projectname'] = projName
-    if packArgs['isQQ']:
-        info['qqappid'] = packArgs['wxid']
 
     f = open(filePath, 'w')
     json.dump(info, f, indent=2, ensure_ascii=False)
@@ -352,9 +332,6 @@ def udpateMergeJsonMD5(filePath, newName):
     f2.close()
 
 def start(version, srcDir, dstDir, packArgs):  # 遍历当前目录
-    # removeClass('--------------,AndroidXiaomi:[function(t,e,i){}],--------------', 'AndroidXiaomi')
-    # if True:
-    #     return
     global ConfigMap
 
     print("srcDir:%s" % srcDir)
@@ -398,23 +375,18 @@ def start(version, srcDir, dstDir, packArgs):  # 遍历当前目录
         # copyResRawAssets(srcDir, dstDir)
 
         out_put = dstDir + '/assets/MergeJson.json'
-        excludeBrand = None
-        if 'excludeBrand' in packArgs:
-            excludeBrand = packArgs['excludeBrand']
         configMapPath = os.path.join(srcDir, "ConfigMap.json")
         f = open(configMapPath)
         ConfigMap = json.load(f)
         f.close()
 
-        mergeJson(srcDir, dstDir, out_put, excludeBrand)
+        mergeJson(srcDir, dstDir, out_put)
         mergeJsonMd5 = get_file_md5(out_put)  
     else:
         copySrc(assetSrc, assetDst, None, [r".*\.js$", r".*\.js\.map"])
 
     path_ = packArgs['mod_file_path']
     tmplt_name = "mini_tmplt"
-    if packArgs['isQQ']:
-        tmplt_name = "qq_tmplt"
     src_tmplt = os.path.normpath(os.path.join(path_, tmplt_name))
     copySrc(src_tmplt, dst_project_path)
 

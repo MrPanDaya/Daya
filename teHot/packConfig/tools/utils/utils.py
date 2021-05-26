@@ -101,9 +101,6 @@ def check_environment_variable(var):
 
     return value
 
-def get_support_brands():
-    return ["jixiang", "weile"]
-
 def convert_rules(rules):
     ret_rules = []
     for rule in rules:

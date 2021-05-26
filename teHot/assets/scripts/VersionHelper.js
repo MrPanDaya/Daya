@@ -52,8 +52,8 @@
             if (!isNative() || !this.NATIVE_ENABLE_ENCRYPT) {
                 params.show = "xdh";
             }
-            var data = FishHTTP.joinParams(params);
-            FishHTTP.setHttpHostCache(url)
+            var data = CommHttp.joinParams(params);
+            CommHttp.setHttpHostCache(url)
 
             cc.log("---- check version url : " + url + "?" + data);
             xhr.open("GET", url + "?" + data);
