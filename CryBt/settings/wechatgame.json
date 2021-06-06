@@ -1,8 +1,1 @@
-{
-  "appid": "wx4addc9c696a582a8",
-  "orientation": "landscape",
-  "separate_engine": false,
-  "REMOTE_SERVER_ROOT": "",
-  "subContext": "",
-  "startSceneAssetBundle": false
-}
+{"startSceneAssetBundle": false, "separate_engine": false, "orientation": "landscape", "subContext": "", "appid": "wx4addc9c696a582a8", "REMOTE_SERVER_ROOT": ""}

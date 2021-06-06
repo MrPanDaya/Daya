@@ -1,0 +1,1377 @@
+﻿syntax = "proto3"; 
+package fishprotos;
+
+//服务端内部协议使用的占位消息, 没有实质含意, 只是为了框架服务
+message Blank{
+
+}
+// 通用消息回应
+message RespComm {
+    int32 errcode =1 ;
+    string msg = 2;  // 错误信息
+}
+// 0x10 游戏广播
+message Broadcast{
+    int32 msgid = 1;
+    map<string,bytes> body = 2;
+}
+// MSG_ID_REQ_HEARTBEAT = 0x1000心跳
+message ReqHeartbeat {
+    int64 timestamp = 1; // 客户端时间戳
+}
+// 0x1001
+message RespHeartbeat {
+    int32 errcode = 1;
+    string msg =2; 
+    int64 timestamp = 3; // 服务器的时间戳
+}
+// MSG_ID_REQ_AUTHORIZE = 0x1002 授权验证请求
+message ReqAuthorize {
+	int64 uid = 1;
+	int64 timestamp = 2;
+	string nonce =3;
+	string sign = 4;
+}
+// 0x1003 授权验证响应
+message RespAuthorize {
+	int32 errcode = 1;
+	string msg = 2;
+}
+//=========================================================
+//===========================比赛==========================
+// 0x4000 比赛报名
+message ReqMatchRegister{
+	int64 uid = 1; // 玩家ID
+	string ver = 2; // 客户端版本号
+	int32 appid = 3;  // App id
+	int32 channelid = 4;  // 渠道idbo
+	string deviceCode = 5; // 设备码 --
+	string region = 6; // 区域码
+    repeated int32 props=7; //
+	repeated string gameInfoField = 8; // 游戏自定义属性
+	int32 registerType = 9;//0 cost, 1 share
+	map<string,bytes> ext = 10;
+}
+// 0x4001
+message RespMatchRegister {
+	int32 errcode = 1;
+	string msg = 2; // 错误描述
+	int64 uid = 3; // 玩家ID
+	map<string,bytes> ext = 10;
+}
+// 0x4002 取消报名
+message ReqMatchUnregister{
+	int64 uid = 1;
+	map<string,bytes> ext = 10;
+}
+// 0x4003
+message RespMatchUnregister {
+	int32 errcode = 1;
+	string msg = 2; // 错误描述
+	int64 uid = 3; // 玩家ID
+	map<string,bytes> ext = 10;
+}
+// 0x4004 进入比赛
+message ReqJoinMatch {
+	int64 uid = 1; // 玩家ID
+	repeated string fields = 2; // 需要获取的属性列表
+	repeated int32 props = 3; // 需要获取的道具列表，此为道具ID
+	repeated int32 seniorProp = 4; //需要获取的高级道具ID列表
+	map<string, bytes> ext = 20;
+}
+// 0x4005
+message RespJoinMatch {
+	int32 errcode = 1;
+	string msg = 2; // 错误描述
+	int64 uid = 3; // 玩家ID
+	map<string,string> infos = 4; // 用户基础信息
+	map<int32,int64> props = 5; // 道具信息
+	map<string,bytes> ext = 10;
+}
+// 0x4006 离开游戏场景
+message ReqLeaveMatch {
+	int64 uid = 1; // 玩家ID
+	map<string,bytes> ext = 10;
+}
+// 0x4007
+message RespLeaveMatch {
+	int32 errcode = 1;
+	string msg = 2; // 错误描述
+	int64 uid = 3; // 玩家ID
+	map<string,bytes> ext = 10;
+}
+// 0x4008 人数满，可以开始比赛
+message NotifyMatchReady{
+    map<string,bytes> ext = 10;
+}
+// 0x4009 预报名等待时的人数变化
+message NotifyPreEnlistPlayerChange{
+	int32 nNowPlayerCount = 1;
+    map<string,bytes> ext = 10;
+}
+// 0x400A 获取当前比赛报名人数
+message ReqRegisterCount{
+	int64 uid = 1;
+}
+
+//大奖赛初始化信息
+//MSG_ID_RESP_R_MATCH_INFO = 0x4100
+message RespRewardMatchInfo {
+    int32 nErrorNo = 1; // 0成功 1不在大奖赛房间 2配置错误 3水晶不足 4已过期 5等级不足 6鱼币不足
+    int32 nLeftBulletCount = 2;
+    int32 nCurScore = 3;
+    int32 nMaxScore = 4;
+    int32 nMaxAddScore = 5;
+    int32 nRank = 6;    //排行
+    tagMatchTaskInfo taskInfo = 7;
+}
+//大奖赛重新开始
+//MSG_ID_REQ_R_MATCH_RESTART = 0x4101
+message ReqRewardMatchRestart {
+}
+//大奖赛结算
+//MSG_ID_RESP_R_MATCH_END = 0x4103
+message RespRewardMatchEnd {
+    int32 nTotalScore = 1;          //总分
+    int32 nNorAddScore = 2;         //普通加成分数
+    int32 nVipAddScore = 3;         //vip加成分数
+    int32 nMaxScore = 4;            //今日最高积分
+    int32 nRank = 5;                //排行
+}
+//通知大奖赛的分数
+//MSG_ID_NOTIFY_R_MATCH_SCORE_CHANGE = 0x4104
+message NotifyRewardMatchScoreChange {
+    int32 nBaseScore = 1;            //当前积分(不包括加成的分数)
+    int32 nNorAddScore = 2;         //普通加成分数
+    int32 nVipAddScore = 3;         //vip加成分数
+}
+//大奖赛接受新的任务
+//MSG_ID_RESP_R_MATCH_NEW_TASK = 0x4105
+message RespRewardMatchNewTask {
+    tagMatchTaskInfo newTaskInfo = 1;
+}
+//通知大奖赛的任务数据
+//MSG_ID_NOTIFY_R_MATCH_TASK_DATA = 0x4106
+message NotifyRewardMatchTaskData {
+    tagMatchTaskInfo taskInfo = 1;
+}
+//大奖赛发放任务奖励
+//MSG_ID_RESP_R_MATCH_TASK_REWARD = 0x4107
+message RespRewardMatchTaskReward {
+    int32 nAddScore = 1;
+}
+//大奖赛任务失败
+//MSG_ID_RESP_R_MATCH_TASK_FAIL = 0x4108
+message RespRewardMatchTaskFail {
+    int32 nReason = 1; //失败原因   1任务超时
+}
+//大奖赛放弃比赛
+//MSG_ID_REQ_R_MATCH_GIVE_UP = 0x4109
+message ReqRewardMatchGiveUp {
+}
+
+//=========================================================
+//========================房间中的协议=====================
+// 进入游戏请求
+//MSG_ID_REQ_JOIN_GAME = 0x8000
+message ReqJoinGame {
+    int64 uid = 1; // 玩家ID
+	string ver = 2; // 客户端版本号
+	int32 appid = 3;  // App id
+	int32 channelid = 4;  // 渠道idbo
+	string deviceCode = 5; // 设备码 --
+	string region = 6; // 区域码
+    repeated string fields = 10; // 需要获取的属性列表
+	repeated int32 props = 11; // 需要获取的道具列表，此为道具ID
+	repeated int32 seniorProp = 12; //需要获取的高级道具ID列表
+	int32 toSitDesk = 13;
+	int32 toChairId = 14;
+	map<string, bytes> ext = 20;
+}
+
+// 进入游戏回应
+//MSG_ID_RESP_JOIN_GAME = 0x8001
+message RespJoinGame{
+    int32 errcode = 1; 
+    string msg = 2; // 错误描述
+    int64 uid = 3; // 玩家ID
+    map<string,string> infos = 4; // 用户基础信息
+	map<int32,int64> props = 5; // 道具信息
+	int32 nDeskId = 6;
+	map<string,bytes> ext = 10;
+}
+
+// 离开游戏请求
+//MSG_ID_REQ_LEAVE_GAME = 0x8002
+message ReqLeaveGame {
+    int64 uid = 1; // 玩家ID
+	map<string,bytes> ext = 10;
+}
+
+// 离开游戏回应
+//MSG_ID_RESP_LEAVE_GAME = 0x8003
+message RespLeaveGame {
+    int32 errcode = 1;
+    string msg =2 ;
+    int64 uid = 3;
+	map<string,bytes> ext = 10;
+}
+
+// 玩家被踢通知
+//MSG_ID_KICK_OFF = 0x8004
+message NotifyKickOff {
+	int64 uid=1;
+	string msg = 2;
+	map<string,bytes> ext = 10;
+}
+
+//MSG_ID_OTHER_LOGIN uint16 = 0x8005 //顶号
+message NotifyOtherLogin {
+}
+
+//===================================================================
+//============================游戏中的协议===========================
+//MSG_ID_REQ_GAME_STATUS = 0x8101
+message ReqMSGC2SGameStatus{
+}
+//MSG_ID_RESP_GAME_STATUS = 0x8102
+message RespMSGS2CGameStatus{
+	int64 dwServerTime = 1;//服务器时间戳
+	int32 nOnLineRewardCount = 2; //在线奖励领奖次数
+	int32 nMapId = 3;//场景信息
+	int32 nClientRequireRandom = 4;//客户端要用的随机数, 与桌子绑定
+	repeated tagTimeLineInfo vecTimeline = 5;//鱼线列表
+    repeated tagPlayerInfo vecPlayerInfo = 6;//玩家id列表
+}
+
+//MSG_ID_REQ_PLAYER_SHOOT = 0x8103
+message ReqMSGC2SPlayerShoot{//发射子弹请求
+    string strBulletId = 1;//子弹id
+	string strAngle = 2;//角度
+	int32 nGunRate = 3;//炮倍
+	int32 dwTimelineId = 4;//鱼线id
+	int32 nPointX = 5;//客户端使用
+	int32 nPointY = 6;//客户端使用
+	int32 nEffectType = 7; //子弹特效类型(0普通、1锁定、2狂暴)
+	int32 nFrameCount = 8;//帧号
+	int32 nViolentRate = 9;//狂暴倍率
+	int32 dwGunId = 10;//炮台ID
+	int32 nSpecialFishId = 11; //在触发特殊功能鱼的协议里下发的id带上来
+	int32 nSpecialFishType = 12;//特殊鱼的type
+	int32 nBulletType = 13; //子弹类型
+}
+
+//MSG_ID_RESP_PLAYER_SHOOT = 0x8104
+message RespMSGS2CPlayerShoot{//玩家发射子弹响应
+	int32 nErrorNo = 1;
+	string strMessage = 2;
+    int32 dwPlayerId = 3;//玩家id
+	string strBulletId = 4;//子弹id，格式为玩家id_子弹序号,同一个玩家，子弹序号是递增的
+	string strAngle = 5;//发射角度
+	int32 nGunRate = 6;//炮倍
+	int32 dwTimelineId = 7;//鱼线id
+	int32 nPointX = 8;//客户端使用
+	int32 nPointY = 9;//客户端使用
+	int32 nEffectType = 10; //子弹特效类型(0普通、1锁定、2狂暴)
+	int32 nViolentRatio = 11;//狂暴倍率
+    int32 nFrameCount = 12;//帧号
+	bool bValidate = 13; // 0:正常，-1鱼币不足
+	int64 nMoneyCost = 14;//金钱消耗
+	int64 nNewFishIcon = 15;//最新的鱼币
+	int32 nMasterLeftBullet = 16;//大师赛生于子弹
+	int32 nIsAutoHit = 17; //是否自动射击  1 月卡自动射击  2 长按自动射击
+	int32 dwGunId = 18;//炮台ID
+	int32 nSpecialFishId = 19; //在触发特殊功能鱼的协议里下发的id带上来
+	int32 nSpecialFishType = 20;//特殊鱼的type
+	int32 nBulletType = 21; //子弹类型
+}
+
+//MSG_ID_REQ_PLAYER_HIT = 0x8105
+message ReqMSGC2SPlayerHit{//子弹碰撞请求
+	string strBulletId = 1;//子弹id，格式为玩家id_子弹序号
+	int32 nFrameId = 2;//帧号
+	repeated int32 vecHitFishes  = 3;//碰撞的鱼列表, 原来是vecKilledFishes, 改为  vecHitFishes
+	repeated int32 vecEffectedFishes  = 4;//影响的鱼列表（特殊鱼使用）
+	int32 nSpecialFishId = 5; //在触发特殊功能鱼的协议里下发的id带上来, 目前作用于吞噬天下,导弹发射器(加特林)
+	int32 nSpecialFishType = 6;//特殊鱼的type
+}
+
+//MSG_ID_RESP_PLAYER_HIT = 0x8106
+message RespMSGS2CPlayerHit{
+	int32 nErrorNo = 1;
+	string strMessage = 2;
+    int32 dwPlayerId = 3;//玩家id
+	int64 dwNewFishCoin = 4;//新的鱼币
+	string strBulletId = 5;//子弹id
+	repeated tagKillFishInfo vecKilledFishes = 7;//被击杀的鱼列表
+	int32 nGunRate = 8;//炮倍
+	repeated tagProp vecDropProps = 9;//掉落的道具列表
+	int32 nNewCrystal = 11;//新的水晶
+	repeated tagSeniorProps vecDropSeniorProps = 13;//掉落的高级道具列表
+	int64 nKillFishScore =15;//被杀死的鱼的价值
+	bool bIsViolent = 17;//是否狂暴
+	repeated int32 vecHitFishes  = 21;//碰撞的鱼列表, 原来是vecKilledFishes, 改为  vecHitFishes
+	int32 nSpecialFishId = 22; //在触发特殊功能鱼的协议里下发的id带上来, 目前作用于吞噬天下,导弹发射器(加特林)
+	int32 nSpecialFishType = 23;//特殊鱼的type
+}
+
+//MSG_ID_REQ_GUN_RATE_CHANGE = 0x8107
+message ReqMSGC2SGunRateChange{//切换炮倍请求
+	int32 nNewGunRate = 1;
+}
+
+//MSG_ID_RESP_GUN_RATE_CHANGE = 0x8108
+message RespMSGS2CGunRateChange{//;切换炮倍响应
+	int32 nErrorNo = 1; //0成功、1没有指定的炮倍
+	string strMessage = 2;
+    int32 dwPlayerId = 3;//玩家id
+	int32 nNewGunRate = 4;
+}
+
+//MSG_ID_REQ_TARGET_CHANGE = 0x8109
+message ReqMSGC2SBulletTargetChange{	//锁定目标改变请求
+	repeated string vecStrBulletIds = 1;//改变目标的子弹id列表
+	int32 dwTimelineId = 2;//目标鱼线id
+}
+
+//MSG_ID_RESP_TARGET_CHANGE = 0x810A
+message RespMSGS2CBulletTargetChange{//;锁定目标改变响应
+	int32 nErrorNo = 1;
+	string strMessage = 2;
+	int32 dwPlayerId = 3;//玩家id
+	repeated string vecStrBulletIds = 4;//改变目标的子弹id列表
+	int32 dwTimelineId = 5;//目标鱼线id
+}
+
+//MSG_ID_REQ_AIM = 0x810B
+message ReqMSGC2SAim{//开始锁定请求
+	int32 dwTimelineId = 1;//目标鱼线id
+	int32 nUseType = 2;//使用类型，0使用道具，1使用水晶
+}
+
+//MSG_ID_RESP_AIM = 0x810C
+message RespMSGS2CAimResult{//开始锁定响应
+	int32 nErrorNo = 1;// 0成功 1特殊功能炮台期间，不能使用技能 2道具不足 3未找到技能配置 4即将切换场景，暂时不能使用技能 6技能期间不能使用技能 7玩家已破产暂时不能使用技能
+	int32 nPlayerId = 2;
+	int32 nUseType = 3;//使用类型，0使用道具，1使用水晶
+	int32 nNewCrystal = 4;//新的水晶数量
+	int32 dwTimelineId = 5;//目标鱼线id
+}
+
+//MSG_ID_REQ_CALL_FISH = 0x810D
+message ReqMSGC2SCallFish{//召唤鱼请求
+	int32 dwCallFishId = 1;//召唤鱼id
+	int32 nUseType = 2;//使用类型，0使用道具，1使用水晶
+}
+
+//MSG_ID_RESP_CALL_FISH = 0x810E
+message RespMSGS2CCallFish{//召唤鱼响应
+	int32 nErrorNo = 1;// 0成功 1召唤鱼数量上限 2道具不足 3路径配置错误 4找不到召唤鱼的配置 5即将切换场景，暂时不能使用技能 6VIP等级不足
+	int32 dwPlayerId = 2;//玩家id
+	int32 nUseType = 3;//使用类型，0使用道具，1使用水晶
+	int32 nNewCrystal = 4;//新的水晶
+	tagTimeLineInfo timeLineInfo = 5;//鱼线信息 (客户端这边不根据这个刷鱼线(统一走鱼线推送消息)，给神灯特效使用)
+}
+
+//MSG_ID_REQ_NBOMB = 0x810F
+message ReqMSGC2SNBomb{//请求使用核弹
+	int32 nPointX = 1;//投放位置x坐标
+	int32 nPointY = 2;//投放位置y坐标
+	int32 dwNBombId = 3;//核弹id
+	int32 nCount = 4;//数量
+}
+//MSG_ID_RESP_NBOMB = 0x8110
+message RespMSGS2CNBomb{//使用核弹响应
+	int32 nErrorNo = 1;//0 成功 1配置错误 2导弹数量不足 3即将切换场景，暂时不能使用技能
+	int32 dwPlayerId = 2;//玩家id
+	int32 dwNBombId = 3;//核弹id
+	int32 nCount = 4;//数量
+	int32 nPointX = 5;//投放位置x坐标
+	int32 nPointY = 6;//投放位置y坐标
+}
+
+//MSG_ID_REQ_NBOMB_BLAST = 0x8111
+message ReqMSGC2SNBombBlast{//核弹爆炸请求
+	int32 dwBombId = 1;//核弹id
+	int32 nCount = 2;//核弹数量
+	repeated int32 vecKilledFishes = 3;//击杀的鱼列表
+}
+//MSG_ID_RESP_NBOMB_BLAST = 0x8112
+message RespMSGS2CNBombBlast{//核弹爆炸响应
+	int32 nErrorNo = 1;//0 成功 1配置错误 2导弹数量不足
+	int32 dwPlayerId = 2;//玩家id
+	int32 nGunRate = 3;//炮倍
+    int64 nMoneyChange = 4;//获得的钱
+	int64 nNewFishIcon = 5;//新的鱼币
+	int32 dwBombId = 6;//核弹id
+    int64 nNewCount = 7;//核弹新的数量
+	repeated tagKillFishInfo vecKilledFishes = 8;//击杀鱼列表
+}
+
+//MSG_ID_REQ_GET_PLAYER_INFO = 0x8113
+message ReqMSGC2SGetPlayerInfo{//玩家信息请求
+	int32 dwPlayerId = 1;//玩家id
+}
+
+//MSG_ID_RESP_GET_PLAYER_INFO = 0x8114
+message RespMSGS2CGetPlayerInfo {//玩家数据响应
+	int32 nErrorNo = 1;
+	tagPlayerInfo tPlayerInfo = 2;//玩家信息
+}
+
+//MSG_ID_REQ_VIOLENT = 0x8115
+message ReqMSGC2SViolent{//使用狂暴请求
+	int32 nUseType = 3;//使用类型，0使用道具，1使用水晶
+}
+
+//MSG_ID_RESP_VIOLENT = 0x8116
+message RespMSGS2CViolent{//使用狂暴响应
+	int32 nErrorNo = 1;// 0成功 1特殊功能炮台期间，不能使用技能 2道具不足 3未找到技能配置 4即将切换场景，暂时不能使用技能 5VIP等级不足 6技能期间不能使用技能 7玩家已破产暂时不能使用技能
+	int32 dwPlayerId = 2; //玩家ID
+	int32 nUseType = 3;//使用类型，0使用道具，1使用水晶
+	int32 nNewCrystal = 4;//新的水晶
+}
+
+//MSG_ID_REQ_GET_NEW_TASK_INFO = 0x8117
+message ReqMSGC2SGetNewTaskInfo{//;获取新手任务信息请求
+}
+//MSG_ID_RESP_GET_NEW_TASK_INFO = 0x8118
+message RespMSGS2CGetNewTaskInfo{//;获取新手任务信息响应
+	int32 nErrorNo = 1;
+	string strMessage = 2;
+	bool bIsSuccess = 3;//是否成功
+	int32 nTaskId = 4;
+	int32 nTaskData =5;
+	bool bFinishAllTask = 6;//是否完成了所有新手任务
+}
+
+//MSG_ID_REQ_ARENA_READY = 0x8119
+message ReqMSGC2SArenaReady{//;竞技场游戏内就绪请求
+}
+//MSG_ID_RESP_ARENA_READY = 0x811A
+message RespMSGS2CArenaReady{//;竞技场游戏内就绪响应
+	bool bStarted = 1;//是否已经开始
+	int32 nLeftStartSecond = 2;//剩余开始时间，当started=false有用
+	int32 nFrameId = 3;//帧号
+	int32 nTimelineIndex = 4;//时间线id
+	repeated tagBulletInfo vecBullets = 5;//子弹
+	repeated int32 vecKilledFishes = 6;//被杀死的鱼的列表
+	repeated tagArenaFreePlayerInfo vecPlayerInfo = 7;//其他人员信息	
+	repeated tagCalledFishInfo vecCalledFishes = 8;//召唤鱼消息
+	int32 nLeftSecond = 9;//剩余结束时间
+	int32 nInitBulletCount = 10;//初始子弹个数
+	int32 nserverTime = 11;//服务端时间戳
+	repeated tagArenaRankPlayerItem vecRankPlayers = 12;//玩家列表
+	int32 dwPlayerId = 13;//玩家id;//
+	int32 nArenaType = 14;//竞技场类型，如500001003
+	repeated int32 vecShareSwitchs = 15;//允许分享的类型  
+	repeated tagCommonShareItem vecShareInfo = 16;//新的分享状态
+}
+
+//MSG_ID_REQ_BATCH_SHOOT = 0x811B
+message ReqMSGC2SBatchShoot{//狂暴和分身的射击响应
+	repeated tagBatchBulletInfo vecBullets = 1;//子弹集
+	bool bIsViolent = 8;//是否狂暴
+	int32 nFrameCount = 9;
+	int32 nViolentRate = 10;//狂暴倍率
+	int32 nGunRate = 11;//炮倍
+}
+//MSG_ID_RESP_BATCH_SHOOT = 0x811C
+message RespMSGS2CBatchShoot{//狂暴和分身的射击请求
+	int32 dwPlayerId = 1;
+	repeated tagBatchBulletInfo vecBullets = 2;//子弹集
+	int32 nGunRate = 4;//炮倍
+	bool bIsViolent = 9;//是否狂暴
+	int32 nViolentRate = 10;//狂暴倍率
+    int32 nFrameCount = 11;
+	int64 nMoneyCost = 13;//金钱消耗
+	int64 nNewFishCoin = 14;//最新的鱼币
+	int32 nMasterLeftBullet = 15;//大师赛生于子弹(不过大师赛取消了， 这个字段大概没用了吧)
+}
+
+//MSG_ID_REQ_GET_NEW_TASK_REWARD = 0x811D
+message ReqMSGC2SGetNewTaskReward{//;领取新手任务奖励请求
+	int32 nTaskId = 1;
+	int32 nShareType = 2;//分享类型, 如果分享失败或无分享不传值, 如果成功的话传非零的值, 
+}
+
+//MSG_ID_RESP_GET_NEW_TASK_REWARD = 0x811E
+message RespMSGS2CGetNewTaskReward{//;领取新手任务奖励响应
+	int32 nErrorNo = 1;
+	string strMessage = 2;
+	bool bIsSuccess = 3;
+	repeated tagProp vecProps = 4;
+	repeated tagSeniorProps vecSeniorProp = 5;
+	int32 dwPlayerId = 6;
+}
+
+//MSG_ID_REQ_ONLINE_REWARD_INFO = 0x811F
+message ReqMSGC2SOnlineRewardInfo{//;获取在线奖励信息请求
+}
+//MSG_ID_RESP_ONLINE_REWARD_INFO = 0x8120
+message RespMSGS2COnlineRewardInfo{//;获取在线奖励信息应答
+    int32 nErrorCode = 1;// 0为有礼包 1在线礼包已领完
+    int32 nHadRewardCount = 2;// 已经领过奖励的次数
+	int64 nLeftTime = 3;//秒
+}
+//MSG_ID_REQ_GET_ONLINE_REWARD = 0x8121
+message ReqMSGC2SGetOnlineReward{//;获取在线奖励请求
+}
+//MSG_ID_RESP_GET_ONLINE_REWARD = 0x8122
+message RespMSGS2CGetOnlineReward{//;获取在线奖励应答
+    int32 nErrorCode = 1;// 0成功 1在线礼包已领完 2未到领取时间
+	int32 nPlayerId = 2;
+	int32 nHadRewardCount = 3;// 已领次数
+	int64 nNextLeftTime = 4;//秒
+	repeated tagProp vecProps = 5;//普通道具列表
+	repeated tagSeniorProps vecSeniorProps = 6;//高级道具列表
+}
+
+//MSG_ID_REQ_EMOTICON = 0x8123
+message ReqMSGC2SEmoticon{ //使用表情请求
+	int32 dwEmoticonId = 1;//表情id
+}
+
+//MSG_ID_RESP_EMOTICON = 0x8124
+message RespMSGS2CEmoticon{//使用表情响应
+	int32 nErrorCode = 1;//0、成功 1、VIP等级不足，不能使用表情 2、今日发送表情次数上限
+	int32 dwPlayerId = 2;//玩家id
+	int32 dwEmoticonId = 3;//表情id
+}
+
+//MSG_ID_REQ_GHOST_PLAYER_SHOOT = 0x8125
+message ReqMSGC2SGhostPlayerShoot{//发射幽灵子弹请求
+    string strBulletId = 1;//子弹id
+	string strAngle = 2;//角度
+	int32 nGunRate = 3;//炮倍
+	int32 dwTimelineId = 4;//鱼线id
+	int32 nPointX = 5;//客户端使用
+	int32 nPointY = 6;//客户端使用
+	int32 nFrameCount = 7;//帧号
+}
+
+//MSG_ID_RESP_GHOST_PLAYER_SHOOT = 0x8126
+message RespMSGS2CGhostPlayerShoot{//玩家发射幽灵子弹响应
+	int32 nErrorNo = 1;
+	string strMessage = 2;
+    int32 dwPlayerId = 3;//玩家id
+	string strBulletId = 4;//子弹id，格式为玩家id_子弹序号,同一个玩家，子弹序号是递增的
+	string strAngle = 5;//发射角度
+	int32 nGunRate = 6;//炮倍
+	int32 dwTimelineId = 7;//鱼线id
+	int32 nPointX = 8;//客户端使用
+	int32 nPointY = 9;//客户端使用
+	tagProp tConsumeProp = 10;//消耗道具
+	tagProp tSurplusProp = 11;//最新的道具数量
+    int32 nFrameCount = 12;//帧号
+	bool bValidate = 13; // 0:正常，-1鱼币不足
+}
+
+//MSG_ID_REQ_GHOST_PLAYER_HIT = 0x8127
+message ReqMSGC2SGhostPlayerHit{//子弹碰撞请求
+	string strBulletId = 1;//子弹id，格式为玩家id_子弹序号
+	int32 nFrameId = 2;//帧号
+	repeated int32 vecHitFishes  = 3;//碰撞的鱼列表, 原来是vecKilledFishes, 改为  vecHitFishes
+	repeated int32 vecEffectedFishes  = 4;//影响的鱼列表（特殊鱼使用）
+}
+
+//MSG_ID_RESP_GHOST_PLAYER_HIT = 0x8128
+message RespMSGS2CGhostPlayerHit{
+	int32 nErrorNo = 1;
+	string strMessage = 2;
+    int32 dwPlayerId = 3;//玩家id
+	int32 dwHappyCoin = 4;//乐园币
+	string strBulletId = 5;//子弹id
+	int32 dwFrameId = 6;//帧号
+	repeated int32 vecKilledFishes = 7;//被击杀的鱼列表
+	int32 nGunRate = 8;//炮倍
+	repeated tagProp vecDropProps = 9;//掉落的道具列表
+	repeated tagGhostLegion vecGhostLegion = 10; //掉落的扑克牌奖励
+	int64 nMoneyChange = 11;//
+	int64 nFirstGetCoin = 12;//是否首次获取乐园币，用于新手引导
+}
+
+//MSG_ID_REQ_GET_PLAYER_MATCH_STATE = 0x8129
+message ReqMSGC2SGetPlayerMatchState{//获取报名状态
+	int32 dwPlayerId = 1;
+}
+
+//MSG_ID_RESP_GET_PLAYER_MATCH_STATE = 0x812A
+message RespMSGC2SGetPlayerMatchState{//获取报名回应
+	int32 dwPlayerId = 1;
+    int32 nState = 2;//0 未报名，1 已报名等待中未进游戏， 2 已在游戏中
+    int32 nRoomId = 3;
+}
+
+ //MSG_ID_REQ_POWER_CHANGE = 0x812B
+message ReqMSGC2SPowerChange{//切换炮台威力请求
+	int32 nNewPower = 1;
+}
+
+ //MSG_ID_RESP_POWER_CHANGE = 0x812C
+message RespMSGS2CPowerChange{//;切换炮台威力响应
+	bool bIsSuccess = 1;
+	string strMessage = 2;
+	int32 dwPlayerId = 3;//玩家id
+	int32 nNewPower = 4;
+}
+
+//MSG_ID_REQ_PART_FREEZE_START = 0x812D
+message ReqMSGC2SPartFreezeStart{//;开始局部冰冻请求
+	int32 nUseType = 1; //0使用道具,1使用水晶
+	repeated int32 VecTimeLineId = 2;//冰冻鱼列表
+}
+
+//MSG_ID_RESP_PART_FREEZE_START = 0x812E
+message RespMSGS2CPartFreezeStart{//;开始局部冰冻广播
+	int32 dwPlayerId = 1;//玩家id
+	int32 nNewCrystal = 2;//新的水晶个数
+	int32 nUseType = 3;//使用类型，0使用道具，1使用水晶
+	repeated tagFrozenTimeLineInfo vecFreezeTimeline = 4;//冰冻鱼列表
+	int32  nErrorNo = 5; //0成功 1道具不足 2即将切换场景，暂时不能使用技能
+}
+
+//MSG_ID_REQ_PET_SHOOT = 0x812F
+message ReqMSGC2SPetShoot{//宠物发射子弹请求
+    string strBulletId = 1;//子弹id
+	string strAngle = 2;//角度
+	int32 nGunRate = 3;//炮倍
+	int32 dwTimelineId = 4;//鱼线id
+	int32 nPointX = 5;//客户端使用
+	int32 nPointY = 6;//客户端使用
+	int32 nFrameCount = 7;//帧号6
+	int32 nViolentRate = 8;//狂暴倍率
+}
+//MSG_ID_RESP_PET_SHOOT = 0x8130
+message RespMSGS2CPetShoot{//宠物发射子弹响应
+	int32 nErrorNo = 1;
+	string strMessage = 2;
+    int32 dwPlayerId = 3;//玩家id
+	string strBulletId = 4;//子弹id，格式为玩家id_子弹序号,同一个玩家，子弹序号是递增的
+	string strAngle = 5;//发射角度
+	int32 nGunRate = 6;//炮倍
+	int32 dwTimelineId = 7;//鱼线id
+	int32 nPointX = 8;//客户端使用
+	int32 nPointY = 9;//客户端使用
+	int32 nViolentRatio = 10;//狂暴倍率
+    int32 nFrameCount = 11;//帧号
+	bool bValidate = 12; // 0:正常，-1鱼币不足
+	int64 nMoneyCost = 13;//金钱消耗
+	int64 nNewFishIcon = 14;//最新的鱼币
+}
+
+//MSG_ID_REQ_TEST = 0x8131
+message ReqTest{
+	string cmd = 1;
+}
+
+//MSG_ID_RESP_TEST = 0x8132
+message RespTest{
+	string result = 1;
+}
+
+//MSG_ID_REQ_SYNC_DESK_INFO = 0x8133
+message ReqSyncDeskInfo{//同步桌子信息
+}
+
+//MSG_ID_RESP_SYNC_DESK_INFO = 0x8134
+message RespSyncDeskInfo{
+	int64 dwServerTime = 1;//服务器时间戳
+	int32 nMapId = 2;//场景信息
+	repeated tagTimeLineInfo vecTimeline = 3;//鱼线列表
+    repeated tagPlayerInfo vecPlayerInfo = 4;//玩家id列表
+}
+
+//MSG_ID_REQ_LEVEL_UP_REWARD = 0x8135
+message ReqLevelUpReward{
+}
+
+//MSG_ID_RESP_LEVEL_UP_REWARD = 0x8136
+message RespLevelUpReward{
+	int32 dwPlayerId = 1;//玩家ID
+    int32 nNewLevel = 2;//新等级
+    repeated tagProp vecProps = 3;//获取的道具列表
+    repeated tagSeniorProps vecSeniorProp = 4; //获取的高级道具列表
+}
+
+//MSG_ID_RESP_FUNCTION_FISH_KILLED = 0x8137
+message RespFunctionFishKilled{//通知击杀一条功能鱼
+	int32 nPlayerId = 1;
+	int32 nVerification = 3;//验证码
+	int64 nStartTimestamp = 4;//单位ms
+	int64 nRemainTime = 5;//持续时间, 单位ms
+	int32 nTimeLineId = 6;//鱼的id
+	int32 nAttackCount = 7;//攻击次数
+	int32 nScoreRate = 8;//分数的加成
+	repeated int64 nRateArr = 9; //库值列表
+}
+
+//MSG_ID_REQ_FUNCTION_FISH_SHOOT = 0x8138
+message ReqFunctionFishShoot{//功能鱼shoot
+	int32 nPlayerId = 1;
+	int32 SequenceId = 2;//序列号, 由客户端自己递增
+	string strAngle = 3;
+	int32 nFunctionFishType = 4;//
+	int32 nVerification = 5;	//验证码
+	int32 nPointX = 6;
+	int32 nPointY = 7;
+}
+
+//MSG_ID_RESP_FUNCTION_FISH_SHOOT = 0x8139
+message RespFunctionFishShoot{
+	int32 nPlayerId = 1;
+	int32 SequenceId = 2;   //风火轮的第一发或者第二发
+	string strAngle = 3;    //角度，如激光的发射角度
+	int32 nFunctionFishType = 4;
+	int32 nVerification = 5;//服务器验证是那条功能鱼
+	int32 nPointX = 6;      //位置，如连环炸弹蟹导弹的攻击位置
+	int32 nPointY = 7;
+	int32 nErrorCode = 99;
+}
+
+//MSG_ID_REQ_FUNCTION_FISH_HIT = 0x813A
+message ReqFunctionFishHit{
+	int32 nPlayerId = 1;
+	int32 SequenceId = 2;//风火轮这种，有两个轮子的传不同的值
+	repeated int32 vecHitFishes = 4;//碰撞的鱼列表
+	int32 nStatus = 5;// 功能鱼多段攻击的配置，从0开始
+	int32 nVerification = 8;
+	int32 nFunctionFishType = 9;
+}
+
+//MSG_ID_RESP_FUNCTION_FISH_HIT = 0x813B
+message RespFunctionFishHit{
+	int32 nPlayerId = 1;
+	int32 SequenceId = 2;
+	repeated tagKillFishInfo vecKilledFishes = 4;//碰撞的鱼列表
+	int32 nStatus = 5;// 功能鱼多段攻击的配置，从0开始
+	int64 nNewFishCoin = 8;//玩家当前最新的鱼币
+	int32 nVerification = 9;
+	int32 nFunctionFishType = 10;
+	int32 nGunRate = 11;
+	int32 nScoreRate = 12;//分数的加成
+	repeated tagProp vecDropProps = 13;//掉落的道具列表
+    repeated tagSeniorProps vecDropSeniorProps = 14;//掉落的高级道具列表
+	int32 nFishCoin = 15;
+	int32 nErrorCode = 99;
+}
+
+//MSG_ID_RESP_FUNCTION_FISH_RESULT = 0x813C
+message RespFunctionFishResult{
+	int32 nPlayerId = 1;
+	int32 nFunctionFishType = 2;//功能鱼类型
+	int64 nNewFishCoin = 3;//玩家当前最新的鱼币
+	int64 nTotalFishCoin = 4;//总计鱼币
+	int32 nVerification = 5;
+}
+
+//MSG_ID_REQ_STOP_SKILL = 0x813D
+message ReqStopSkill{
+	int32 nPlayerId = 1;
+	int32 nSkillId = 2;     // 物品的id，如200000004 为锁定技能
+}
+
+//MSG_ID_RESP_STOP_SKILL_RESULT = 0x813E
+message RespStopSkill{
+	int32 nPlayerId = 1;
+	int32 nSkillId = 2;
+}
+
+//boss宝箱信息
+//MSG_ID_REQ_CHEST_INFO = 0x813F
+message ReqChestInfo{
+}
+//MSG_ID_RESP_CHEST_INFO = 0x8140
+message RespChestInfo{
+    int32 nFreeChestId = 1;// 0的时候没有宝箱
+    int32 nFreeLeftTime = 2;// 小于或等于0的时候，可以领取
+    repeated tagChestSlot vecSlots = 3;// 槽位列表
+}
+
+//获取免费宝箱
+//MSG_ID_REQ_GET_FREE_CHEST = 0x8141
+message ReqGetFreeChest {
+}
+//MSG_ID_RESP_GET_FREE_CHEST_RESULT = 0x8142
+message RespGetFreeChestResult {
+    int32 nErrorCode = 1;// 0成功 1次数上限 2冷却时间未到 3配置错误 4槽位不够
+    int32 nSlotId = 2;
+    int32 nChestId = 3;
+    int32 nFreeChestId = 4;// 0的时候没有宝箱
+    int32 nFreeLeftTime = 5;// 小于或等于0的时候，可以领取
+}
+
+//使用宝箱
+//MSG_ID_REQ_USE_CHEST = 0x8143
+message ReqUseChest {
+    int32 nSlotId = 1;
+}
+//MSG_ID_RESP_USE_CHEST_RESULT = 0x8144
+message RespUseChestResult {
+    int32 nErrorCode = 1;// 0成功 1宝箱槽位错误 2该槽位上没有宝箱 3配置错误 4已经开启
+    int32 nSlotId = 2;
+    int32 nLeftTime = 3;
+}
+
+//打开宝箱获取奖励
+//MSG_ID_REQ_OPEN_CHEST = 0x8145
+message ReqOpenChest {
+    int32 nSlotId = 1;
+    int32 nOpenType = 2;// 0默认打开 1使用水晶打开
+}
+//MSG_ID_RESP_OPEN_CHEST_RESULT = 0x8146
+message RespOpenChestResult {
+    int32 nErrorCode = 1;// 0成功 1宝箱槽位错误 2该槽位上没有宝箱 3配置错误 4CD未结束 5水晶不足
+    int32 dwPlayerId =2;//玩家id
+    int32 nSlotId = 3;
+    repeated tagProp vecDropProps = 4;
+    repeated tagSeniorProps vecDropSeniorProps = 5;
+}
+
+//打鱼掉落boss宝箱
+//MSG_ID_NOTIFY_HIT_DROP_CHEST_RESULT = 0x8147
+message NotifyUseChestResult {
+    int32 nErrorCode = 1;// 0成功 1槽位不够 2槽位错误
+    int32 nChestId = 2;
+    int32 nSlotId = 3;
+    int32 nFishLine = 4;
+    int32 nPlayerId = 5;
+}
+
+//解锁房间的奖励
+//MSG_ID_NOTIFY_FIRST_UNLOCK_ROOM_REWARD = 0x8148
+message NotifyFirstUnLockRoomReward {
+	repeated tagProp vecProps = 1;
+	repeated tagSeniorProps vecSeniorProp = 2;
+}
+
+//请求鸿福巨奖进度
+//MSG_ID_REQ_LUCK_REWARD_PROGRESS = 0x8149
+message ReqLuckRewardProgress {
+}
+//MSG_ID_RESP_LUCK_REWARD_PROGRESS = 0x814A
+message RespLuckRewardProgress {
+	int32 nRoomId = 1; //奖池id
+    int32 nProgress = 2; //进度条	
+}
+
+//鸿福巨奖抽奖开始
+//MSG_ID_REQ_START_LUCK_REWARD = 0x814B
+message ReqStartLuckReward {
+	int32 nType = 1; // 是否是再来一次 0-不是 1-再来一次的抽奖
+}
+//MSG_ID_RESP_START_LUCK_REWARD = 0x814C
+message RespStartLuckReward {
+    int32 nErrCode = 1;//0成功 1配置不存在 2奖池数据错误 3奖池未满，暂不能抽奖 4抽奖随机出错
+    int32 dwPlayerId = 2;//玩家id
+    int64 nPoolReward= 3; //鸿福巨奖奖池
+    int32 nPos = 4;//档次
+    int64 nCoin = 5; //抽奖获得鱼币
+    int64 nNewFishCoin = 6;//玩家当前最新的鱼币
+    int32 nRandCount = 7;//随机次数
+    int32 nType = 8; //是否有问号 0-没有 1-再来一次 2-加成
+    float dAddition = 9;//加成倍率
+}
+
+//鸿福巨奖抽奖结束
+//MSG_ID_REQ_END_LUCK_REWARD = 0x814D
+message ReqEndLuckReward {
+    int32 nType = 1;
+    int32 nState = 2;
+    int32 nLevel = 3;
+    int64 nScore = 4;
+}
+//MSG_ID_RESP_END_LUCK_REWARD = 0x814E
+message RespEndLuckReward {
+    int32 dwPlayerId =1;//玩家id
+    int32 nType = 2;
+    int32 nState = 3;
+    int32 nLevel = 4;
+    int64 nScore = 5;
+    int64 nNewFishCoin = 6;//玩家当前最新的鱼币
+}
+
+//幸运大转盘
+//MSG_ID_RESP_FISH_LUCK_WHEEL_RESULT = 0x814F
+message RespFishLuckWheelResult {
+    int32 dwPlayerId =1;//玩家id
+    int32 nVerification = 2;//功能鱼唯一标识
+    int64 nScore = 3;
+    repeated int32 vecRadio = 4;//转盘结果
+    int32 nTotalRatio = 5;//总倍率
+}
+//幸运转盘请求抽奖
+//MSG_ID_REQ_FISH_LUCK_WHEEL_DRAW = 0x8150
+message ReqFishLuckWheelDraw {
+    int32 dwPlayerId =1;//玩家id
+    int32 nVerification = 2;//功能鱼唯一标识
+    int32 nRadioId = 3;
+}
+//MSG_ID_RESQ_FISH_LUCK_WHEEL_DRAW = 0x8151
+message RespFishLuckWheelDraw {
+    int32 dwPlayerId =1;//玩家id
+    int32 nRadioId = 2;
+}
+
+//精彩大赢家
+//MSG_ID_RESP_FISH_WINNER_RESULT = 0x8152
+message RespFishWinnerResult {
+    int32 dwPlayerId =1;//玩家id
+    int32 nVerification = 2;//功能鱼唯一标识
+    int64 nTotalScore = 3;
+    repeated tagFishCardList vecWinnerResult = 4;//翻牌总结果
+}
+//精彩大赢家请求翻牌
+//MSG_ID_REQ_FISH_WINNER_OPEN_CARD = 0x8153
+message ReqFishWinnerOpenCard {
+    int32 dwPlayerId =1;//玩家id
+    int32 nVerification = 2;//功能鱼唯一标识
+    int32 nScore = 3;
+}
+//MSG_ID_RESP_FISH_WINNER_OPEN_CARD = 0x8154
+message RespFishWinnerOpenCard {
+    int32 dwPlayerId =1;//玩家id
+    int32 nScore = 2;
+    int64 nNewFishCoin = 3;//玩家当前最新的鱼币
+}
+
+//末日横扫
+//MSG_ID_RESP_FISH_MO_RI_RESULT = 0x8155
+message RespFishMoRiResult {
+    int32 dwPlayerId =1;//玩家id
+    int32 nVerification = 2;//功能鱼唯一标识
+    int64 nLeftTime = 3;//剩余时间（秒）
+}
+//末日横扫结束
+//MSG_ID_REQ_FISH_MO_RI_END = 0x8156
+message ReqFishMoRiEnd {
+    int32 dwPlayerId =1;//玩家id
+    int32 nVerification = 2;//功能鱼唯一标识
+}
+//MSG_ID_RESP_FISH_MO_RI_END = 0x8157
+message RespFishMoRiEnd {
+    int32 dwPlayerId =1;//玩家id
+    int32 nVerification = 2;//功能鱼唯一标识
+    int64 nScore = 3;//总分
+}
+//MSG_ID_NOTIFY_MO_RI_TIME_CHANGE = 0x8158
+message NotifyMoRiTimeChange {
+    int32 dwPlayerId =1;//玩家id
+    int32 nTimeLineId = 2;//获得时间的鱼
+    int32 nAddTime = 3;//增加的时间（秒）
+    int32 nCurRate = 4;//当前倍率
+    int32 nVerification = 5;//功能鱼唯一标识
+}
+
+//通知掉落限时礼包
+//MSG_ID_NOTIFY_DROP_TIME_GIFT = 0x8159
+message NotifyDropTimeGift {
+    int32 nTimeGiftId = 1;//显示礼包的id
+}
+
+//通知聚宝盆、摇钱树的击破
+//MSG_ID_NOTIFY_SPECIAL_FISH_DROP = 0x815A
+message NotifySpecialFishDrop {
+    int32 nPlayerId = 1;//玩家id
+    int32 nTimeLineId = 2;//鱼的uid
+    repeated tagProp vecProps = 3;//奖励
+}
+
+//首次解锁中级房的时间
+//MSG_ID_REQ_FIRST_UNLOCK_MID_ROOM_TIME = 0x815B
+message ReqFirstUnlockMidRoomTime {
+}
+//MSG_ID_RESP_FIRST_UNLOCK_MID_ROOM_TIME = 0x815C
+message RespFirstUnlockMidRoomTime {
+    int64 nUnlockTime = 1;//解锁时间
+}
+
+// 购买金猪奖励
+//MSG_ID_REQ_BUY_GOD_PIG_REWARD = 0x815D
+message ReqBuyGodPigReward {
+}
+
+//MSG_ID_RESP_BUY_GOD_PIG_REWARD = 0x815E
+message RespBuyGodPigReward {
+    int32 nErrCode = 1;// 0成功 1配置不存在 2积分不够 3道具不足
+    int32 dwPlayerId =2;//玩家id
+    repeated tagProp vecProps = 3;//奖励
+}
+
+// 获取金猪积分信息
+//MSG_ID_REQ_GOD_PIG_SCORE = 0x815F
+message ReqGodPigScore {
+}
+
+//MSG_ID_RESP_GOD_PIG_SCORE = 0x8160
+message RespGodPigScore{//金猪积分通知
+	int32 nLevel = 1;           // 金猪等级
+    int64 nNeedScore = 2;       // 需要的分数
+    int64 nNowScore = 3;        // 现有的分数
+    int32 nNeedPropId = 4;      // 兑换所需要的的道具Id
+    int64 nNeedCount = 5;       // 兑换所需要的的道具数量
+    int64 nOiginalPrice = 6;    // 原价
+    int32 nErrorCode = 7;       // 错误码 0-正常 1-活动已过期
+    int32 nIsNotify = 8;        // 是否主动推送 0-不是 1-主动推送
+}
+
+// 获取金猪送福信息
+//MSG_ID_REQ_GOD_PIG_LV_REWARD_INFO = 0x8161
+message ReqGodPigLvRewardInfo {
+}
+
+//MSG_ID_RESP_GOD_PIG_LV_REWARD_INFO = 0x8162
+message RespGodPigLvRewardInfo{//金猪送福信息
+    repeated tagGodPigLvReward vecLvReward = 1; //奖励列表
+    int32 nBuyLevel = 2;                        // 已购买等级
+    int32 nMaxLevel = 3;                        // 最大可领取等级
+    int32 nErrorCode = 4;                       // 错误码 0-正常 1-活动已过期
+}
+
+// 获取金猪送福奖励
+//MSG_ID_REQ_GOD_PIG_LV_REWARD_GET = 0x8163
+message ReqGodPigLvRewardGet {
+     int32 nLevel = 1;                        // 等级
+}
+
+//MSG_ID_RESP_GOD_PIG_LV_REWARD_GET = 0x8164
+message RespGodPigLvRewardGet{  //金猪送福奖励
+    int32 dwPlayerId = 1;                       //玩家id
+    repeated tagProp vecLvReward = 2;           //奖励
+    int32 nErrorCode = 3;                       // 错误码 0-正常 1-活动已过期 2-购买等级不足 3-已购买过 4-该等级无奖励
+}
+
+// 玩家请求破产
+//MSG_ID_REQ_PLAYER_BANKRUPT = 0x8165
+message ReqPlayerBankrupt {
+}
+//MSG_ID_RSP_PLAYER_BANKRUPT = 0x8166
+message RespPlayerBankrupt {
+}
+
+//===================================================================
+//=============================通知协议==============================
+
+//MSG_ID_NOTIFY_VIOLENT_TIMEOUT = 0x8300
+message NotifyMSGS2CViolentTimeOut{//狂暴时间到推送
+	int32 dwPlayerId =1;//玩家id
+}
+
+//MSG_ID_NOTIFY_GAMCE_ANNOUCE_STRING = 0x8301
+message NotifyMSGS2CGameAnnouceString{//;游戏内公告
+	string strMsgTemplete = 1;
+	int32 dwDeskId = 3;
+	int32 dwRoomId = 4;
+	int32 dwPlayerId = 5;
+	repeated string strParams = 6;
+}
+
+//MSG_ID_NOTIFY_PLAYER_JOIN = 0x8302
+message NotifyMSGS2CPlayerJoin{//玩家加入广播
+	tagPlayerInfo tPlayerInfo = 1;//玩家
+}
+
+//MSG_ID_NOTIFY_PLAYER_LEAVE = 0x8303
+message NotifyMSGC2SPlayerLeave{//玩家离开广播
+	int32 nLeaveCode = 1;//离开原因， 基本上来自离开请求里传的数据， 0本人主动离开， 1被人踢， 2被房间踢， 3其他 
+	string strLeaveReason = 2;//离开原因的描述， 可不传
+	int32 dwPlayerId = 3;
+	int64 lLeaveTimestamp = 4;//离开的时间戳
+}
+
+//MSG_ID_NOTIFY_EXP_CHANGED = 0x8304
+message NotifyMSGS2CExpChanged{//通知玩家经验变化
+	int32 dwPlayerId = 1;//玩家ID
+	int64 nNewExp = 2;//新经验
+	int32 nCurLv = 3;//当前等级
+}
+
+//MSG_ID_NOTIFY_PLAYER_DATA_CHANGE = 0x8305
+message NotifyMSGS2CPlayerDataChange{//桌内广播玩家数据变更
+	int32 dwPlayerId = 1;//玩家ID
+	repeated tagProp vecProps = 2;//道具列表
+	repeated tagSeniorProps vecSeniorProp = 3; //高级道具列表
+}
+
+//MSG_ID_NOTIFY_FISHCOIN_RECORD = 0x8306
+message NotifyMSGFishCoinRecord{
+	int32 dwType = 1;//0代表满足5分钟，1代表有人退出
+	int32 dwDeskId = 2;
+	int32 dwPlayerId = 3;//只有在有人退出的时候，这个才有值
+}
+
+//装扮切换
+//MSG_ID_NOTIFY_DRESS_CHANGE = 0x8307
+message NotifyMSGS2CDressChange{
+	int32 dwPlayerId =1;		// 玩家id
+	int32 nGunId =2;			// 大炮id
+	int32 nWingId =3;			// 翅膀id
+    int32 nPetId =4;			// 宠物id
+    int32 nAvatarFrameId =5;	// 头像框id
+    int32 nCallingCardId =6;	// 名片id
+}
+
+//同步奖池
+//MSG_ID_NOTIFY_SYNC_REWARD_POOL = 0x8308
+message NotifyMSGS2CSyncRewardPool{
+	int32 nRoomId =1;       // 房间id
+	int64 nPoolReward =2;	// 总奖池
+}
+
+//MSG_ID_NOTIFY_TIMELINE = 0x8309
+message NotifyTimeLine{
+	repeated tagTimeLineInfo VecTimeLineInfo = 1;    //新出现的鱼
+}
+
+//MSG_ID_NOTIFY_LOCKON_OVER = 0x830A
+message NotifyLockOnOver{
+	int32 nPlayerId = 1;
+}
+
+//MSG_ID_NOTIFY_SCENE_SWITCH = 0x830B
+message NotifySceneSwitch{
+	int32 nSceneId = 1;// 场景Id
+}
+
+//MSG_ID_NOTIFY_SCENE_WILL_SWITCH = 0x830C
+message NotifySceneWillSwitch{
+	int32 nSceneId = 1;// 场景Id
+}
+
+//MSG_ID_NOTIFY_KICK_OFF_TIME = 0x830D
+message NotifyMSGKickOffTime{//未射击超时时间
+	int32 nTime = 1;  //倒计时时间
+	bool  bKickOff = 2; //是否踢出
+}
+
+//MSG_ID_NOTIFY_BOSS_STATUS = 0x830E
+message NotifyMSGBossStatus{//通知boss状态，用于播放和结束boss背景音乐
+	int32 nStatus = 1;  //boss状态 1-来了 0-结束了
+	int32 FishId = 2;//鱼id
+}
+
+//MSG_ID_NOTIFY_FUNCTION_FISHES = 0x830F
+message NotifyMSGFunctionFishes{//通知功能鱼列表（断线重连）
+	repeated tagFunctionFishInfo vecFunctionFishes = 1;
+}
+
+//MSG_ID_NOTIFY_NEXT_SCENE_PROCESS = 0x8310
+message NotifyNextSceneProcess{
+	int64 BeginTime = 1;    //开始的时间戳
+	int64 DurationTime = 2; //持续时间
+	int32 FishId = 3;       //鱼的id(现在只有玲珑宝塔的id)
+}
+
+//----------------------------------------------------------------------
+message tagTimeLineInfo {
+    int32 TimeLineId = 1;//鱼线的uid
+    int32 FishId = 2;//鱼id
+    int32 PathId = 3;//路径id
+    int32 MapId = 4;//场景id
+    int64 BeginTime = 5;//开始的时间戳
+    float LifeTime = 6;//鱼的存活时长（不包括冰冻时间）
+    int32 IsFreeze = 7;//是否冰冻状态
+    int64 FreezeEndTime = 8;//冰冻结束的时间戳
+    int32 Pos_X = 9;//
+    int32 Pos_Y = 10;//
+    bool IsCallFish = 11;//是否是召唤鱼
+    int64 TimeLineCreateTime = 12; //这条鱼线的创建时间
+}
+
+message tagFrozenTimeLineInfo {
+    int32 TimeLineId = 1;//鱼线的uid
+    int32 IsFreeze = 2;//是否冰冻状态
+    int64 FreezeEndTime = 3;//冰冻结束的时间戳
+}
+
+message tagGhostLegion { //幽灵牌型
+	repeated tagGhostPoker vecPoker = 1;//牌
+	repeated tagProp vecProps = 2;//奖励道具列表
+	int32 nTime = 3 ;//倍数
+	int32 nType = 4;//扑克类型
+}
+
+message tagGhostPoker {
+	int32 nValue = 1;//扑克的大小10~14 分别代表10，J，Q，K，A 
+	int32 nColor = 2;//1表示黑桃 2表示红心 3表示草花 4表示方块
+}
+
+message tagProp{//道具信息
+	int32 propId = 1;
+    int64 propCount = 2;
+}
+
+message tagSeniorProps{//高级道具
+	int32 propId = 1;
+	int32 expTime = 2;
+	int32 propCount = 3;
+    string strPatchData = 4;//补丁数据
+}
+
+message tagDress{//装扮
+    int32 itemType = 1;//物品类型
+    int32 itemId = 2;//物品id
+}
+
+message tagBulletInfo{
+    string strBulletId = 1;//子弹id，格式为玩家id_子弹序号
+    int32 dwPlayerId = 2;//玩家id
+	int32 nFrameCount = 3;//发射时帧号
+	string strAngle = 4;//角度
+	int32 dwTimelineId = 5;//锁定的时间线id,默认为0
+	int32 nPointX = 6;//客户端使用
+	int32 nPointY = 7;//客户端使用
+	bool bIsViolent = 8;//是否狂暴
+}
+
+message tagBatchBulletInfo{
+	string strBulletId = 1;//子弹id
+	string strAngle = 2;//角度
+	int32 nPointX = 3;
+	int32 nPointY = 4;
+	int32 dwGunId = 5;//炮台id
+	int32 dwTimelineId = 6;//时间线
+	int32 nValidate = 7; // 0:正常，-1鱼币不足
+	//int32 dwPlayerId = 13;//玩家id, 可从父协议中获取
+}
+
+message tagKillFishInfo{
+    int32 dwTimelineId = 1;//时间线id
+    int32 nRatio = 3;//倍率
+	int64 nFishCoin = 4;//主要是给多段伤害的功能鱼用的
+}
+
+message tagCalledFishInfo{
+	int32 dwFrameId = 1;//帧号
+	int32 dwPathId = 2;//路径id
+	int32 dwFishTypeId = 3;//鱼id
+	int32 dwPlayerId = 4;//玩家id
+	int32 dwCallFishId = 5;//召唤鱼id客户端信息
+}
+
+message tagCommonShareItem{//通用分享
+	int32 nShareType = 1;//分享类型，1:充值分享,2,游戏内邀请好友分享，3，解锁泡倍水晶不足，4，升级成功分享，5升级炮倍分享，6，击杀boss分享，7羽泉抽奖分享，8悬赏任务分享，9新手任务分享，10购买特殊礼包分享
+	int32 nShareCount = 2;//当日分享次数
+}
+
+message tagArenaSignupItem{//;竞技场报名项
+	int32 nArenaType = 1; //免费场类型，1：8人赛,2:鱼券赛，3:免费赛
+	int32 nCount = 2; //报名次数
+}
+
+message tagArenaRankPlayerItem{
+	int32 dwPlayerId = 1;//玩家id
+	string strNickName = 2;//昵称
+	int32 nScore = 3;//分数
+	int32 nBulletCount = 4;//子弹数
+	repeated tagProp vecProps = 5;//奖励，结束是才有字段
+}
+
+message tagArenaFreePlayerInfo{//竞技场其他玩家信息
+	int32 nBulletCount = 1; //子弹数量
+	int32 nGunRate = 2; //炮倍
+	int32 nScore = 3; //得分 
+	int32 nChairId = 4;//座位号
+	int32 nErrorCode = 5;//在线状态  0 在线  1不在线
+	repeated tagProp vecProps = 6;//道具
+	int64 nFishCoin = 7;//鱼币
+	int32 nCrystal = 8;//水晶
+	repeated tagArenaSignupItem vecSignUpHistory = 9;//报名次数
+	string strNickName = 10;
+	int32 nGunType = 11;//炮外观 
+	int32 dwPlayerId = 12;//玩家id
+	int32 nMaxGunRate = 13;//最大炮倍
+	int32 nVipExp  = 14;//vip经验
+	int32 nLeftMonthCardDay = 15;
+	bool bMonthCardRewardToken = 16;
+	string strNickImg = 17;//头像	
+	int32 nHeadFrameId  = 18;//头像id
+}
+
+message tagPlayerInfo{//玩家数据
+	int32 dwPlayerId = 1;//玩家id
+    int32 nChairId = 2;//座位号
+	int64 nFishCoin = 3;//鱼币
+	int64 nCrystal = 4;//水晶
+	int64 nVipExp = 5;//vip经验
+	int64 nGradeExp = 6;//等级经验
+	int32 nLevel = 7;//玩家等级
+	int32 nGunType = 8;//炮台类型
+	int32 nCurrentGunRate = 9;//当前炮倍
+	int32 nCurCannonPower = 10;//当前炮台威力（全局威力）
+	string strNickName = 11;//昵称
+	string strNickImg = 12;//头像
+	bool IsViolent = 13;//玩家是否在狂暴状态
+	bool IsLockOn = 14;//玩家是否在锁定状态
+	repeated tagProp vecProps = 15;//道具列表
+	repeated tagSeniorProps vecSeniorProp = 16; //高级道具列表
+	repeated tagDress vecDress = 17; //装扮
+	int32 nSendChatCount = 18;//今日发送的聊天次数
+}
+
+message tagChestSlot{//boss宝箱的槽
+    int32   nSlotId = 1;    // id
+    int32   nChestId = 2;   // 宝箱id
+    int32   nLeftTime = 3;  // 宝箱剩余开启时间
+    bool    bLock = 4;      // 宝箱槽是否锁住
+    bool    bOpen = 5;      // 开启状态，ture为已开启
+}
+
+message tagFishWinnerCard{//精彩大赢家的卡牌
+    int32   nFishId = 1;
+    int32   nRadio = 2;     // 倍率
+    int64   nCoin  = 3;     // 获得的分数
+}
+
+message tagFishCardList{//精彩大赢家的卡牌列表
+    tagFishWinnerCard   openedFishCard = 1;         //被翻开的牌
+    repeated tagFishWinnerCard  vecFishCard = 2;    //其它牌列表
+}
+
+message tagFunctionFishInfo{//功能鱼信息（断线重连用）
+    int32   nFishId = 1;
+    int32   nTraceType = 2;
+    int32   nPlayerId  = 3;
+    int32   nVerification  = 4;
+    int64   nFishCoin = 5;
+    int32   nFishRadio = 6;
+    int32   nGunRate = 7;
+    float   lifeTime = 8; //存活时间（触发功能鱼的时候，超过存活时间直接给结算）
+
+    int32   nAttackCount = 9;//攻击次数
+    int32   nHitCount = 10;
+    repeated int64 nRateArr = 11; //库值列表
+
+    float   durationTime = 12;    //末日横扫 当前剩余时间
+    int32   dropDoubleCount = 13; //末日横扫 掉落双倍的次数
+
+    bool    isShoot = 14; // 是否发送过shoot协议
+    string  strAngle = 15;// 角度
+    int32   nPointX = 16;
+    int32   nPointY = 17;
+    int32   nPathId = 18;
+    int32   nScoreRate = 19;
+    int32   nKillFishCount = 20;
+    int32   nRadioId = 21; // 锦鲤转盘数据
+    repeated int32 vecRadio = 22; // 锦鲤转盘数据
+}
+
+message tagMatchTaskProcess{
+    int32 nFishId = 1;          //鱼id
+    int32 nKillNum = 2;         //击杀数量
+    int32 nNeedKillNum = 3;     //需要击杀的数量
+}
+
+message tagMatchTaskInfo {
+    int32 nTaskId = 1;  //任务ID
+    int32 nReward = 2;  //任务奖励（积分）
+    int32 nStatus = 3;  //任务状态 0未接受 1已接受未完成 2已完成 3已领奖 4已过期
+    int64 nTaskLeftTime = 4; //任务剩余时间
+    repeated tagMatchTaskProcess taskData = 5; //任务进度
+}
+
+message tagGodPigLvReward{
+    int32 nLevel = 1;          //等级
+    repeated tagProp vecProps = 2;//奖励道具列表
+    int32 nIsGet = 3;     //是否已领取
+}
