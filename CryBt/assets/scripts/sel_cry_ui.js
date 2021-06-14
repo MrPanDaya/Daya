@@ -27,4 +27,10 @@ cc.Class({
         this.gameSetNode.active = true;
         console.log("onBtnGameSet");
     },
+    onBtnShare(){
+        var args = {};
+        args.title = "星域告急通知书";
+        args.desc = "星域基地告急，外形生物正在大举入侵，战士们赶紧集合啊~";
+        shareByMiniGame(args);
+    },
 });

@@ -33,7 +33,8 @@ import genInternal
 class PackAPK(object):
     def __init__(self, args):
         self.no_rollback = args.no_rollback
-        self.no_encrypt = args.no_encrypt
+        # self.no_encrypt = args.no_encrypt
+        self.no_encrypt = True
         self.no_build_creator = args.no_build_creator
         self.is_qq = args.is_qq
         self.root_dir = os.path.dirname("./")
@@ -127,7 +128,7 @@ class PackAPK(object):
         packArgs = {}
         packArgs['confuseResImport'] = False
         packArgs['exclude'] = False
-        packArgs['compressPng'] = True
+        packArgs['compressPng'] = False
         packArgs['encrytPng'] = False
         packArgs['encrytJS'] = False
         packArgs['cfgPackagePath'] = cfgPath

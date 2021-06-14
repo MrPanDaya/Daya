@@ -20,7 +20,7 @@ var mergeJsonMd5 = "md5"
 
 var hookDownLoad = function () {
     var downloader = cc.assetManager.downloader;
-    var need_decompress_gzip = true;
+    var need_decompress_gzip = false;
     var _window$fsUtils = window.fsUtils,
         getUserDataPath = _window$fsUtils.getUserDataPath,
         readJson = _window$fsUtils.readJson,

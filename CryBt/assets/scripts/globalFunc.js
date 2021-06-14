@@ -3,4 +3,5 @@
         var num = isNaN(t) ? 0 : Number(t);
         return num;
     };
+
 })();

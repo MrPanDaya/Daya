@@ -88,7 +88,7 @@
 
     window.shareByMiniGame = function (params) {
         if(!window.wx) return;
-        params.imageUrl = cc.url.raw('share.jpg');
+        params.imageUrl = window.LOGIN_SERVER  + "share.jpg";
         wx.shareAppMessage(params);
     };
 

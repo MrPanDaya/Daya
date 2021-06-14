@@ -91,7 +91,7 @@ window.boot = function() {
                     handleLaunchError('启动游戏失败');
                 }
                 else{
-                    window.REMOTE_SERVER_ROOT = window.LOGIN_SERVER;
+                    window.REMOTE_SERVER_ROOT = window.LOGIN_SERVER + window.APP_VERSION.join('.') + "/";
                     remoteUrlIdx++;
                     downloadMergeJson(calllback);
                 }
@@ -267,8 +267,8 @@ window.boot = function() {
     }
 
     var onStart = function onStart() {
-        window.REMOTE_SERVER_ROOT = window.LOGIN_SERVER;
-        initLogger();
+        window.REMOTE_SERVER_ROOT = window.LOGIN_SERVER + window.APP_VERSION.join('.') + "/";
+        // initLogger();
         cc.view.enableRetina(true);
         cc.view.resizeWithBrowserSize(true);
         createLaunchScene();
@@ -298,7 +298,7 @@ window.boot = function() {
     var isSubContext = cc.sys.platform === cc.sys.WECHAT_GAME_SUB;
     var option = {
         id: 'GameCanvas',
-        debugMode: window.LOG_LEVEL == 1 ? cc.debug.DebugMode.INFO : cc.debug.DebugMode.ERROR,
+        // debugMode: window.LOG_LEVEL == 1 ? cc.debug.DebugMode.INFO : cc.debug.DebugMode.ERROR,
         showFPS: !isSubContext && settings.debug,
         frameRate: 60,
         groupList: settings.groupList,
