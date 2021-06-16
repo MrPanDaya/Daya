@@ -26,7 +26,11 @@ cc.Class({
             return;
         }
         cc.curSelMapId = this.selMapId;
-        cc.director.preloadScene("BattleScene", function () {
+        cc.menuScene.showLoadingUi()
+        cc.director.preloadScene("BattleScene", function (completedCount, totalCount) {
+            cc.menuScene.updateLoadProgress(completedCount, totalCount)
+        },function () {
+            cc.menuScene.hideLoadingUi()
             cc.director.loadScene("BattleScene");
         });
     },

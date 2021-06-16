@@ -5,6 +5,7 @@ cc.Class({
         selMapBgNode1: cc.Node,
         selMapBgNode2: cc.Node,
         selMapBgNode3: cc.Node,
+        loadingNode: cc.Node,
 
         selMapBtnPrefab: cc.Prefab,
         selMapTipsPrefab: cc.Prefab,
@@ -16,9 +17,12 @@ cc.Class({
         this.sel_cry_node = this.node.getChildByName("sel_cry_node");
         this.sel_map_node = this.node.getChildByName("sel_map_node");
         this.tips_ui = this.node.getChildByName("tips_node").getComponent("tips_ui");
+        this.loading_ui = this.loadingNode.getComponent("loading_ui");
+        this.hideLoadingUi()
 
+        this.tips_tmp_node = this.node.getChildByName("sel_map_tmp_node")
         this.selMapTips = cc.instantiate(this.selMapTipsPrefab);
-        this.node.addChild(this.selMapTips);
+        this.tips_tmp_node.addChild(this.selMapTips);
         this.selMapTips.active = false;
 
         for(var i = 0; i < 10; i++){
@@ -66,5 +70,15 @@ cc.Class({
 
     showTips(tips){
         this.tips_ui.showTips(tips);
+    },
+
+    showLoadingUi() {
+        this.loadingNode.active = true
+    },
+    hideLoadingUi(){
+        this.loading_ui.reset()
+    },
+    updateLoadProgress(count, totalCount){
+        this.loading_ui.updateProgress(count, totalCount)
     },
 });

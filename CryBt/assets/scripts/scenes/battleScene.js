@@ -69,7 +69,7 @@ cc.Class({
     },
 
     onBackMenuScene(){
-        cc.director.preloadScene("MenuScene", function () {
+        cc.director.preloadScene("MenuScene", function (completedCount, totalCount) {
             cc.director.loadScene("MenuScene", function () {
                 cc.menuScene.onBtnEnterSelMap();
             });
