@@ -2,7 +2,9 @@
   "title": "CryBt",
   "packageName": "",
   "startScene": "ffa633c1-1197-4c80-8179-bf12081593aa",
-  "excludeScenes": [],
+  "excludeScenes": [
+    "a369c110-64f4-40ab-ba5e-eec9b978222f"
+  ],
   "includeSDKBox": false,
   "orientation": {
     "landscapeLeft": true,
