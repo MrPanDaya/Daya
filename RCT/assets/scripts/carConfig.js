@@ -423,4 +423,69 @@
         params.imageUrl = cc.url.raw('share.jpg');
         wx.shareAppMessage(params);
     };
+
+    window.ADList = {
+        ad0 : undefined,
+        ad1 : undefined,
+        ad2 : undefined,
+    };
+    window.initADList = function(){
+        if (!window.wx) {
+            return
+        }
+        let adInitFnt = function(adId){
+            let  ad = wx.createRewardedVideoAd({
+                adUnitId: adId
+            });
+            ad.onError(function (res) {
+                console.error(res);
+            })
+            return ad;
+        };
+        if(ADList.ad0 === undefined)
+            ADList.ad0 = adInitFnt('adunit-ca5fb4a5cec2cfb4');
+        if(ADList.ad1 === undefined)
+            ADList.ad1 = adInitFnt('adunit-649127a5b3e8405b');
+        if(ADList.ad2 === undefined)
+            ADList.ad2 = adInitFnt('adunit-c191cce7d7821ebc');
+    };
+    /*
+    * 描述：小游戏看广告的接口
+    * 参数：adType = 0、1、2 ==》 15、30、60秒视频
+    * */
+    window.showAD = function (adType, callBack) {
+        if (!window.wx) {
+            return
+        }
+        // 创建激励视频广告实例，提前初始化
+        let videoAd = ADList["ad" + adType];
+        if(videoAd === undefined){
+            console.log("videoAd is undefined");
+            if(callBack)
+                callBack(1);
+            return;
+        }
+
+        var closeCallback = function (res) {
+            this.offClose(closeCallback);
+            if (callBack) {
+                callBack(0, res.isEnded);
+            }
+        }.bind(videoAd);
+        videoAd.offClose(closeCallback);
+        videoAd.onClose(closeCallback);
+
+        // 用户触发广告后，显示激励视频广告
+        videoAd.show().catch(() => {
+            // 失败重试
+            videoAd.load()
+                .then(() => videoAd.show())
+                .catch(err => {
+                    if(callBack)
+                        callBack(2);
+                    console.log('激励视频 广告显示失败')
+                })
+        })
+    };
+
 })();

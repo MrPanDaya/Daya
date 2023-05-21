@@ -1,0 +1,41 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "sp_light_lb",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 5.016666666666667,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "props": {
+      "scale": [
+        {
+          "frame": 0,
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 1,
+            "y": 1
+          }
+        },
+        {
+          "frame": 2.5,
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 1.2000000476837158,
+            "y": 1.2000000476837158
+          }
+        },
+        {
+          "frame": 5.016666666666667,
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 1,
+            "y": 1
+          }
+        }
+      ]
+    }
+  },
+  "events": []
+}

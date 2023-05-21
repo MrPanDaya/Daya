@@ -54,10 +54,13 @@ cc.Class({
         this.btnUnlockNode.active = unLock <= 0;
         var cfg = mainCarCfg['car' + this.selId];
         this.labCarName.string = cfg.name || '';
+        this.adType = 0;
 
         // 设置分数
         var scoreNode = cc.find("Canvas/top_node/score");
         scoreNode.getComponent(cc.Label).string = cc.LocalData.maxScore || "0";
+
+        this.uiReward = cc.find("Canvas/reward_node").getComponent("uiReward");
 
         this.onTotalMoneyChanged();
     },
@@ -188,4 +191,27 @@ cc.Class({
         args.desc = "常常想起小时候的黑白掌机里面的赛车，于是决定自己做一个！哈~";
         shareByMiniGame(args);
     },
+
+    /*
+    * 描述：礼包按钮的回调
+    * */
+    onBtnLb(){
+        showAD(this.adType, function (ret, isEnable) {
+            if(ret === 0 && isEnable){
+                this.showReward(500);
+                console.log("success !!");
+            }else{
+                console.error("showAD err " + ret);
+            }
+        })
+        this.adType ++;
+        if(this.adType > 2)
+            this.adType = 2;
+    },
+
+    showReward(num){
+        var bgNode = cc.find("Canvas/top_node");
+        var pos = cc.v2(bgNode.position.x + 250, bgNode.position.y - 120);
+        this.uiReward.showReward(num, pos);
+    }
 });

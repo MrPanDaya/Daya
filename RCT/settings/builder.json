@@ -15,21 +15,31 @@
   "inlineSpriteFrames_native": true,
   "mergeStartScene": true,
   "optimizeHotUpdate": false,
-  "md5Cache": false,
+  "md5Cache": true,
   "encryptJs": true,
   "xxteaKey": "e89509cb-6920-48",
   "zipCompressJs": true,
   "fb-instant-games": {},
   "android": {
+    "REMOTE_SERVER_ROOT": "",
     "packageName": ""
   },
   "ios": {
+    "REMOTE_SERVER_ROOT": "",
+    "ios_enable_jit": true,
     "packageName": ""
   },
   "mac": {
-    "packageName": ""
+    "REMOTE_SERVER_ROOT": "",
+    "height": 720,
+    "packageName": "",
+    "width": 1280
   },
-  "win32": {},
+  "win32": {
+    "REMOTE_SERVER_ROOT": "",
+    "height": 720,
+    "width": 1280
+  },
   "android-instant": {
     "REMOTE_SERVER_ROOT": "",
     "host": "",
@@ -39,5 +49,9 @@
     "scheme": "https",
     "skipRecord": false
   },
-  "appBundle": false
+  "appBundle": false,
+  "mainCompressionType": "default",
+  "mainIsRemote": false,
+  "nativeMd5Cache": true,
+  "agreements": {}
 }

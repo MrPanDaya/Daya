@@ -33,6 +33,7 @@ cc.Class({
         }
         this.curBgId = 0;
         this.lastBgId = 1;
+        this.adType = 0;
 
         this.maxCarSpeed = 3000;
         this.pointMinRot = 105;
@@ -59,6 +60,8 @@ cc.Class({
         this.btnTurRight = cc.find("Canvas/main_ui_node/btn_turn_right");
         this.btnTurLeft.active = false;
         this.btnTurRight.active = false;
+
+        this.uiReward = cc.find("Canvas/reward_node").getComponent("uiReward");
 
         // 开启物理引擎
         var phyMgr = cc.director.getPhysicsManager();
@@ -263,6 +266,23 @@ cc.Class({
     },
 
     /*
+    * 描述：礼包按钮的回调
+    * */
+    onBtnLb(){
+        showAD(this.adType, function (ret, isEnable) {
+            if(ret === 0 && isEnable){
+                this.showReward(500);
+                console.log("success !!");
+            }else{
+                console.error("showAD err " + ret);
+            }
+        })
+        this.adType ++;
+        if(this.adType > 2)
+            this.adType = 2;
+    },
+
+    /*
     * 描述：停止游戏按钮的回调
     * */
     onGameStop(){
@@ -389,6 +409,13 @@ cc.Class({
             return;
         }
         this.aiCarPool.put(aiCar);
-    }
+    },
 
+    showReward(num){
+        this.uiReward.node.active = true;
+        var bgNode = cc.find("Canvas/main_ui_node/racing_bag");
+        var pos = bgNode.position;
+        pos.y += 100;
+        this.uiReward.showReward(num, pos);
+    }
 });
