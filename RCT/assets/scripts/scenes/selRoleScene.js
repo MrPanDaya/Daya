@@ -196,9 +196,10 @@ cc.Class({
     * 描述：礼包按钮的回调
     * */
     onBtnLb(){
+        var self = this;
         showAD(this.adType, function (ret, isEnable) {
             if(ret === 0 && isEnable){
-                this.showReward(500);
+                self.showReward(500);
                 console.log("success !!");
             }else{
                 console.error("showAD err " + ret);
