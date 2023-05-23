@@ -58,11 +58,11 @@ cc.Class({
         this.node.y = 2000;
         this.node.angle = 0;
         this.nDir = 1;
-        if(this.nRoadId === 0 || this.nRoadId === 3){
-            this.nDir = -1;
-            this.node.angle += 180;
-            this.speed *= 0.08;
-        }
+        // if(this.nRoadId === 0 || this.nRoadId === 3){
+        //     this.nDir = -1;
+        //     this.node.angle += 180;
+        //     this.speed *= 0.08;
+        // }
         this.clearTimer = 0;
         // 设置碰撞区域大小
         var boxCllider = this.node.getComponent(cc.PhysicsPolygonCollider);

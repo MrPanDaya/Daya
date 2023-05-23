@@ -13,32 +13,32 @@
         0 : {
             posY: -250,
             disY: 8000,
-            aiCarTimer: 1,
+            aiCarTimer: 0.6,
         },
         1 : {
             posY: -200,
             disY: 20000,
-            aiCarTimer: 0.9,
+            aiCarTimer: 0.5,
         },
         2 : {
             posY: -150,
             disY: 40000,
-            aiCarTimer: 0.9,
+            aiCarTimer: 0.45,
         },
         3 : {
             posY: -150,
             disY: 60000,
-            aiCarTimer: 0.9,
+            aiCarTimer: 0.4,
         },
         4 : {
             posY: -100,
             disY: 80000,
-            aiCarTimer: 0.9,
+            aiCarTimer: 0.35,
         },
         5 : {
             posY: 0,
             disY: 100000,
-            aiCarTimer: 0.9,
+            aiCarTimer: 0.3,
         },
     }
 

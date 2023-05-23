@@ -54,7 +54,6 @@ cc.Class({
         this.btnUnlockNode.active = unLock <= 0;
         var cfg = mainCarCfg['car' + this.selId];
         this.labCarName.string = cfg.name || '';
-        this.adType = 0;
 
         // 设置分数
         var scoreNode = cc.find("Canvas/top_node/score");
@@ -197,17 +196,22 @@ cc.Class({
     * */
     onBtnLb(){
         var self = this;
-        showAD(this.adType, function (ret, isEnable) {
+        if(!cc.adTypeSR)
+            cc.adTypeSR = 0;
+        if(!cc.adRewardCount)
+            cc.adRewardCount = 0;
+        showAD(cc.adTypeSR, function (ret, isEnable) {
             if(ret === 0 && isEnable){
-                self.showReward(500);
+                self.showReward(500 + cc.adRewardCount * 200);
+                cc.adRewardCount ++;
                 console.log("success !!");
             }else{
                 console.error("showAD err " + ret);
             }
         })
-        this.adType ++;
-        if(this.adType > 2)
-            this.adType = 2;
+        cc.adTypeSR ++;
+        if(cc.adTypeSR > 2)
+            cc.adTypeSR = 0;
     },
 
     showReward(num){

@@ -33,7 +33,6 @@ cc.Class({
         }
         this.curBgId = 0;
         this.lastBgId = 1;
-        this.adType = 0;
 
         this.maxCarSpeed = 3000;
         this.pointMinRot = 105;
@@ -184,6 +183,7 @@ cc.Class({
         this.hardLv = 0;
         var curHardCfg = hardLvCfg[this.hardLv];
         this.aiCarTimer = curHardCfg.aiCarTimer;
+        this.lastAiCarRoadId = 0;
 
         this.btnTurLeft.active = true;
         this.btnTurRight.active = true;
@@ -270,17 +270,22 @@ cc.Class({
     * */
     onBtnLb(){
         var self = this;
-        showAD(this.adType, function (ret, isEnable) {
+        if(!cc.adTypeMS)
+            cc.adTypeMS = 0;
+        if(!cc.adRewardCount)
+            cc.adRewardCount = 0;
+        showAD(cc.adTypeMS, function (ret, isEnable) {
             if(ret === 0 && isEnable){
-                self.showReward(500);
+                self.showReward(500 + cc.adRewardCount * 200);
+                cc.adRewardCount ++;
                 console.log("success !!");
             }else{
                 console.error("showAD err " + ret);
             }
         })
-        this.adType ++;
-        if(this.adType > 2)
-            this.adType = 2;
+        cc.adTypeMS ++;
+        if(cc.adTypeMS > 2)
+            cc.adTypeMS = 0;
     },
 
     /*
@@ -330,7 +335,7 @@ cc.Class({
     * */
     updateAiCar(dt){
         this.updateAiCar0(dt);
-        this.updateAiCar1(dt);
+        // this.updateAiCar1(dt);
     },
 
     /*
@@ -342,8 +347,15 @@ cc.Class({
             return;
         }
         this.randCarTimer0 = 0;
-        var arr = [1, 2];
-        var roadId = arr[Math.round(Math.random())];
+        var arr = [];
+        for(var i = 0; i < 4; i++){
+            if(i === this.lastAiCarRoadId){
+                continue;
+            }
+            arr.push(i);
+        }
+        var roadId = arr[Math.floor(Math.random() * arr.length)];
+        this.lastAiCarRoadId = roadId;
         var aiCar = null;
         if(this.aiCarPool.size() > 0){
             aiCar = this.aiCarPool.get();
