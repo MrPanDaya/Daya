@@ -13,32 +13,32 @@
         0 : {
             posY: -250,
             disY: 8000,
-            aiCarTimer: 0.6,
+            aiCarTimer: 0.65,
         },
         1 : {
             posY: -200,
             disY: 20000,
-            aiCarTimer: 0.5,
+            aiCarTimer: 0.62,
         },
         2 : {
             posY: -150,
             disY: 40000,
-            aiCarTimer: 0.45,
+            aiCarTimer: 0.58,
         },
         3 : {
             posY: -150,
             disY: 60000,
-            aiCarTimer: 0.4,
+            aiCarTimer: 0.55,
         },
         4 : {
             posY: -100,
             disY: 80000,
-            aiCarTimer: 0.35,
+            aiCarTimer: 0.52,
         },
         5 : {
             posY: 0,
             disY: 100000,
-            aiCarTimer: 0.3,
+            aiCarTimer: 0.48,
         },
     }
 
@@ -462,14 +462,14 @@
         if(videoAd === undefined){
             console.log("videoAd is undefined");
             if(callBack)
-                callBack(1);
+                callBack(false);
             return;
         }
 
         var closeCallback = function (res) {
             this.offClose(closeCallback);
             if (callBack) {
-                callBack(0, res.isEnded);
+                callBack(res.isEnded);
             }
         }.bind(videoAd);
         videoAd.offClose(closeCallback);
@@ -482,8 +482,8 @@
                 .then(() => videoAd.show())
                 .catch(err => {
                     if(callBack)
-                        callBack(2);
-                    console.log('激励视频 广告显示失败')
+                        callBack(false, err);
+                    console.log('激励视频 广告显示失败', err)
                 })
         })
     };

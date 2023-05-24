@@ -15,6 +15,7 @@ cc.Class({
     * */
     onLoad () {
         window.audioMgr.init();
+        window.uiHelper.initHelper();
         initWXEvent();
     },
 

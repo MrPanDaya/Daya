@@ -274,13 +274,14 @@ cc.Class({
             cc.adTypeMS = 0;
         if(!cc.adRewardCount)
             cc.adRewardCount = 0;
-        showAD(cc.adTypeMS, function (ret, isEnable) {
-            if(ret === 0 && isEnable){
+        showAD(cc.adTypeMS, function (isEnable, err) {
+            if(isEnable){
                 self.showReward(500 + cc.adRewardCount * 200);
                 cc.adRewardCount ++;
                 console.log("success !!");
             }else{
-                console.error("showAD err " + ret);
+                uiHelper.showTips("激励视频 广告显示失败", cc.color(255,0,0, 255));
+                if(err) console.error("showAD err ", err);
             }
         })
         cc.adTypeMS ++;
