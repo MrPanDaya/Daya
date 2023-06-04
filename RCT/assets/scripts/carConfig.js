@@ -463,7 +463,7 @@
     * */
     window.showAD = function (callBack) {
         if (!window.wx) {
-            callBack(true);
+            // callBack(true);
             return
         }
         window.AdCount ++;
