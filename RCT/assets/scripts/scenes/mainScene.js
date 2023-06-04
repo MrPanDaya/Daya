@@ -313,17 +313,15 @@ cc.Class({
     * 描述：礼包按钮的回调
     * */
     onBtnLb(){
-        var self = this;
-        showAD(function (isEnable, err) {
-            if(isEnable){
-                self.showReward(500 + cc.LocalData.lbAdCount * 100);
-                cc.LocalData.lbAdCount ++;
-                console.log("success !!");
-            }else{
-                uiHelper.showTips("激励视频 广告显示失败", cc.color(255,0,0, 255));
-                if(err) console.error("showAD err ", err);
+        window.audioMgr.playSound(cc.soundId.btn);
+        cc.loader.loadRes("prefabs/ui_gift_free", cc.Prefab, function (error, prefab) {
+            if (error) {
+                cc.error(error);
+                return;
             }
-        })
+            var tipsNode = cc.instantiate(prefab);
+            tipsNode.parent = cc.find("Canvas");
+        });
     },
 
     /*

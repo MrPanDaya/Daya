@@ -421,6 +421,9 @@
     * 参数：params 分享的参数
     * */
     window.shareByMiniGame = function (params) {
+        if (!window.wx) {
+            return
+        }
         params.imageUrl = cc.url.raw('share.jpg');
         wx.shareAppMessage(params);
     };
@@ -460,6 +463,7 @@
     * */
     window.showAD = function (callBack) {
         if (!window.wx) {
+            callBack(true);
             return
         }
         window.AdCount ++;

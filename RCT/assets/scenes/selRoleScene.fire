@@ -90,19 +90,19 @@
         "__id__": 46
       },
       {
-        "__id__": 142
+        "__id__": 143
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 144
-      },
-      {
         "__id__": 145
       },
       {
         "__id__": 146
+      },
+      {
+        "__id__": 147
       }
     ],
     "_prefab": null,
@@ -1115,7 +1115,7 @@
       "ctor": "Float32Array",
       "array": [
         296,
-        475,
+        485,
         0,
         0,
         0,
@@ -1261,12 +1261,12 @@
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
-    "_alignFlags": 33,
+    "_alignFlags": 34,
     "_left": 0,
     "_right": 20,
     "_top": 121,
     "_bottom": 0,
-    "_verticalCenter": 0,
+    "_verticalCenter": 485,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
     "_isAbsRight": true,
@@ -1322,7 +1322,7 @@
       "ctor": "Float32Array",
       "array": [
         296,
-        370,
+        375,
         0,
         0,
         0,
@@ -1468,12 +1468,12 @@
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
-    "_alignFlags": 33,
+    "_alignFlags": 34,
     "_left": 0,
     "_right": 20,
     "_top": 225,
     "_bottom": 0,
-    "_verticalCenter": 0,
+    "_verticalCenter": 375,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
     "_isAbsRight": true,
@@ -1533,7 +1533,7 @@
       "ctor": "Float32Array",
       "array": [
         296,
-        280,
+        285,
         0,
         0,
         0,
@@ -1955,12 +1955,12 @@
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
-    "_alignFlags": 33,
+    "_alignFlags": 34,
     "_left": 0,
     "_right": 64,
     "_top": 360,
     "_bottom": 0,
-    "_verticalCenter": 0,
+    "_verticalCenter": 285,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
     "_isAbsRight": true,
@@ -2003,6 +2003,9 @@
     "_components": [
       {
         "__id__": 141
+      },
+      {
+        "__id__": 142
       }
     ],
     "_prefab": null,
@@ -2601,7 +2604,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -2876,7 +2879,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -6415,6 +6418,33 @@
     "_id": "46SsJVJjlONqyRv4NpJ2tx"
   },
   {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 46
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 18,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 400,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 720,
+    "_originalHeight": 0,
+    "_id": "c61k5ZCEpBWY/HoaoTDSBg"
+  },
+  {
     "__type__": "cc.Node",
     "_name": "reward_node",
     "_objFlags": 0,
@@ -6425,7 +6455,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 143
+        "__id__": 144
       }
     ],
     "_prefab": null,
@@ -6481,7 +6511,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 142
+      "__id__": 143
     },
     "_enabled": true,
     "coinPrefab": {

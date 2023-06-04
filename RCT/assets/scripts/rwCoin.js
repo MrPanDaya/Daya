@@ -15,7 +15,8 @@ cc.Class({
         var callfun = cc.callFunc(function(){
             self.node.active = false;
             cc.LocalData.totalMoney += coinNum;
-            cc.selRoleScene.onTotalMoneyChanged();
+            if(cc.selRoleScene)
+                cc.selRoleScene.onTotalMoneyChanged();
         });
         this.node.runAction(cc.sequence(move1, dl, move, callfun))
     },

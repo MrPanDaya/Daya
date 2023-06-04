@@ -56,8 +56,10 @@ cc.Class({
         this.labCarName.string = cfg.name || '';
 
         // 设置分数
-        var scoreNode = cc.find("Canvas/top_node/score");
-        scoreNode.getComponent(cc.Label).string = cc.LocalData.maxScore || "0";
+        this.scoreNode = cc.find("Canvas/top_node/score").getComponent(cc.Label);
+        this.scoreNode.string = cc.LocalData.maxScore || "0";
+
+        this.goldNode = cc.find("Canvas/top_node/gold").getComponent(cc.Label);
 
         this.uiReward = cc.find("Canvas/reward_node").getComponent("uiReward");
 
@@ -83,8 +85,8 @@ cc.Class({
     * */
     onTotalMoneyChanged(){
         // 设置金币
-        var goldNode = cc.find("Canvas/top_node/gold");
-        goldNode.getComponent(cc.Label).string = cc.LocalData.totalMoney || "0";
+        if(this.goldNode)
+            this.goldNode.getComponent(cc.Label).string = cc.LocalData.totalMoney || "0";
     },
 
     /*
@@ -195,17 +197,15 @@ cc.Class({
     * 描述：礼包按钮的回调
     * */
     onBtnLb(){
-        var self = this;
-        showAD(function (isEnable, err) {
-            if(isEnable){
-                self.showReward(500 + cc.LocalData.lbAdCount * 100);
-                cc.LocalData.lbAdCount ++;
-                console.log("success !!");
-            }else{
-                uiHelper.showTips("激励视频 广告显示失败", cc.color(255,0,0, 255));
-                if(err) console.error("showAD err ", err);
+        window.audioMgr.playSound(cc.soundId.btn);
+        cc.loader.loadRes("prefabs/ui_gift_free", cc.Prefab, function (error, prefab) {
+            if (error) {
+                cc.error(error);
+                return;
             }
-        })
+            var tipsNode = cc.instantiate(prefab);
+            tipsNode.parent = cc.find("Canvas");
+        });
     },
 
     showReward(num){
