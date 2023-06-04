@@ -196,23 +196,16 @@ cc.Class({
     * */
     onBtnLb(){
         var self = this;
-        if(!cc.adTypeSR)
-            cc.adTypeSR = 0;
-        if(!cc.adRewardCount)
-            cc.adRewardCount = 0;
-        showAD(cc.adTypeSR, function (isEnable, err) {
+        showAD(function (isEnable, err) {
             if(isEnable){
-                self.showReward(500 + cc.adRewardCount * 200);
-                cc.adRewardCount ++;
+                self.showReward(500 + cc.LocalData.lbAdCount * 100);
+                cc.LocalData.lbAdCount ++;
                 console.log("success !!");
             }else{
                 uiHelper.showTips("激励视频 广告显示失败", cc.color(255,0,0, 255));
                 if(err) console.error("showAD err ", err);
             }
         })
-        cc.adTypeSR ++;
-        if(cc.adTypeSR > 2)
-            cc.adTypeSR = 0;
     },
 
     showReward(num){

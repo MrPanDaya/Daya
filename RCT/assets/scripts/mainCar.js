@@ -206,7 +206,7 @@ cc.Class({
                 }
                 break;
             case cc.macro.KEY.up:
-                this.onUsedNitrogen();
+                this.onUsedNitrogen(1);
                 break;
             case cc.macro.KEY.down:
                 if(cc.mainScene){
@@ -243,14 +243,14 @@ cc.Class({
     /*
     * 描述：氮气加速的回调
     * */
-    onUsedNitrogen() {
+    onUsedNitrogen(add) {
         if(this.isBroken){
             return;
         }
         this.grassNode.active = true;
         this.effDun.active = true;
         //cc.carSpeed = this.carCfg.maxSpeedN;
-        this.ngTimer = this.carCfg.ngTimer;
+        this.ngTimer = this.carCfg.ngTimer * add;
     },
 
     /*

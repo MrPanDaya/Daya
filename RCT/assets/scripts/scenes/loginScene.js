@@ -27,7 +27,7 @@ cc.Class({
         this.startEffect0.opacity = 0;
         this.startEffect1 = cc.find('Canvas/login_node/start_effect_1');
         this.startEffect1.opacity = 0;
-        initADList();
+        initADList(0);
     },
 
     // update (dt) {},

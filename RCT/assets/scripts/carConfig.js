@@ -28,17 +28,17 @@
         3 : {
             posY: -150,
             disY: 60000,
-            aiCarTimer: 0.55,
+            aiCarTimer: 0.53,
         },
         4 : {
             posY: -100,
             disY: 80000,
-            aiCarTimer: 0.52,
+            aiCarTimer: 0.48,
         },
         5 : {
             posY: 0,
             disY: 100000,
-            aiCarTimer: 0.48,
+            aiCarTimer: 0.42,
         },
     }
 
@@ -298,6 +298,7 @@
             selectCar : 0,
             maxScore: 0,
             totalMoney: 0,
+            lbAdCount: 0,
             unLockInfo:{
                 car0: 1,
             },
@@ -424,16 +425,14 @@
         wx.shareAppMessage(params);
     };
 
-    window.ADList = {
-        ad0 : undefined,
-        ad1 : undefined,
-        ad2 : undefined,
-    };
-    window.initADList = function(){
+    window.AdTarget = undefined;
+    window.AdCount = 0;
+    window.initADList = function(type){
         if (!window.wx) {
             return
         }
         let adInitFnt = function(adId){
+            console.log("initADList type:" + type + " id:" + adId);
             let  ad = wx.createRewardedVideoAd({
                 adUnitId: adId
             });
@@ -442,44 +441,43 @@
             })
             return ad;
         };
-        if(ADList.ad0 === undefined)
-            ADList.ad0 = adInitFnt('adunit-ca5fb4a5cec2cfb4');
-        if(ADList.ad1 === undefined)
-            ADList.ad1 = adInitFnt('adunit-649127a5b3e8405b');
-        if(ADList.ad2 === undefined)
-            ADList.ad2 = adInitFnt('adunit-c191cce7d7821ebc');
+        if(type === 0){
+            window.AdTarget = adInitFnt('adunit-ca5fb4a5cec2cfb4');
+        }else if (type === 1){
+            window.AdTarget = adInitFnt('adunit-649127a5b3e8405b');
+        }else{
+            window.AdTarget = adInitFnt('adunit-c191cce7d7821ebc');
+        }
     };
     /*
     * 描述：小游戏看广告的接口
     * 参数：adType = 0、1、2 ==》 15、30、60秒视频
     * */
-    window.showAD = function (adType, callBack) {
+    window.showAD = function (callBack) {
         if (!window.wx) {
             return
         }
-        // 创建激励视频广告实例，提前初始化
-        let videoAd = ADList["ad" + adType];
-        if(videoAd === undefined){
-            console.log("videoAd is undefined");
-            if(callBack)
-                callBack(false);
-            return;
-        }
-
+        window.AdCount ++;
         var closeCallback = function (res) {
             this.offClose(closeCallback);
             if (callBack) {
                 callBack(res.isEnded);
+                // 判断广告次数，重新加载广告
+                if(window.AdCount >= 2 && window.AdCount < 5){
+                    initADList(1);
+                }else if(window.AdCount >= 5){
+                    initADList(2);
+                }
             }
-        }.bind(videoAd);
-        videoAd.offClose(closeCallback);
-        videoAd.onClose(closeCallback);
+        }.bind(window.AdTarget);
+        window.AdTarget.offClose(closeCallback);
+        window.AdTarget.onClose(closeCallback);
 
         // 用户触发广告后，显示激励视频广告
-        videoAd.show().catch(() => {
+        window.AdTarget.show().catch(() => {
             // 失败重试
-            videoAd.load()
-                .then(() => videoAd.show())
+            window.AdTarget.load()
+                .then(() => window.AdTarget.show())
                 .catch(err => {
                     if(callBack)
                         callBack(false, err);

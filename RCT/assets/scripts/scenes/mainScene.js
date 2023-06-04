@@ -154,6 +154,49 @@ cc.Class({
         window.audioMgr.stopMainMenu();
     },
 
+    // 复活
+    onRevive() {
+        window.audioMgr.playMainMenu();
+
+        if (this.btnStart) {
+            this.btnStart.active = false;
+        }
+        if (this.menuNode) {
+            this.menuNode.setVisible(false);
+        }
+
+        // 开启物理系统
+        cc.director.getPhysicsManager().enabled = true;
+
+        this.pause = false;
+        // this.score = 0;
+        this.addMoney = 0;
+        this.reviveCount -= 1;
+        this.scoreLabel.string = this.score;
+
+        this.randCarTimer0 = 0;
+        this.randCarTimer1 = 0;
+
+        // 设置难度等级
+        // this.hardLv = 0;
+        // var curHardCfg = hardLvCfg[this.hardLv];
+        // this.aiCarTimer = curHardCfg.aiCarTimer;
+        // this.lastAiCarRoadId = 0;
+
+        this.btnTurLeft.active = true;
+        this.btnTurRight.active = true;
+
+        if (cc.mainPlayer) {
+            cc.mainPlayer.onStartPlay();
+        }
+
+        // 氮气的CD
+        this.btnNitrogen.active = true;
+        this.cdProgress.progress = 1;
+        this.ngCDTimer = ngTotalCDTimer;
+        cc.mainPlayer && cc.mainPlayer.onUsedNitrogen(2);
+    },
+
     /*
     * 描述：开始游戏按钮的回调
     * */
@@ -174,6 +217,7 @@ cc.Class({
         this.pause = false;
         this.score = 0;
         this.addMoney = 0;
+        this.reviveCount = 1;
         this.scoreLabel.string = this.score;
 
         this.randCarTimer0 = 0;
@@ -252,7 +296,7 @@ cc.Class({
 
         this.cdProgress.progress = 1;
         this.ngCDTimer = ngTotalCDTimer;
-        cc.mainPlayer && cc.mainPlayer.onUsedNitrogen();
+        cc.mainPlayer && cc.mainPlayer.onUsedNitrogen(1);
     },
 
     /*
@@ -270,23 +314,16 @@ cc.Class({
     * */
     onBtnLb(){
         var self = this;
-        if(!cc.adTypeMS)
-            cc.adTypeMS = 0;
-        if(!cc.adRewardCount)
-            cc.adRewardCount = 0;
-        showAD(cc.adTypeMS, function (isEnable, err) {
+        showAD(function (isEnable, err) {
             if(isEnable){
-                self.showReward(500 + cc.adRewardCount * 200);
-                cc.adRewardCount ++;
+                self.showReward(500 + cc.LocalData.lbAdCount * 100);
+                cc.LocalData.lbAdCount ++;
                 console.log("success !!");
             }else{
                 uiHelper.showTips("激励视频 广告显示失败", cc.color(255,0,0, 255));
                 if(err) console.error("showAD err ", err);
             }
         })
-        cc.adTypeMS ++;
-        if(cc.adTypeMS > 2)
-            cc.adTypeMS = 0;
     },
 
     /*
@@ -310,12 +347,11 @@ cc.Class({
         // 计算金币
         var baseMoney = Math.floor(this.score/20);
         var extMoney = 10;
-        this.addMoney = baseMoney + extMoney;
-        cc.LocalData.totalMoney += this.addMoney;
-        saveLocalData();
+        var addMoney = baseMoney + extMoney;
         // 显示结算界面
         if (this.endNode) {
             this.endNode.setVisible(true);
+            this.endNode.setReward(addMoney);
         }
     },
 
