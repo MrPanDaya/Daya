@@ -427,10 +427,15 @@
 
     window.AdTarget = undefined;
     window.AdCount = 0;
+    window.CurAdType = undefined;
     window.initADList = function(type){
         if (!window.wx) {
             return
         }
+        if(window.CurAdType === type){
+            return;
+        }
+        window.CurAdType = type;
         let adInitFnt = function(adId){
             console.log("initADList type:" + type + " id:" + adId);
             let  ad = wx.createRewardedVideoAd({
